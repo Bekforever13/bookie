@@ -11,7 +11,7 @@ import { useMutation } from 'react-query'
 import Cookies from 'js-cookie'
 
 type TData = {
-	email: string
+	phone: string
 	password: string
 }
 
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
-		mutation.mutateAsync({ email: phone, password: password })
+		mutation.mutateAsync({ phone: phone, password: password })
 	}
 
 	useEffect(() => {
