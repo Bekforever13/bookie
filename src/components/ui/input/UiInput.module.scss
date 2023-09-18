@@ -1,0 +1,10 @@
+.Input {
+	position: relative;
+}
+.Input svg {
+	position: absolute;
+	top: 50%;
+	right: 20px;
+	transform: translateY(-50%);
+	color: var(--typography-secondary);
+}

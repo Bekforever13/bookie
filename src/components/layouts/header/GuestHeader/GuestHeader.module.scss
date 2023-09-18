@@ -1,0 +1,9 @@
+.buttons {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+
+	@media (max-width: 820px) {
+		display: none;
+	}
+}

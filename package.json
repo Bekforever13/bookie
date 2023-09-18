@@ -10,16 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
+    "@types/styled-components": "^5.1.27",
     "antd": "^5.9.1",
+    "axios": "^1.5.0",
+    "hamburger-react": "^2.5.0",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
-    "react-redux": "^8.1.2",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.16.0",
-    "sass": "^1.67.0"
+    "sass": "^1.67.0",
+    "styled-components": "^6.0.8",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

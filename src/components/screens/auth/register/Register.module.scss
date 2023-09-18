@@ -1,0 +1,45 @@
+.register {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	row-gap: 50px;
+	height: 70vh;
+	width: 100%;
+
+	h1 {
+		font-size: 36px;
+		font-weight: 600;
+		line-height: 100%;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		row-gap: 12px;
+
+		input {
+			width: 100%;
+			border-radius: 16px;
+			padding: 13px 20px 13px 30px;
+			border: 1px solid var(--brand-color-1);
+			background: var(--typography-light);
+		}
+	}
+
+	.log {
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 130%;
+		color: var(--brand-color-1);
+	}
+
+	button {
+		width: 100%;
+		background-color: var(--brand-color-1);
+		border-radius: 16px;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 130%;
+	}
+}

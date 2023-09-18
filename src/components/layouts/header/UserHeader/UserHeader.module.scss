@@ -1,0 +1,29 @@
+.actions {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding: 10px 0;
+
+	@media (max-width: 820px) {
+		display: none;
+	}
+	a {
+		color: var(--typography-light);
+		display: flex;
+		align-items: center;
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	.exit {
+		font-size: 16px;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		background-color: transparent;
+
+		color: var(--typography-light);
+		gap: 10px;
+		margin-left: 20px;
+	}
+}
