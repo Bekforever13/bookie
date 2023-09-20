@@ -1,0 +1,21 @@
+.category {
+	padding: 30px 80px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+	background-color: var(--brand-color-4);
+
+	h1 {
+		font-size: 48px;
+		font-weight: 600;
+		line-height: 130%;
+		opacity: 0.75;
+	}
+	.books {
+		display: flex;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		column-gap: 20px;
+		row-gap: 30px;
+	}
+}

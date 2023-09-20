@@ -1,0 +1,46 @@
+@import 'src/assets/styles/base/mixin';
+
+.head {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 80px 80px 20px;
+
+	.text {
+		display: flex;
+		flex-direction: column;
+		row-gap: 40px;
+		flex: 1;
+
+		h1 {
+			@include adaptiv-font(48, 36, 48);
+			font-weight: 600;
+			line-height: 130%;
+			color: var(--typography-primary);
+		}
+
+		p {
+			font-weight: 400;
+			@include adaptiv-font(16, 12, 16);
+			line-height: 150%;
+			color: var(--typography-primary);
+			opacity: 0.7;
+		}
+
+		button {
+			margin-top: 14px;
+		}
+	}
+
+	.image {
+		flex: 1;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		z-index: 100;
+
+		@media (max-width: 1000px) {
+			display: none;
+		}
+	}
+}

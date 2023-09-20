@@ -7,11 +7,9 @@ const App = () => {
 		<div className={s.app}>
 			<Routes>
 				<Route path='/' element={<Layout />}>
-					{routes.map(item => {
-						return (
-							<Route key={item.path} path={item.path} element={item.element} />
-						)
-					})}
+					{routes.map(item => (
+						<Route key={item.path} path={item.path} element={item.element} />
+					))}
 				</Route>
 			</Routes>
 		</div>

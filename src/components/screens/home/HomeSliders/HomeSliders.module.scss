@@ -1,0 +1,11 @@
+.sliders {
+	background-color: var(--brand-color-3);
+	padding: 60px 80px;
+
+	@media (max-width: 1000px) {
+		padding: 40px;
+	}
+	@media (max-width: 768px) {
+		padding: 20px;
+	}
+}
