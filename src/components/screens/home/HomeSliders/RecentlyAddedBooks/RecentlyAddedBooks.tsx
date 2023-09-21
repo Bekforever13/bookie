@@ -56,7 +56,7 @@ const RecentlyAddedBooks: React.FC = () => {
 					  ))
 					: data?.map((item: IBookItem) => (
 							<SwiperSlide key={item.slug}>
-								<BookCard {...item} />
+								<BookCard key={item.slug} {...item} />
 							</SwiperSlide>
 					  ))}
 			</Swiper>

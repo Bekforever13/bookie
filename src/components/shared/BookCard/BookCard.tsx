@@ -5,7 +5,6 @@ import prince from 'src/assets/images/prince.png'
 import heart0 from 'src/assets/images/heart0.svg'
 import heart1 from 'src/assets/images/heart1.svg'
 import wave0 from 'src/assets/images/AudioWave.svg'
-// import wave1 from 'src/assets/images/AudioWave2.svg'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { userStore } from 'src/store/userStore'
@@ -26,7 +25,7 @@ const BookCard: React.FC<IBookItem> = props => {
 
 	const handleClickFavorite = (e: any) => {
 		e.stopPropagation()
-		addToFavorite({ ...props })
+		addToFavorite(props)
 	}
 	const handleRemoveFromFavorite = (e: any) => {
 		e.stopPropagation()
@@ -54,13 +53,13 @@ const BookCard: React.FC<IBookItem> = props => {
 					</div>
 					<div className={styles.favorite}>
 						{isFav ? (
-							<img onClick={handleClickFavorite} src={heart1} alt='favorite' />
-						) : (
 							<img
 								onClick={handleRemoveFromFavorite}
-								src={heart0}
+								src={heart1}
 								alt='favorite'
 							/>
+						) : (
+							<img onClick={handleClickFavorite} src={heart0} alt='favorite' />
 						)}
 					</div>
 				</div>
@@ -77,7 +76,7 @@ const BookCard: React.FC<IBookItem> = props => {
 					</div>
 					{buttonFilter && (
 						<StyledButton
-							bg='var(--additional-color-4)'
+							backgroundcolor='var(--additional-color-4)'
 							color='var(--typography-light)'
 							onClick={() => navigate(`/book/${slug}`, { replace: true })}
 						>

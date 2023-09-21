@@ -10,7 +10,7 @@ import { Rate } from 'antd'
 const Testimonials: React.FC = () => {
 	const params = useParams()
 	const { data } = useQuery<IBookInfo>({
-		queryKey: ['book_info'],
+		queryKey: ['book-info'],
 		queryFn: getBookInfo,
 	})
 
@@ -24,8 +24,8 @@ const Testimonials: React.FC = () => {
 				<div className={styles.testimonials}>
 					<h1>Paydalanıwshılar pikiri</h1>
 					<div className={styles.wrapper}>
-						{data?.reviews?.map(item => (
-							<div key={item.user_id} className={styles.user_testimonial}>
+						{data?.reviews?.map((item, i) => (
+							<div key={i} className={styles.user_testimonial}>
 								<div className={styles.avatar}>
 									<img src={avatar} alt='user_avatar' />
 								</div>

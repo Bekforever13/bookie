@@ -24,7 +24,7 @@ const MyBooks: React.FC = () => {
 			<div className={styles.btns}>
 				<StyledButton
 					onClick={() => setActive('all')}
-					bg='none'
+					backgroundcolor='none'
 					color={
 						active === 'all'
 							? 'var(--brand-color-1)'
@@ -40,7 +40,7 @@ const MyBooks: React.FC = () => {
 				</StyledButton>
 				<StyledButton
 					onClick={() => setActive('listen')}
-					bg='none'
+					backgroundcolor='none'
 					color={
 						active === 'listen'
 							? 'var(--brand-color-1)'

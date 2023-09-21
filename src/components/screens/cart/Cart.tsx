@@ -14,90 +14,29 @@ const Cart: React.FC = () => {
 			<h1>Saylandılar</h1>
 			<div className={styles.wrapper}>
 				<div className={styles.books}>
-					<div className={styles.book}>
-						<img src={prince} alt='img' />
-						<div className={styles.text}>
-							<div className={styles.name}>
-								<h4>Kishkene Shaxzada</h4>
-								<p>Antuan de Sent-Ekzyuperi</p>
+					{cart?.map(item => (
+						<div key={item.slug} className={styles.book}>
+							<img src={prince} alt='img' />
+							<div className={styles.text}>
+								<div className={styles.name}>
+									<h4>{item.title}</h4>
+									<p>Antuan de Sent-Ekzyuperi</p>
+								</div>
+								<div className={styles.price}>
+									<h2>{item.price} som</h2>
+									<Popconfirm title='Delete the book?'>
+										<p>
+											<BsTrash />
+											Oshiriw
+										</p>
+									</Popconfirm>
+								</div>
 							</div>
-							<div className={styles.price}>
-								<h2>14 900 som</h2>
-								<Popconfirm title='Delete the book?'>
-									<p>
-										<BsTrash />
-										Oshiriw
-									</p>
-								</Popconfirm>
-							</div>
-						</div>
-						<div>
-							<Checkbox />
-						</div>
-					</div>
-					<div className={styles.book}>
-						<img src={prince} alt='img' />
-						<div className={styles.text}>
-							<div className={styles.name}>
-								<h4>Kishkene Shaxzada</h4>
-								<p>Antuan de Sent-Ekzyuperi</p>
-							</div>
-							<div className={styles.price}>
-								<h2>14 900 som</h2>
-								<Popconfirm title='Delete the book?'>
-									<p>
-										<BsTrash />
-										Oshiriw
-									</p>
-								</Popconfirm>
+							<div>
+								<Checkbox />
 							</div>
 						</div>
-						<div>
-							<Checkbox />
-						</div>
-					</div>
-					<div className={styles.book}>
-						<img src={prince} alt='img' />
-						<div className={styles.text}>
-							<div className={styles.name}>
-								<h4>Kishkene Shaxzada</h4>
-								<p>Antuan de Sent-Ekzyuperi</p>
-							</div>
-							<div className={styles.price}>
-								<h2>14 900 som</h2>
-								<Popconfirm title='Delete the book?'>
-									<p>
-										<BsTrash />
-										Oshiriw
-									</p>
-								</Popconfirm>
-							</div>
-						</div>
-						<div>
-							<Checkbox />
-						</div>
-					</div>
-					<div className={styles.book}>
-						<img src={prince} alt='img' />
-						<div className={styles.text}>
-							<div className={styles.name}>
-								<h4>Kishkene Shaxzada</h4>
-								<p>Antuan de Sent-Ekzyuperi</p>
-							</div>
-							<div className={styles.price}>
-								<h2>14 900 som</h2>
-								<Popconfirm title='Delete the book?'>
-									<p>
-										<BsTrash />
-										Oshiriw
-									</p>
-								</Popconfirm>
-							</div>
-						</div>
-						<div>
-							<Checkbox />
-						</div>
-					</div>
+					))}
 				</div>
 				<div className={styles.box}>
 					<p>

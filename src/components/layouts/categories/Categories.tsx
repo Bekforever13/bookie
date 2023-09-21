@@ -21,7 +21,7 @@ const Categories: React.FC = () => {
 	return (
 		<div className={styles.categories}>
 			{data?.map(item => (
-				<Link key={item.id} to={`/category/${item.slug}`}>
+				<Link key={item.slug} to={`/category/${item.slug}`}>
 					{item.name}
 				</Link>
 			))}

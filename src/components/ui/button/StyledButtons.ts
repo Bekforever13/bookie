@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface ButtonProps {
-	bg?: string
+	backgroundcolor?: string
 	color: string
 	border?: string
 	width?: string
@@ -16,7 +16,7 @@ export const StyledButton = styled.button<ButtonProps>`
 	font-weight: 600;
 	line-height: 130%;
 	cursor: pointer;
-	background-color: ${props => props.bg};
+	background-color: ${props => props.backgroundcolor};
 	color: ${props => props.color};
 	border: ${props => props.border};
 	width: fit-content;

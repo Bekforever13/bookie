@@ -18,7 +18,7 @@ const HomeHead: React.FC = () => {
 				</p>
 				<StyledButton
 					width='100%'
-					bg='var(--additional-color-4)'
+					backgroundcolor='var(--additional-color-4)'
 					color='var(--typography-light)'
 				>
 					Baslaw

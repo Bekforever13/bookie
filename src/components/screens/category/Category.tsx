@@ -24,7 +24,7 @@ const Category: React.FC = () => {
 			<div className={styles.books}>
 				{isLoading
 					? [...Array(4)].map((_, i) => <Skeleton key={i} />)
-					: data?.books?.map(item => <BookCard key={item.id} {...item} />)}
+					: data?.books?.map(item => <BookCard key={item.slug} {...item} />)}
 			</div>
 		</div>
 	)

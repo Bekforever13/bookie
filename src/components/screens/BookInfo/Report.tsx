@@ -30,7 +30,7 @@ const Report = () => {
 					rows={1}
 					value={value}
 				/>
-				<StyledButton bg='var(--brand-color-1)' color='#fff'>
+				<StyledButton backgroundcolor='var(--brand-color-1)' color='#fff'>
 					Sholıw
 				</StyledButton>
 			</div>

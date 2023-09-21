@@ -7,14 +7,14 @@ const GuestHeader: React.FC = () => {
 	return (
 		<div className={styles.buttons}>
 			<StyledButton
-				bg='var(--typography-light)'
+				backgroundcolor='var(--typography-light)'
 				color='var(--brand-color-1)'
 				onClick={() => navigate('/login', { replace: true })}
 			>
 				Kiriw
 			</StyledButton>
 			<StyledButton
-				bg='transparent'
+				backgroundcolor='transparent'
 				color='var(--typography-light)'
 				border='1px solid var(--typography-light)'
 				onClick={() => navigate('/register', { replace: true })}
