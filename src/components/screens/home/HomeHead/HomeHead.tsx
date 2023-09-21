@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonWithGrayHover } from 'src/components/ui/button/StyledButtons'
+import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import styles from './HomeHead.module.scss'
 import girl from 'src/assets/images/girl.jpg'
 
@@ -16,13 +16,13 @@ const HomeHead: React.FC = () => {
 					qaraqalpaq folklorınıń dúrdana shıǵarmalarınıń elektron variantların
 					islep shıǵamız hám saytqa jaylastıramız.
 				</p>
-				<ButtonWithGrayHover
-					width='fit-content'
+				<StyledButton
+					width='100%'
 					bg='var(--additional-color-4)'
 					color='var(--typography-light)'
 				>
 					Baslaw
-				</ButtonWithGrayHover>
+				</StyledButton>
 			</div>
 			<div className={styles.image}>
 				<img src={girl} alt='girl, books' />

@@ -14,14 +14,14 @@ const Categories: React.FC = () => {
 		cacheTime: Infinity,
 	})
 	async function getCategories() {
-		const res = await $host.get('/categories')
+		const res = await $host.get('/category')
 		return res.data.data
 	}
 
 	return (
 		<div className={styles.categories}>
 			{data?.map(item => (
-				<Link key={item.id} to={`/category/${item.id}`}>
+				<Link key={item.id} to={`/category/${item.slug}`}>
 					{item.name}
 				</Link>
 			))}

@@ -1,0 +1,18 @@
+.favorites {
+	display: flex;
+	flex-direction: column;
+	padding: 30px 80px 40px;
+	row-gap: 30px;
+	h1 {
+		font-size: 48px;
+		font-weight: 600;
+		line-height: 130%;
+		opacity: 0.75;
+	}
+	.wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 20px;
+	}
+}

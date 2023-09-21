@@ -1,0 +1,81 @@
+.book {
+	display: flex;
+	flex-direction: column;
+	row-gap: 60px;
+	padding: 60px 80px;
+	.text {
+		display: flex;
+		align-items: center;
+		gap: 74px;
+		img {
+			width: 360px;
+		}
+		.desc {
+			display: flex;
+			flex-direction: column;
+			row-gap: 30px;
+			h1 {
+				font-size: 48px;
+				font-weight: 600;
+				line-height: 130%;
+			}
+			h4 {
+				font-size: 20px;
+				font-weight: 400;
+				line-height: 130%;
+			}
+			p {
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 150%;
+			}
+			div {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				span {
+					padding: 5px 12px;
+					background: rgba(101, 27, 147, 0.7);
+					border-radius: 100px;
+					color: var(--typography-light);
+					font-size: 12px;
+					font-weight: 500;
+					line-height: 130%;
+				}
+			}
+		}
+	}
+	.audio {
+		display: flex;
+		align-items: center;
+		gap: 75px;
+		.chapters {
+			width: 360px;
+			background-color: var(--brand-color-3);
+			border-radius: 16px;
+			padding: 16px 34px;
+			display: flex;
+			flex-direction: column;
+			row-gap: 32px;
+			h4 {
+				font-size: 20px;
+				font-weight: 500;
+				line-height: 130%;
+				color: var(--typography-secondary);
+			}
+			ul {
+				display: flex;
+				flex-direction: column;
+				row-gap: 32px;
+				li {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				}
+			}
+		}
+		.player {
+			background-color: var(--brand-color-3);
+		}
+	}
+}

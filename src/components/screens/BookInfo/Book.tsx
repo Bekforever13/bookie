@@ -20,6 +20,7 @@ const Book: React.FC = () => {
 		const res = await $host.get(`/all-books/${params.slug}`)
 		return res.data.data
 	}
+
 	return (
 		<div className={styles.book}>
 			<div className={styles.image}>

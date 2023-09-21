@@ -72,6 +72,10 @@ a {
 			display: flex;
 			align-items: center;
 			gap: 30px;
+			.play {
+				width: 30px;
+				fill: #ff9e30;
+			}
 			h4 {
 				font-size: 20px;
 				font-weight: 600;

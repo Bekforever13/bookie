@@ -1,11 +1,9 @@
 import styled from 'styled-components'
 
 interface ButtonProps {
-	bg: string
+	bg?: string
 	color: string
 	border?: string
-}
-interface ButtonWithGrayHoverProps {
 	width?: string
 	onClick?: () => void
 }
@@ -21,23 +19,10 @@ export const StyledButton = styled.button<ButtonProps>`
 	background-color: ${props => props.bg};
 	color: ${props => props.color};
 	border: ${props => props.border};
+	width: fit-content;
 
 	&:hover {
-		opacity: 0.9;
-	}
-`
-
-export const ButtonWithGrayHover = styled(
-	StyledButton
-)<ButtonWithGrayHoverProps>`
-	background-color: ${props => props.bg};
-	color: ${props => props.color};
-	width: ${props => props.width};
-
-	&:hover {
-		-webkit-box-shadow: 0px 0px 0px 3px rgba(161, 161, 161, 1);
-		-moz-box-shadow: 0px 0px 0px 3px rgba(161, 161, 161, 1);
-		box-shadow: 0px 0px 0px 3px rgba(161, 161, 161, 1);
+		opacity: 0.7;
 	}
 `
 
@@ -51,8 +36,9 @@ export const StyledSubmitButton = styled.button.attrs({ type: 'submit' })`
 	cursor: pointer;
 	text-align: center;
 	color: var(--typography-light);
+	background-color: var(--brand-color-1);
 
 	&:hover {
-		opacity: 0.9;
+		opacity: 0.8;
 	}
 `

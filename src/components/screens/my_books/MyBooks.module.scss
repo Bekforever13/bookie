@@ -1,0 +1,19 @@
+.my_books {
+	padding: 30px 80px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+
+	.btns {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 20px;
+	}
+}

@@ -15,6 +15,7 @@ const UserHeader: React.FC = () => {
 	return (
 		<div className={styles.actions}>
 			<Link to='/favorites'>Saylandilar</Link>
+			<Link to='/cart'>Sebet</Link>
 			<Link to='/my_books'>Kitaplarim</Link>
 			<button onClick={handleClickExit} className={styles.exit}>
 				Shıǵıw <img src={exit} alt='exit' />

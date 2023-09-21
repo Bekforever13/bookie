@@ -8,14 +8,14 @@ import styles from './Category.module.scss'
 import { Skeleton } from 'src/components/shared/BookCard/Skeleton'
 
 const Category: React.FC = () => {
-	const { categoryId } = useParams()
+	const { slug } = useParams()
 	const { data, isLoading } = useQuery<ICategoryInfo>({
-		queryKey: ['category', categoryId],
+		queryKey: ['category', slug],
 		queryFn: getCategoryBooks,
 	})
 	async function getCategoryBooks() {
-		const res = await $host.get(`/categories/${categoryId}`)
-		return res.data.data
+		const res = await $host.get(`/category/${slug}`)
+		return res.data.data[0]
 	}
 
 	return (

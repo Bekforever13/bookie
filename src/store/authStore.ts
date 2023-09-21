@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import Cookies from 'js-cookie'
 
-interface BearState {
+interface authState {
 	auth: boolean
 	phone: string
 	password: string
@@ -13,8 +14,8 @@ interface BearState {
 	setEmail: (payload: string) => void
 }
 
-export const authStore = create<BearState>()(set => ({
-	auth: false,
+export const authStore = create<authState>()(set => ({
+	auth: Cookies.get('token') ? true : false,
 	phone: '+998',
 	password: '',
 	name: '',
