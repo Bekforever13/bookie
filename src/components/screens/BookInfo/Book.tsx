@@ -60,6 +60,7 @@ const Book: React.FC = () => {
 						border='1px solid #2D71AE'
 						backgroundcolor='transparent'
 						color='#2D71AE'
+						onClick={() => navigate('/payment')}
 					>
 						Satıp alıw
 					</StyledButton>

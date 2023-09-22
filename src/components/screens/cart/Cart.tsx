@@ -7,8 +7,12 @@ import { Checkbox, Popconfirm } from 'antd'
 import { BsTrash } from 'react-icons/bs'
 
 const Cart: React.FC = () => {
-	const { cart } = userStore()
-	console.log(cart)
+	const { cart, removeFromCart } = userStore()
+
+	const handleRemove = (slug: string) => {
+		removeFromCart(slug)
+	}
+
 	return (
 		<div className={styles.cart}>
 			<h1>Saylandılar</h1>
@@ -24,7 +28,10 @@ const Cart: React.FC = () => {
 								</div>
 								<div className={styles.price}>
 									<h2>{item.price} som</h2>
-									<Popconfirm title='Delete the book?'>
+									<Popconfirm
+										onConfirm={() => handleRemove(item.slug)}
+										title='Delete the book?'
+									>
 										<p>
 											<BsTrash />
 											Oshiriw

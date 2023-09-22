@@ -96,6 +96,14 @@
 					justify-content: center;
 					width: 100%;
 					gap: 36px;
+					img {
+						cursor: pointer;
+					}
+					svg {
+						color: var(--brand-color-1);
+						font-size: 60px;
+						cursor: pointer;
+					}
 				}
 				.times {
 					display: flex;

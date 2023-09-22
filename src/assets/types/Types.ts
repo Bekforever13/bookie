@@ -4,6 +4,13 @@ type TReview = {
 	user_id: number
 }
 
+type TAudio = {
+	title: string
+	is_free: boolean
+	slug: string
+	file_name: string
+}
+
 type TBookImg = {
 	imageable_id: number
 	imageable_type: string
@@ -23,7 +30,7 @@ export interface IBookItem {
 }
 
 export interface IBookInfo {
-	audios: []
+	audios: TAudio[]
 	author: [{ name: string; slug: string }]
 	category: [{ id: number; name: string; slug: string }]
 	description: string

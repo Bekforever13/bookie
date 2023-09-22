@@ -1,34 +1,46 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Audiobook.module.scss'
 import prince from 'src/assets/images/prince.png'
 import wave from 'src/assets/images/wave.svg'
-import prev from 'src/assets/images/prevaudio.svg'
-import play from 'src/assets/images/playaudio.svg'
-import next from 'src/assets/images/nextaudio.svg'
-import { Slider } from 'antd'
+import { useParams } from 'react-router-dom'
+import { $host } from 'src/config/axios'
+import { useQuery } from 'react-query'
+import { IBookInfo } from 'src/assets/types/Types'
+import { AudioPlayer } from './AudioPlayer'
+import song from 'src/assets/004._the_weeknd_-_starboy.mp3'
 
 const Audiobook: React.FC = () => {
+	const [currentAudio, setCurrentAudio] = useState('')
+	const { slug } = useParams()
+	const { data } = useQuery<IBookInfo>({
+		queryKey: ['book_info'],
+		queryFn: getBookInfo,
+	})
+
+	async function getBookInfo() {
+		const res = await $host.get(`/all-books/${slug}`)
+		return res.data.data
+	}
+
 	useEffect(() => {
 		window.scrollTo(0, 0)
+		if (data) {
+			setCurrentAudio(data.audios[0]?.file_name)
+		}
 	}, [])
+
 	return (
 		<div className={styles.book}>
 			<div className={styles.text}>
 				<img src={prince} alt='book image' />
 				<div className={styles.desc}>
-					<h1>Kishkene Shaxzada</h1>
-					<h4>Antuan de Send-Ekzyuperi</h4>
-					<p>
-						Ushıwshı, Kishkene shahzada, Túlki hám jılan – bul filosofiyalıq
-						ertektiń tiykarǵı qaharmanları. Óz planetasın taslap ketip, álem
-						boylap sayaxat etken Kishkene shahzada ómirdiń mazmunı ne ekenligin
-						túsinedi – ol tuwılǵan planetasında óz gúlin súyiwi, onıń qádirin
-						biliwdi úyreniwi kerek eken. Shıǵarma jas óspirimler hám úlkenler
-						ushın birdey qızıqlı hám mánili.
-					</p>
+					<h1>{data?.title}</h1>
+					<h4>{data?.author[0]?.name}</h4>
+					<p>{data?.description}</p>
 					<div>
-						<span>Proza</span>
-						<span>Povest</span>
+						{data?.genre.map(item => (
+							<span key={item.slug}>{item.name}</span>
+						))}
 					</div>
 				</div>
 			</div>
@@ -43,27 +55,7 @@ const Audiobook: React.FC = () => {
 						<li>III bólim</li>
 					</ul>
 				</div>
-				<div className={styles.player}>
-					<div className={styles.controls}>
-						<div className={styles.play}>
-							<img src={prev} alt='prev' />
-							<img src={play} alt='play' />
-							<img src={next} alt='next' />
-						</div>
-						<div className={styles.times}>
-							<div className={styles.time}>
-								<div>08:13</div>
-								<div>38:12</div>
-							</div>
-							<div className={styles.timeline}>
-								<Slider defaultValue={30} />
-							</div>
-						</div>
-					</div>
-					<div className={styles.volume}>
-						<Slider vertical defaultValue={70} />
-					</div>
-				</div>
+				<AudioPlayer currentAudio={song} />
 			</div>
 		</div>
 	)
