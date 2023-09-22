@@ -76,6 +76,49 @@
 		}
 		.player {
 			background-color: var(--brand-color-3);
+			padding: 30px 40px;
+			border-radius: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 166px;
+
+			.controls {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				width: 560px;
+
+				.play {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 100%;
+					gap: 36px;
+				}
+				.times {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					row-gap: 10px;
+					.time {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						width: 100%;
+						div {
+							color: var(--brand-color-1);
+						}
+					}
+				}
+			}
+			.volume {
+				margin-left: 120px;
+				:nth-child(1) {
+					height: 70px;
+				}
+			}
 		}
 	}
 }

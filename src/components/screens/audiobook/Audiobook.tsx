@@ -2,6 +2,10 @@ import React, { useEffect } from 'react'
 import styles from './Audiobook.module.scss'
 import prince from 'src/assets/images/prince.png'
 import wave from 'src/assets/images/wave.svg'
+import prev from 'src/assets/images/prevaudio.svg'
+import play from 'src/assets/images/playaudio.svg'
+import next from 'src/assets/images/nextaudio.svg'
+import { Slider } from 'antd'
 
 const Audiobook: React.FC = () => {
 	useEffect(() => {
@@ -40,8 +44,25 @@ const Audiobook: React.FC = () => {
 					</ul>
 				</div>
 				<div className={styles.player}>
-					<div></div>
-					<div></div>
+					<div className={styles.controls}>
+						<div className={styles.play}>
+							<img src={prev} alt='prev' />
+							<img src={play} alt='play' />
+							<img src={next} alt='next' />
+						</div>
+						<div className={styles.times}>
+							<div className={styles.time}>
+								<div>08:13</div>
+								<div>38:12</div>
+							</div>
+							<div className={styles.timeline}>
+								<Slider defaultValue={30} />
+							</div>
+						</div>
+					</div>
+					<div className={styles.volume}>
+						<Slider vertical defaultValue={70} />
+					</div>
 				</div>
 			</div>
 		</div>
