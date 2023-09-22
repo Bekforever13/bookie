@@ -8,9 +8,8 @@ import arrow from 'src/assets/images/Chevron.svg'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import { useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { IBookItem } from 'src/assets/types/Types'
+import { IBookItem, IBookInfo } from 'src/assets/types/Types'
 import { $host } from 'src/config/axios'
-import { IBookInfo } from 'src/assets/types/Types'
 
 const Payment: React.FC = () => {
 	const location = useLocation()
@@ -19,29 +18,45 @@ const Payment: React.FC = () => {
 	const selectedBooks = Array.isArray(location.state)
 		? location.state
 		: [location.state]
-	const { data } = useQuery<IBookItem[]>({
+	const { data, error } = useQuery<IBookItem[]>({
 		queryFn: getAllBooks,
 	})
 
+	const handleClick = () => {
+		// Обработка события для кнопки click
+	}
+
+	const handlePayme = () => {
+		// Обработка события для кнопки payme
+	}
+
+	const handleUzum = () => {
+		// Обработка события для кнопки uzum
+	}
+
 	async function getAllBooks() {
-		const res = await $host.get('/all-books')
-		return res.data.data
+		try {
+			const response = await $host.get('/all-books')
+			return response.data.data
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	useEffect(() => {
 		if (data && selectedBooks && selectedBooks.length > 0) {
-			const temp: IBookItem[] = []
-			selectedBooks.forEach((item: string | IBookInfo) => {
+			const newBooksArray: IBookItem[] = []
+			selectedBooks.map((item: string | IBookInfo) => {
 				const slug = typeof item === 'string' ? item : item?.slug
 				if (slug) {
-					data.forEach((book: IBookItem) => {
+					data.filter((book: IBookItem) => {
 						if (book.slug === slug) {
-							temp.push(book)
+							newBooksArray.push(book)
 						}
 					})
 				}
 			})
-			setBooks(prev => prev.concat(temp))
+			setBooks(prev => prev.concat(newBooksArray))
 			window.history.replaceState({}, document.title)
 		}
 	}, [])
@@ -50,6 +65,9 @@ const Payment: React.FC = () => {
 		setTotalSum(books.reduce((acc, b) => acc + b.price, 0))
 	}, [books])
 
+	if (error) {
+		return <div>Error</div>
+	}
 	return (
 		<div className={styles.payment}>
 			<h1>Satıp alıw</h1>
@@ -81,13 +99,15 @@ const Payment: React.FC = () => {
 						Jámi <span>{totalSum} som</span>
 					</div>
 					<div className={styles.btns}>
-						<button>
+						<button onClick={handleClick}>
 							<img src={click} alt='image' />
 						</button>
-						<button>
+
+						<button onClick={handlePayme}>
 							<img src={payme} alt='image' />
 						</button>
-						<button>
+
+						<button onClick={handleUzum}>
 							<img src={uzum} alt='image' />
 						</button>
 					</div>

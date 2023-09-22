@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Audiobook.module.scss'
+import prince from 'src/assets/images/prince.png'
 import wave from 'src/assets/images/wave.svg'
 import { useParams } from 'react-router-dom'
 import { $host } from 'src/config/axios'
@@ -21,6 +22,17 @@ const Audiobook: React.FC = () => {
 		setSelectedAudioIndex(index)
 		data && setCurrentAudio(data.audios[index]?.audio_url)
 	}
+	const handlePrevAudio = () => {
+		setSelectedAudioIndex(prevIndex => prevIndex - 1)
+		setCurrentAudio('')
+		data && setCurrentAudio(data.audios[selectedAudioIndex - 1]?.audio_url)
+	}
+
+	const handleNextAudio = () => {
+		setSelectedAudioIndex(prevIndex => prevIndex + 1)
+		setCurrentAudio('')
+		data && setCurrentAudio(data.audios[selectedAudioIndex + 1]?.audio_url)
+	}
 
 	async function getBookInfo() {
 		const res = await $host.get(`/all-books/${slug}`)
@@ -37,7 +49,10 @@ const Audiobook: React.FC = () => {
 	return (
 		<div className={styles.book}>
 			<div className={styles.text}>
-				<img src={data?.image[0].image_url} alt='book image' />
+				<img
+					src={data?.image[0] ? data?.image[0].image_url : prince}
+					alt='book image'
+				/>
 				<div className={styles.desc}>
 					<h1>{data?.title}</h1>
 					<h4>{data?.author[0]?.name}</h4>
@@ -61,7 +76,11 @@ const Audiobook: React.FC = () => {
 						))}
 					</ul>
 				</div>
-				<AudioPlayer currentAudio={currentAudio} />
+				<AudioPlayer
+					onPrev={handlePrevAudio}
+					onNext={handleNextAudio}
+					currentAudio={currentAudio}
+				/>
 			</div>
 		</div>
 	)

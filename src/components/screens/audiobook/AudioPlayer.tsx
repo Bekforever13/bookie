@@ -6,7 +6,17 @@ import next from 'src/assets/images/nextaudio.svg'
 import { Slider } from 'antd'
 import { HiPause } from 'react-icons/hi'
 
-const AudioPlayer: React.FC<{ currentAudio: string }> = ({ currentAudio }) => {
+interface AudioPlayerProps {
+	currentAudio: string
+	onPrev: () => void
+	onNext: () => void
+}
+
+const AudioPlayer: React.FC<AudioPlayerProps> = ({
+	currentAudio,
+	onNext,
+	onPrev,
+}) => {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
 	const [currentTime, setCurrentTime] = useState<number>(0)
 	const [volume, setVolume] = useState<number>(50)
@@ -27,11 +37,11 @@ const AudioPlayer: React.FC<{ currentAudio: string }> = ({ currentAudio }) => {
 	}
 
 	const nextAudio = () => {
-		// Logic to switch to the next audio track
+		onNext()
 	}
 
 	const prevAudio = () => {
-		// Logic to switch to the previous audio track
+		onPrev()
 	}
 
 	const handleTimelineChange = (value: number) => {
