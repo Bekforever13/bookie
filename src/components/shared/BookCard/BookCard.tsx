@@ -14,7 +14,7 @@ const BookCard: React.FC<IBookItem> = props => {
 	const { categoryId } = useParams()
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
-	const { price, slug, title } = props
+	const { price, slug, title, author, image } = props
 	const { addToFavorite, favorites, removeFromFavorite } = userStore()
 	const isFav = favorites.some(item => item.slug === slug)
 
@@ -43,13 +43,13 @@ const BookCard: React.FC<IBookItem> = props => {
 	return (
 		<div onClick={handleClickBook} className={styles.book_card}>
 			<div className={styles.img}>
-				<img src={prince} alt='image' />
+				<img src={image[0] ? image[0].image_url : prince} alt='image' />
 			</div>
 			<div className={styles.wrapper}>
 				<div className={styles.title}>
 					<div className={styles.text}>
 						<h3>{title}</h3>
-						<p>Antuan de Sent-Ekzyuperi</p>
+						<p>{author && author[0].name}</p>
 					</div>
 					<div className={styles.favorite}>
 						{isFav ? (

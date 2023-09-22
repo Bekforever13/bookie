@@ -8,7 +8,7 @@ type TAudio = {
 	title: string
 	is_free: boolean
 	slug: string
-	file_name: string
+	audio_url: string
 }
 
 type TBookImg = {
@@ -16,6 +16,7 @@ type TBookImg = {
 	imageable_type: string
 	file_name: string
 	is_main: number
+	image_url: string
 }
 
 export interface IBookItem {
@@ -27,6 +28,12 @@ export interface IBookItem {
 	slug: string
 	reviews?: TReview[]
 	id?: number
+	author?: [
+		{
+			name: string
+			slug: string
+		}
+	]
 }
 
 export interface IBookInfo {

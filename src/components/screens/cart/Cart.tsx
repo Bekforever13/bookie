@@ -3,14 +3,38 @@ import { userStore } from 'src/store/userStore'
 import styles from './Cart.module.scss'
 import { StyledSubmitButton } from 'src/components/ui/button/StyledButtons'
 import prince from 'src/assets/images/prince.png'
-import { Checkbox, Popconfirm } from 'antd'
+import { Checkbox, Popconfirm, message } from 'antd'
 import { BsTrash } from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom'
 
 const Cart: React.FC = () => {
+	const navigate = useNavigate()
 	const { cart, removeFromCart } = userStore()
+	const [isAllSelected, setIsAllSelected] = React.useState(false)
+	const [selectedBooks, setSelectedBooks] = React.useState<string[]>([])
 
 	const handleRemove = (slug: string) => {
 		removeFromCart(slug)
+		message.error('Sebetten óshirildi')
+	}
+
+	const handleSelectAll = () => {
+		if (isAllSelected) {
+			setSelectedBooks([])
+		} else {
+			const allBookSlugs = cart.map(item => item.slug)
+			setSelectedBooks(allBookSlugs)
+		}
+		setIsAllSelected(!isAllSelected)
+	}
+
+	const handleBookSelect = (slug: string) => {
+		if (selectedBooks.includes(slug)) {
+			setSelectedBooks(selectedBooks.filter(item => item !== slug))
+		} else {
+			setSelectedBooks([...selectedBooks, slug])
+		}
+		setIsAllSelected(false)
 	}
 
 	return (
@@ -24,7 +48,7 @@ const Cart: React.FC = () => {
 							<div className={styles.text}>
 								<div className={styles.name}>
 									<h4>{item.title}</h4>
-									<p>Antuan de Sent-Ekzyuperi</p>
+									<p>{item.author?.[0].name}</p>
 								</div>
 								<div className={styles.price}>
 									<h2>{item.price} som</h2>
@@ -40,7 +64,10 @@ const Cart: React.FC = () => {
 								</div>
 							</div>
 							<div>
-								<Checkbox />
+								<Checkbox
+									checked={selectedBooks.includes(item.slug)}
+									onChange={() => handleBookSelect(item.slug)}
+								/>
 							</div>
 						</div>
 					))}
@@ -49,7 +76,21 @@ const Cart: React.FC = () => {
 					<p>
 						Dawam ettiriw ushın, satıp almaqshı bolǵan kitaplarıńızdı belgileń
 					</p>
-					<StyledSubmitButton>Bárshesin belgilew</StyledSubmitButton>
+					{selectedBooks.length > 0 ? (
+						<StyledSubmitButton
+							onClick={() =>
+								navigate('/payment', {
+									state: selectedBooks,
+								})
+							}
+						>
+							Satıp alıw
+						</StyledSubmitButton>
+					) : (
+						<StyledSubmitButton onClick={handleSelectAll}>
+							Bárshesin belgilew
+						</StyledSubmitButton>
+					)}
 				</div>
 			</div>
 		</div>

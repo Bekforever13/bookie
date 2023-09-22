@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './Audiobook.module.scss'
 import prev from 'src/assets/images/prevaudio.svg'
 import play from 'src/assets/images/playaudio.svg'
@@ -9,7 +9,7 @@ import { HiPause } from 'react-icons/hi'
 const AudioPlayer: React.FC<{ currentAudio: string }> = ({ currentAudio }) => {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
 	const [currentTime, setCurrentTime] = useState<number>(0)
-	const [volume, setVolume] = useState<number>(50) // Начальное значение громкости
+	const [volume, setVolume] = useState<number>(50)
 	const audio = useRef<HTMLAudioElement>(null)
 
 	const playAudio = () => {
@@ -51,6 +51,15 @@ const AudioPlayer: React.FC<{ currentAudio: string }> = ({ currentAudio }) => {
 		const seconds = Math.floor(time % 60)
 		return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
 	}
+
+	useEffect(() => {
+		setIsPlaying(false)
+		setCurrentTime(0)
+		if (audio.current) {
+			audio.current.pause()
+			audio.current.currentTime = 0
+		}
+	}, [currentAudio])
 
 	return (
 		<div className={styles.player}>

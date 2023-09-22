@@ -68,9 +68,13 @@
 				flex-direction: column;
 				row-gap: 32px;
 				li {
+					cursor: pointer;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
+					div:hover {
+						opacity: 0.5;
+					}
 				}
 			}
 		}

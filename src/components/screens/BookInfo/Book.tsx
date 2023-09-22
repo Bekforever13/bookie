@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -9,10 +9,13 @@ import heart0 from 'src/assets/images/heart0.svg'
 import heart1 from 'src/assets/images/heart1.svg'
 import styles from './BookInfo.module.scss'
 import { userStore } from 'src/store/userStore'
+import { authStore } from 'src/store/authStore'
+import { message } from 'antd'
 
 const Book: React.FC = () => {
 	const params = useParams()
 	const navigate = useNavigate()
+	const { auth } = authStore()
 	const { favorites, cart, addToCart, addToFavorite, removeFromFavorite } =
 		userStore()
 	const { data } = useQuery<IBookInfo>({
@@ -24,15 +27,27 @@ const Book: React.FC = () => {
 
 	const handleClickFavorite = () => {
 		data && addToFavorite(data)
+		message.success('Saylandılarǵa qosıldı')
 	}
 	const handleRemoveFromFavorite = () => {
 		data && removeFromFavorite(data.slug)
+		message.error('Saylandılar bóliminen óshirildi.')
 	}
 	const handleClickCart = () => {
 		data && addToCart(data)
+		message.success('Sebetke qosıldı')
 	}
 	const handleClickNavigate = () => {
 		navigate('/cart', { replace: true })
+	}
+	const handleClickBuy = () => {
+		if (!auth) {
+			message.warning(
+				'Kitap satıp alıw ushın, dáslep, akkauntıńızǵa kiriwińiz kerek boladı'
+			)
+		} else if (auth) {
+			navigate('/payment', { state: data })
+		}
 	}
 
 	async function getBookInfo() {
@@ -40,10 +55,15 @@ const Book: React.FC = () => {
 		return res.data.data
 	}
 
+	useEffect(() => window.scrollTo(0, 0), [])
+
 	return (
 		<div className={styles.book}>
 			<div className={styles.image}>
-				<img src={prince} alt='book image' />
+				<img
+					src={data?.image[0] ? data?.image[0].image_url : prince}
+					alt='book image'
+				/>
 			</div>
 			<div className={styles.text}>
 				<h1>{data?.title}</h1>
@@ -60,7 +80,7 @@ const Book: React.FC = () => {
 						border='1px solid #2D71AE'
 						backgroundcolor='transparent'
 						color='#2D71AE'
-						onClick={() => navigate('/payment')}
+						onClick={handleClickBuy}
 					>
 						Satıp alıw
 					</StyledButton>
