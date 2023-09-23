@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
 					</div>
 				</div>
 				<div className={styles.support}>
-					<Link to='/'>Joybardı qollap-quwatlaw</Link>
+					<Link to='/donate'>Joybardı qollap-quwatlaw</Link>
 					<div>© 2023 Bookie | Karsoft</div>
 				</div>
 			</div>

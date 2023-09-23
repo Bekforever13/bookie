@@ -40,7 +40,6 @@ const Audiobook: React.FC = () => {
 	}
 
 	useEffect(() => {
-		window.scrollTo(0, 0)
 		if (data) {
 			setCurrentAudio(data.audios[0]?.audio_url)
 		}

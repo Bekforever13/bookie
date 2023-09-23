@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -55,7 +55,6 @@ const Book: React.FC = () => {
 		return res.data.data
 	}
 
-	useEffect(() => window.scrollTo(0, 0), [])
 
 	return (
 		<div className={styles.book}>

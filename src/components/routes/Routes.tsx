@@ -1,4 +1,4 @@
-import { Home } from 'src/components/screens'
+import { Donate, Home } from 'src/components/screens'
 import { Login } from 'src/components/screens'
 import { Register } from 'src/components/screens'
 import { BookInfo } from 'src/components/screens'
@@ -12,4 +12,5 @@ export const routes = [
 	{ path: '/category/:slug', element: <Category /> },
 	{ path: '/login', element: <Login /> },
 	{ path: '/register', element: <Register /> },
+	{ path: '/donate', element: <Donate /> },
 ]
