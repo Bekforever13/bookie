@@ -5,8 +5,8 @@ import avatar from 'src/assets/images/avatar.svg'
 import { Rate } from 'antd'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import { $host } from 'src/config/axios'
-import { useQuery } from 'react-query'
-import { IBookInfo } from 'src/assets/types/Types'
+// import { useQuery } from 'react-query'
+// import { IBookInfo } from 'src/assets/types/Types'
 import { useParams } from 'react-router-dom'
 
 type TData = {
@@ -19,10 +19,10 @@ const Report: React.FC = () => {
 	const [data, setData] = useState<TData>()
 	const [value, setValue] = useState('')
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-	const { data: BookData } = useQuery<IBookInfo>({
-		queryKey: ['book_info'],
-		queryFn: getBookInfo,
-	})
+	// const { data: BookData } = useQuery<IBookInfo>({
+	// 	queryKey: ['book_info'],
+	// 	queryFn: getBookInfo,
+	// })
 
 	async function getBookInfo() {
 		const res = await $host.get(`/all-books/${slug}`)
