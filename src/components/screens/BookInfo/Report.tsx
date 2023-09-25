@@ -24,10 +24,10 @@ const Report: React.FC = () => {
 	// 	queryFn: getBookInfo,
 	// })
 
-	async function getBookInfo() {
-		const res = await $host.get(`/all-books/${slug}`)
-		return res.data.data
-	}
+	// async function getBookInfo() {
+	// 	const res = await $host.get(`/all-books/${slug}`)
+	// 	return res.data.data
+	// }
 
 	useAutosizeTextArea(textAreaRef.current, value)
 
