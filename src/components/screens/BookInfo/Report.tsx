@@ -4,10 +4,10 @@ import styles from './BookInfo.module.scss'
 import avatar from 'src/assets/images/avatar.svg'
 import { Rate } from 'antd'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
-import { $host } from 'src/config/axios'
+// import { $host } from 'src/config/axios'
 // import { useQuery } from 'react-query'
 // import { IBookInfo } from 'src/assets/types/Types'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 type TData = {
 	book_id: number
@@ -15,7 +15,7 @@ type TData = {
 	rating: number
 }
 const Report: React.FC = () => {
-	const { slug } = useParams()
+	// const { slug } = useParams()
 	const [data, setData] = useState<TData>()
 	const [value, setValue] = useState('')
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
