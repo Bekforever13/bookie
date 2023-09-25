@@ -24,7 +24,7 @@
 }
 
 .hide {
-	transition: all 0.3s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	transform: translatex(100%);
 	display: flex;
 	background-color: var(--brand-color-1);
@@ -36,51 +36,54 @@
 	width: 100%;
 	height: 100vh;
 	z-index: 10;
-	a {
-		color: #fff;
-		@include adaptiv-font(20, 16, 20);
-	}
-	.hLang {
-		color: #fff;
-		@include adaptiv-font(16, 12, 18);
-		font-weight: 600;
-		line-height: normal;
-		border: 1px solid #fff;
-		padding: 3px 7px;
-		border-radius: 12px;
-		@include adaptiv-font(20, 16, 20);
-	}
 }
 
 .hLinks {
-	transition: all 0.3s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	transform: translatex(0);
-	display: flex;
 	background-color: var(--brand-color-1);
-	flex-direction: column;
 	position: fixed !important;
 	padding-top: 100px;
+	padding-left: 30px;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100vh;
 	z-index: 10;
-	a {
-		color: #fff;
-		@include adaptiv-font(20, 16, 20);
-	}
-	.hLang {
-		color: #fff;
-		@include adaptiv-font(16, 12, 18);
-		font-weight: 600;
-		line-height: normal;
-		border: 1px solid #fff;
-		padding: 3px 7px;
-		border-radius: 12px;
-		@include adaptiv-font(20, 16, 20);
-	}
-}
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
 
-.ant-menu-root {
-	background-color: var(--brand-color-1) !important;
+	.menuItem {
+		@include adaptiv-font(16, 12, 18);
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 12px;
+		color: #fff !important;
+		img {
+			width: 22px;
+		}
+		a {
+			color: #fff !important;
+		}
+	}
+	.guestMenu {
+		display: flex;
+		flex-direction: column;
+		row-gap: 30px;
+		.guestMenuItem {
+			display: flex;
+			gap: 12px;
+			justify-content: flex-start;
+			align-items: center;
+			@include adaptiv-font(16, 12, 18);
+			font-weight: 600;
+			color: #fff;
+
+			svg {
+				font-size: 28px;
+			}
+		}
+	}
 }

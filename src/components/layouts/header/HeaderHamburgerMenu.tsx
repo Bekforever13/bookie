@@ -1,81 +1,112 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Header.module.scss'
-import { Dispatch, SetStateAction } from 'react'
-import { ConfigProvider, MenuProps } from 'antd'
-import { Menu } from 'antd'
-import { AiOutlineHome } from 'react-icons/ai'
 import { BsFillPersonPlusFill } from 'react-icons/bs'
-import { BiCategory, BiLogIn } from 'react-icons/bi'
-
-type MenuItem = Required<MenuProps>['items'][number]
-
-function getItem(
-	label: React.ReactNode,
-	key: React.Key,
-	icon?: React.ReactNode,
-	children?: MenuItem[],
-	type?: 'group'
-): MenuItem {
-	return {
-		key,
-		icon,
-		children,
-		label,
-		type,
-	} as MenuItem
-}
-
-type THamburgerMenuProps = {
-	isOpen: boolean
-	setOpen: Dispatch<SetStateAction<boolean>>
-}
+import { BiLogIn } from 'react-icons/bi'
+import { authStore } from 'src/store/authStore'
+import exit from 'src/assets/images/Exit.svg'
+import Cookies from 'js-cookie'
+import { $host } from 'src/config/axios'
+import { useQuery } from 'react-query'
+import { TCategory, THamburgerMenuProps } from 'src/assets/types/Types'
+import home from 'src/assets/images/home0.svg'
+import cart from 'src/assets/images/cart0.svg'
+import favorite from 'src/assets/images/favorites0.svg'
+import my_books from 'src/assets/images/myBooks0.svg'
+import category from 'src/assets/images/library0.svg'
 
 const HeaderHamburgerMenu: React.FC<THamburgerMenuProps> = ({
 	isOpen,
 	setOpen,
 }) => {
 	const navigate = useNavigate()
-
-	const items: MenuProps['items'] = [
-		getItem('Bas bet', '/', <AiOutlineHome />),
-
-		getItem('Kategoriyalar', 'categories', <BiCategory />, [
-			getItem('Jáhán ádebiyatı', 'jahan'),
-			getItem('Qaraqalpaq ádebiyatı', 'qaraqalpaq'),
-			getItem('Ózbek ádebiyatı', 'ozbek'),
-			getItem('Qısqa audiolar', 'qisqa'),
-			getItem('Qaraqalpaq folklorı', 'folklori'),
-		]),
-		{ type: 'divider' },
-		getItem('Kiriw', 'login', <BiLogIn />),
-		getItem('Dizimnen ótiw', 'register', <BsFillPersonPlusFill />),
-	]
-
-	const onClick: MenuProps['onClick'] = e => {
-		setOpen(false)
-		navigate(e.key, { replace: true })
+	const { auth, setAuth } = authStore()
+	const { data } = useQuery<TCategory[]>({
+		queryKey: ['categories'],
+		queryFn: getCategories,
+		staleTime: Infinity,
+		cacheTime: Infinity,
+	})
+	async function getCategories() {
+		const res = await $host.get('/category')
+		return res.data.data
 	}
+	const handleClickExit = (e: any) => {
+		e.stopPropagation()
+		Cookies.remove('token')
+		setAuth(false)
+	}
+
+	const onClick = (e: string) => {
+		setOpen(false)
+		navigate(e, { replace: true })
+	}
+
+	const authorizedMenuItems = [
+		{
+			pathname: 'favorites',
+			icon: <img src={favorite} alt='favorites' />,
+			label: 'Saylandilar',
+		},
+		{ pathname: 'cart', icon: <img src={cart} alt='cart' />, label: 'Sebet' },
+		{
+			pathname: 'my_books',
+			icon: <img src={my_books} alt='my_books' />,
+			label: 'Kitaplarim',
+		},
+	]
 
 	return (
 		<div className={isOpen ? styles.hLinks : styles.hide}>
-			<ConfigProvider
-				theme={{
-					token: {
-						colorBgContainer: '#2d71ae',
-						colorText: '#fff',
-						fontSize: 20,
-						margin: 50,
-					},
-				}}
-			>
-				<Menu
-					onClick={onClick}
-					defaultSelectedKeys={['1']}
-					defaultOpenKeys={['sub1']}
-					mode='inline'
-					items={items}
-				/>
-			</ConfigProvider>
+			<div className={styles.menuItem} onClick={() => onClick('/')}>
+				<img src={home} alt='home' />
+				<Link to='/'>Bas bet</Link>
+			</div>
+			{data?.map(item => (
+				<div
+					onClick={() => onClick(`/category/${item.slug}`)}
+					className={styles.menuItem}
+				>
+					<img src={category} alt='category' />
+					<Link to={`/${item.slug}`}>{item.name}</Link>
+				</div>
+			))}
+			{auth ? (
+				authorizedMenuItems.map(item => {
+					return (
+						<div
+							className={styles.menuItem}
+							onClick={() => onClick(`/${item.pathname}`)}
+							key={item.label}
+						>
+							{item.icon}
+							{item.label}
+						</div>
+					)
+				})
+			) : (
+				<div className={styles.guestMenu}>
+					<div
+						className={styles.guestMenuItem}
+						onClick={() => onClick('/login')}
+					>
+						<BiLogIn />
+						Kiriw
+					</div>
+					<div
+						className={styles.guestMenuItem}
+						onClick={() => onClick('/register')}
+					>
+						<BsFillPersonPlusFill />
+						Dizimnen ótiw
+					</div>
+				</div>
+			)}
+			{auth && (
+				<div className={styles.menuItem} onClick={handleClickExit}>
+					<img src={exit} alt='logout' />
+					Shigiw
+				</div>
+			)}
 		</div>
 	)
 }

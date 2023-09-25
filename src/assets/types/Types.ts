@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 type TReview = {
 	rating: number
 	text: string
@@ -59,4 +61,9 @@ export type TCategory = {
 
 export interface ICategoryInfo extends TCategory {
 	books: IBookItem[]
+}
+
+export type THamburgerMenuProps = {
+	isOpen: boolean
+	setOpen: Dispatch<SetStateAction<boolean>>
 }

@@ -1,8 +1,17 @@
+@import 'src/assets/styles/base/mixin';
+
 .my_books {
 	padding: 30px 80px;
 	display: flex;
 	flex-direction: column;
 	row-gap: 30px;
+
+	@media (max-width: 820px) {
+		padding: 30px;
+	}
+	@media (max-width: 600px) {
+		padding: 20px;
+	}
 
 	.btns {
 		display: flex;
@@ -13,7 +22,6 @@
 	.wrapper {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: flex-start;
 		gap: 20px;
 	}
 	.listen {
@@ -37,7 +45,7 @@
 				row-gap: 12px;
 				flex: 1;
 				h4 {
-					font-size: 16px;
+					@include adaptiv-font(16, 12, 18);
 					font-weight: 500;
 					line-height: 150%;
 				}

@@ -1,3 +1,5 @@
+@import 'src/assets/styles/base/mixin';
+
 .categories {
 	display: flex;
 	align-items: center;
@@ -19,7 +21,7 @@
 		white-space: nowrap;
 		color: var(--typography-primary);
 		font-weight: 600;
-		font-size: 16px;
+		@include adaptiv-font(16, 12, 18);
 		transition: all 0.25s ease-in-out;
 		cursor: pointer;
 		&:hover {
@@ -35,7 +37,7 @@
 	}
 }
 .selectItem {
-	font-size: 16px;
+	@include adaptiv-font(16, 12, 18);
 	font-weight: 600;
 	color: var(--typography-primary);
 }

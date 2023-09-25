@@ -1,3 +1,4 @@
+@import 'src/assets/styles/base/mixin';
 .category {
 	padding: 30px 80px;
 	display: flex;
@@ -5,8 +6,15 @@
 	row-gap: 30px;
 	background-color: var(--brand-color-4);
 
+	@media (max-width: 820px) {
+		padding: 20px 40px;
+	}
+	@media (max-width: 500px) {
+		padding: 20px;
+	}
+
 	h1 {
-		font-size: 48px;
+		@include adaptiv-font(48, 36, 48);
 		font-weight: 600;
 		line-height: 130%;
 		opacity: 0.75;

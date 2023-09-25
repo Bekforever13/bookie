@@ -33,8 +33,9 @@ const RecentlyAddedBooks: React.FC = () => {
 				breakpoints={{
 					1: {
 						slidesPerView: 1,
+						centeredSlides: true,
 					},
-					750: {
+					600: {
 						slidesPerView: 2,
 					},
 					1050: {

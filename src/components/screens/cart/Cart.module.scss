@@ -1,11 +1,21 @@
+@import 'src/assets/styles/base/mixin';
+
 .cart {
 	display: flex;
 	flex-direction: column;
 	padding: 30px 80px 40px;
 	row-gap: 30px;
 	min-height: 55.9vh;
+
+	@media (max-width: 750px) {
+		padding: 30px;
+	}
+
+	@media (max-width: 500px) {
+		padding: 20px;
+	}
 	h1 {
-		font-size: 48px;
+		@include adaptiv-font(48, 36, 48);
 		font-weight: 600;
 		line-height: 130%;
 		opacity: 0.75;
@@ -14,6 +24,10 @@
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
+		gap: 20px;
+		@media (max-width: 1000px) {
+			flex-wrap: wrap;
+		}
 		.books {
 			display: flex;
 			flex-direction: column;
@@ -24,6 +38,13 @@
 				justify-content: center;
 				gap: 30px;
 				width: 630px;
+
+				@media (max-width: 700px) {
+					width: 90vw;
+				}
+				@media (max-width: 500px) {
+					gap: 10px;
+				}
 
 				img {
 					width: 100px;
@@ -41,12 +62,12 @@
 						flex-direction: column;
 						row-gap: 16px;
 						h4 {
-							font-size: 16px;
+							@include adaptiv-font(16, 12, 18);
 							font-weight: 500;
 							line-height: 150%;
 						}
 						p {
-							font-size: 12px;
+							@include adaptiv-font(12, 8, 14);
 							font-weight: 400;
 							line-height: 130%;
 							color: #585858;
@@ -57,7 +78,7 @@
 						flex-direction: column;
 						row-gap: 30px;
 						h2 {
-							font-size: 20px;
+							@include adaptiv-font(20, 16, 22);
 							font-weight: 600;
 							line-height: 130%;
 							color: rgba(32, 32, 32, 0.75);
@@ -87,7 +108,7 @@
 			border-radius: 16px;
 			background: var(--brand-color-4);
 			p {
-				font-size: 20px;
+				@include adaptiv-font(20, 16, 22);
 				font-weight: 500;
 				line-height: 130%;
 			}

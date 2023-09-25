@@ -1,3 +1,4 @@
+@import 'src/assets/styles/base/mixin';
 .book_info {
 	.book {
 		display: flex;
@@ -6,9 +7,22 @@
 		padding: 60px 80px;
 		gap: 75px;
 
+		@media (max-width: 850px) {
+			padding: 40px;
+			flex-wrap: wrap;
+			gap: 40px;
+		}
+		@media (max-width: 600px) {
+			padding: 20px;
+			gap: 20px;
+		}
+
 		.image {
 			img {
 				width: 415px;
+				@media (max-width: 850px) {
+					width: 90vw;
+				}
 			}
 		}
 		.text {
@@ -16,17 +30,17 @@
 			flex-direction: column;
 			row-gap: 30px;
 			h1 {
-				font-size: 48px;
+				@include adaptiv-font(48, 36, 48);
 				font-weight: 600;
 				line-height: 130%;
 			}
 			h4 {
-				font-size: 20px;
+				@include adaptiv-font(20, 16, 22);
 				font-weight: 400;
 				line-height: 130%;
 			}
 			p {
-				font-size: 16px;
+				@include adaptiv-font(16, 12, 18);
 				font-weight: 400;
 				line-height: 150%;
 			}
@@ -36,13 +50,13 @@
 					border-radius: 100px;
 					padding: 5px 12px;
 					text-align: center;
-					font-size: 12px;
+					@include adaptiv-font(12, 8, 14);
 					font-weight: 500;
 					color: var(--typography-light);
 				}
 			}
 			h2 {
-				font-size: 36px;
+				@include adaptiv-font(36, 22, 36);
 				font-weight: 600;
 				line-height: 100%;
 			}
@@ -67,8 +81,18 @@
 		flex-direction: column;
 		row-gap: 30px;
 
+		@media (max-width: 850px) {
+			padding: 40px;
+			flex-wrap: wrap;
+			gap: 40px;
+		}
+		@media (max-width: 600px) {
+			padding: 20px;
+			gap: 20px;
+		}
+
 		h1 {
-			font-size: 36px;
+			@include adaptiv-font(36, 22, 36);
 			font-weight: 500;
 			line-height: 100%;
 		}
@@ -98,15 +122,18 @@
 						display: flex;
 						align-items: center;
 						gap: 14px;
+						@media (max-width: 600px) {
+							flex-direction: column;
+						}
 
 						h4 {
-							font-size: 20px;
+							@include adaptiv-font(20, 16, 22);
 							font-weight: 500;
 							line-height: 130%;
 						}
 					}
 					p {
-						font-size: 16px;
+						@include adaptiv-font(16, 12, 18);
 						font-weight: 400;
 						line-height: 150%;
 					}
@@ -121,11 +148,24 @@
 		flex-direction: column;
 		row-gap: 30px;
 
+		@media (max-width: 850px) {
+			padding: 40px;
+		}
+		@media (max-width: 600px) {
+			padding: 20px;
+			gap: 20px;
+		}
+
 		.head {
 			padding: 0 10%;
 			display: flex;
 			align-items: center;
 			gap: 30px;
+
+			@media (max-width: 850px) {
+				flex-direction: column;
+				align-items: flex-start;
+			}
 			h2 {
 				font-size: 24px;
 				font-weight: 600;
@@ -139,19 +179,23 @@
 			gap: 24px;
 			padding: 0 10%;
 
+			@media (max-width: 850px) {
+				flex-direction: column;
+			}
+
 			textarea {
 				resize: none;
 				width: 100%;
 				min-height: 80px;
 				border-radius: 16px;
 				padding: 10px 20px;
-				font-size: 16px;
+				@include adaptiv-font(16, 12, 18);
 				font-weight: 400;
 				line-height: 150%;
 			}
 			button {
 				padding: 10px 24px;
-				font-size: 16px;
+				@include adaptiv-font(16, 12, 18);
 				font-weight: 600;
 				line-height: 130%;
 				color: var(--typography-light);

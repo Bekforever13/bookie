@@ -6,12 +6,13 @@ import prince from 'src/assets/images/prince.png'
 import { Checkbox, Popconfirm, message } from 'antd'
 import { BsTrash } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import { IBookItem } from 'src/assets/types/Types'
 
 const Cart: React.FC = () => {
 	const navigate = useNavigate()
-	const { cart, removeFromCart } = userStore()
+	const { cart, removeFromCart, addBooksToBuy } = userStore()
 	const [isAllSelected, setIsAllSelected] = React.useState(false)
-	const [selectedBooks, setSelectedBooks] = React.useState<string[]>([])
+	const [selectedBooks, setSelectedBooks] = React.useState<IBookItem[]>([])
 
 	const handleRemove = (slug: string) => {
 		removeFromCart(slug)
@@ -22,24 +23,30 @@ const Cart: React.FC = () => {
 		if (isAllSelected) {
 			setSelectedBooks([])
 		} else {
-			const allBookSlugs = cart.map(item => item.slug)
-			setSelectedBooks(allBookSlugs)
+			setSelectedBooks(cart)
 		}
 		setIsAllSelected(!isAllSelected)
 	}
 
-	const handleBookSelect = (slug: string) => {
-		if (selectedBooks.includes(slug)) {
-			setSelectedBooks(selectedBooks.filter(item => item !== slug))
+	const handleBookSelect = (book: IBookItem) => {
+		if (selectedBooks.includes(book)) {
+			setSelectedBooks(selectedBooks.filter(item => item !== book))
 		} else {
-			setSelectedBooks([...selectedBooks, slug])
+			setSelectedBooks([...selectedBooks, book])
 		}
 		setIsAllSelected(false)
 	}
 
+	const handleClickBuy = () => {
+		selectedBooks.forEach(book => {
+			addBooksToBuy(book)
+		})
+		navigate('/payment')
+	}
+
 	return (
 		<div className={styles.cart}>
-			<h1>Saylandılar</h1>
+			<h1>Sebet</h1>
 			<div className={styles.wrapper}>
 				<div className={styles.books}>
 					{cart?.map(item => (
@@ -65,8 +72,8 @@ const Cart: React.FC = () => {
 							</div>
 							<div>
 								<Checkbox
-									checked={selectedBooks.includes(item.slug)}
-									onChange={() => handleBookSelect(item.slug)}
+									checked={selectedBooks.includes(item)}
+									onChange={() => handleBookSelect(item)}
 								/>
 							</div>
 						</div>
@@ -77,13 +84,7 @@ const Cart: React.FC = () => {
 						Dawam ettiriw ushın, satıp almaqshı bolǵan kitaplarıńızdı belgileń
 					</p>
 					{selectedBooks.length > 0 ? (
-						<StyledSubmitButton
-							onClick={() =>
-								navigate('/payment', {
-									state: selectedBooks,
-								})
-							}
-						>
+						<StyledSubmitButton onClick={handleClickBuy}>
 							Satıp alıw
 						</StyledSubmitButton>
 					) : (

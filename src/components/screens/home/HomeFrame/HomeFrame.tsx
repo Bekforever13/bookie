@@ -8,7 +8,7 @@ import styles from './HomeFrame.module.scss'
 
 const HomeFrame: React.FC = () => {
 	return (
-		<div className={styles.frame}>
+		<div id='frame' className={styles.frame}>
 			<img className={styles.image1} src={save} alt='save' />
 			<img className={styles.image2} src={star1} alt='star1' />
 			<div className={styles.border}>

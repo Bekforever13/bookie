@@ -4,6 +4,12 @@ import styles from './HomeHead.module.scss'
 import girl from 'src/assets/images/girl.jpg'
 
 const HomeHead: React.FC = () => {
+	const scrollToFrame = () => {
+		const frameElement = document.getElementById('frame')
+		if (frameElement) {
+			frameElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		}
+	}
 	return (
 		<div className={styles.head}>
 			<div className={styles.text}>
@@ -20,6 +26,7 @@ const HomeHead: React.FC = () => {
 					width='100%'
 					backgroundcolor='var(--additional-color-4)'
 					color='var(--typography-light)'
+					onClick={scrollToFrame}
 				>
 					Baslaw
 				</StyledButton>

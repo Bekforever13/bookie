@@ -1,3 +1,4 @@
+@import 'src/assets/styles/base/mixin';
 .wrapper {
 	display: flex;
 	align-items: center;
@@ -18,7 +19,7 @@
 		row-gap: 30px;
 
 		h2 {
-			font-size: 48px;
+			@include adaptiv-font(48, 36, 48);
 			font-weight: 600;
 			line-height: 130%;
 		}
@@ -48,7 +49,7 @@
 		button {
 			width: fit-content;
 			height: auto;
-			font-size: 16px;
+			@include adaptiv-font(16, 12, 18);
 			font-weight: 600;
 			color: var(--typography-light);
 			border-radius: 16px;

@@ -13,11 +13,17 @@ import { authStore } from 'src/store/authStore'
 import { message } from 'antd'
 
 const Book: React.FC = () => {
-	const params = useParams()
+	const { slug } = useParams()
 	const navigate = useNavigate()
 	const { auth } = authStore()
-	const { favorites, cart, addToCart, addToFavorite, removeFromFavorite } =
-		userStore()
+	const {
+		favorites,
+		cart,
+		addToCart,
+		addToFavorite,
+		removeFromFavorite,
+		addBooksToBuy,
+	} = userStore()
 	const { data } = useQuery<IBookInfo>({
 		queryKey: ['book_info'],
 		queryFn: getBookInfo,
@@ -46,15 +52,15 @@ const Book: React.FC = () => {
 				'Kitap satıp alıw ushın, dáslep, akkauntıńızǵa kiriwińiz kerek boladı'
 			)
 		} else if (auth) {
-			navigate('/payment', { state: data })
+			data && addBooksToBuy(data)
+			navigate('/payment')
 		}
 	}
 
 	async function getBookInfo() {
-		const res = await $host.get(`/all-books/${params.slug}`)
+		const res = await $host.get(`/all-books/${slug}`)
 		return res.data.data
 	}
-
 
 	return (
 		<div className={styles.book}>

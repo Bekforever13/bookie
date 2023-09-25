@@ -7,7 +7,8 @@ import { IBookInfo } from 'src/assets/types/Types'
 import { BookCard } from 'src/components/shared/BookCard/BookCard'
 import prince from 'src/assets/images/prince.png'
 import playbtn from 'src/assets/images/blue_play.svg'
-import { Slider } from 'antd'
+// import { Slider } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 async function getMyBooks() {
 	const res = await $host.get('/my-books')
@@ -15,11 +16,16 @@ async function getMyBooks() {
 }
 
 const MyBooks: React.FC = () => {
+	const navigate = useNavigate()
 	const [active, setActive] = useState('all')
 	const { data } = useQuery<IBookInfo[]>({
 		queryKey: ['my_books'],
 		queryFn: getMyBooks,
 	})
+
+	const handleClick = (slug: string) => {
+		navigate(`/audiobook/${slug}`)
+	}
 
 	return (
 		<div className={styles.my_books}>
@@ -67,26 +73,34 @@ const MyBooks: React.FC = () => {
 			)}
 			{active === 'listen' && (
 				<div className={styles.listen}>
-					<div className={styles.audioitem}>
-						<img src={prince} alt='img' />
-						<div className={styles.text}>
-							<h4>Kishkene Shaxzada</h4>
-							<p>Antuan de Sent-Ekzyuperi</p>
-						</div>
-						<div className={styles.player}>
-							<img src={playbtn} alt='button' />
-							<div className={styles.timeline}>
-								<div className={styles.time}>
-									1:43:38<span>/3:12:34</span>
-								</div>
-								<Slider defaultValue={30} />
+					{data?.map(item => (
+						<div className={styles.audioitem}>
+							<img
+								src={item.image[0] ? item.image[0].image_url : prince}
+								alt='img'
+							/>
+							<div className={styles.text}>
+								<h4>{item.title}</h4>
+								<p>{item.author[0].name}</p>
+							</div>
+							<div
+								onClick={() => handleClick(item.slug)}
+								className={styles.player}
+							>
+								<img src={playbtn} alt='button' />
+								{/* <div className={styles.timeline}>
+									<div className={styles.time}>
+										1:43:38<span>/3:12:34</span>
+									</div>
+									<Slider defaultValue={30} />
+								</div> */}
 							</div>
 						</div>
-					</div>
+					))}
 				</div>
 			)}
 		</div>
 	)
-}
+} 
 
 export { MyBooks }
