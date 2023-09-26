@@ -1,4 +1,4 @@
-import { IBookItem } from 'src/assets/types/Types'
+import { IBookItem } from 'src/types/Types'
 import { create } from 'zustand'
 import Cookies from 'js-cookie'
 

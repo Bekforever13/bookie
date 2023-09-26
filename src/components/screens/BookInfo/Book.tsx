@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
 import { useNavigate, useParams } from 'react-router-dom'
-import { IBookInfo } from 'src/assets/types/Types'
+import { IBookItem } from 'src/types/Types'
 import prince from 'src/assets/images/prince.png'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import heart0 from 'src/assets/images/heart0.svg'
@@ -24,7 +24,7 @@ const Book: React.FC = () => {
 		removeFromFavorite,
 		addBooksToBuy,
 	} = userStore()
-	const { data } = useQuery<IBookInfo>({
+	const { data } = useQuery<IBookItem>({
 		queryKey: ['book_info'],
 		queryFn: getBookInfo,
 	})
@@ -49,7 +49,8 @@ const Book: React.FC = () => {
 	const handleClickBuy = () => {
 		if (!auth) {
 			message.warning(
-				'Kitap satıp alıw ushın, dáslep, akkauntıńızǵa kiriwińiz kerek boladı'
+				'Kitap satıp alıw ushın, dáslep, akkauntıńızǵa kiriwińiz kerek boladı',
+				3
 			)
 		} else if (auth) {
 			data && addBooksToBuy(data)
@@ -62,6 +63,8 @@ const Book: React.FC = () => {
 		return res.data.data
 	}
 
+	console.log(data)
+
 	return (
 		<div className={styles.book}>
 			<div className={styles.image}>
@@ -72,12 +75,12 @@ const Book: React.FC = () => {
 			</div>
 			<div className={styles.text}>
 				<h1>{data?.title}</h1>
-				<h4>{data?.author[0].name}</h4>
+				{/* <h4>{data?.author[0].name}</h4> */}
 				<p>{data?.description}</p>
 				<div className={styles.categories}>
-					{data?.category.map(item => (
+					{/* {data?.category.map(item => (
 						<span key={item.slug}>{item.name}</span>
-					))}
+					))} */}
 				</div>
 				<h2>{data?.price} sum</h2>
 				<div className={styles.btns}>
@@ -89,24 +92,25 @@ const Book: React.FC = () => {
 					>
 						Satıp alıw
 					</StyledButton>
-					{!isCart ? (
-						<StyledButton
-							onClick={handleClickCart}
-							backgroundcolor='var(--additional-color-4)'
-							color='var(--typography-light)'
-						>
-							Sebetke salıw
-						</StyledButton>
-					) : (
-						<StyledButton
-							onClick={handleClickNavigate}
-							backgroundcolor='none'
-							color='var(--additional-color-4)'
-							border='1px solid var(--additional-color-4)'
-						>
-							Sebetke ótiw
-						</StyledButton>
-					)}
+					{auth &&
+						(!isCart ? (
+							<StyledButton
+								onClick={handleClickCart}
+								backgroundcolor='var(--additional-color-4)'
+								color='var(--typography-light)'
+							>
+								Sebetke salıw
+							</StyledButton>
+						) : (
+							<StyledButton
+								onClick={handleClickNavigate}
+								backgroundcolor='none'
+								color='var(--additional-color-4)'
+								border='1px solid var(--additional-color-4)'
+							>
+								Sebetke ótiw
+							</StyledButton>
+						))}
 					{isFav ? (
 						<img
 							onClick={handleRemoveFromFavorite}

@@ -6,6 +6,8 @@ import { protectedRoutes } from './components/routes/ProtectedRoutes'
 import { authStore } from './store/authStore'
 import { NotFound } from './components/screens'
 import ScrollToTop from './utils/ScrollToTop'
+import { AdminRoutes } from './components/routes/AdminRoutes'
+import { AdminLayout } from './crm/layouts/AdminLayout'
 
 const App = () => {
 	const { auth } = authStore()
@@ -26,6 +28,12 @@ const App = () => {
 									element={item.element}
 								/>
 							))}
+						<Route path='*' element={<NotFound />} />
+					</Route>
+					<Route path='/admin' element={<AdminLayout />}>
+						{AdminRoutes.map(item => (
+							<Route key={item.path} path={item.path} element={item.element} />
+						))}
 						<Route path='*' element={<NotFound />} />
 					</Route>
 				</Routes>

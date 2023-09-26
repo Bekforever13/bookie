@@ -4,7 +4,7 @@ import search from 'src/assets/images/search.svg'
 import { Input } from 'antd'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
-import { TCategory } from 'src/assets/types/Types'
+import { TCategory } from 'src/types/Types'
 
 const Categories: React.FC = () => {
 	const { data } = useQuery<TCategory[]>({

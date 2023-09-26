@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './BookInfo.module.scss'
 import { useQuery } from 'react-query'
-import { IBookInfo } from 'src/assets/types/Types'
+import { IBookInfo } from 'src/types/Types'
 import { $host } from 'src/config/axios'
 import { useParams } from 'react-router-dom'
-import avatar from 'src/assets/images/avatar.svg'
+import avatar from 'src/assets/images/user.png'
 import { Rate } from 'antd'
 
 const Testimonials: React.FC = () => {
@@ -26,12 +26,10 @@ const Testimonials: React.FC = () => {
 					<div className={styles.wrapper}>
 						{data?.reviews?.map((item, i) => (
 							<div key={i} className={styles.user_testimonial}>
-								<div className={styles.avatar}>
-									<img src={avatar} alt='user_avatar' />
-								</div>
+								<img className={styles.avatar} src={avatar} alt='user_avatar' />
 								<div className={styles.text}>
 									<div className={styles.name}>
-										<h4>Charlie</h4>
+										<h4>{item.name}</h4>
 										<Rate disabled value={item.rating} />
 									</div>
 									<p>{item.text}</p>

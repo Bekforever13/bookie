@@ -1,69 +1,71 @@
-import React, { useRef, useState } from 'react'
-import { useAutosizeTextArea } from 'src/hooks/useAutosizeTextarea'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './BookInfo.module.scss'
-import avatar from 'src/assets/images/avatar.svg'
-import { Rate } from 'antd'
+import avatar from 'src/assets/images/user.png'
+import { Rate, message } from 'antd'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
-// import { $host } from 'src/config/axios'
-// import { useQuery } from 'react-query'
-// import { IBookInfo } from 'src/assets/types/Types'
-// import { useParams } from 'react-router-dom'
+import { $host } from 'src/config/axios'
+import { useParams } from 'react-router-dom'
+import { useQueryClient } from 'react-query'
+import { authStore } from 'src/store/authStore'
+import { TReview } from 'src/types/Types'
 
-type TData = {
-	book_id: number
-	text: string
-	rating: number
-}
 const Report: React.FC = () => {
-	// const { slug } = useParams()
-	const [data, setData] = useState<TData>()
-	const [value, setValue] = useState('')
+	const { slug } = useParams()
+	const [text, setText] = useState('')
+	const [rating, setRating] = useState(4)
+	const [data, setData] = useState<TReview>()
+	const { auth } = authStore()
+	const queryClient = useQueryClient()
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-	// const { data: BookData } = useQuery<IBookInfo>({
-	// 	queryKey: ['book_info'],
-	// 	queryFn: getBookInfo,
-	// })
 
-	// async function getBookInfo() {
-	// 	const res = await $host.get(`/all-books/${slug}`)
-	// 	return res.data.data
-	// }
-
-	useAutosizeTextArea(textAreaRef.current, value)
+	useEffect(() => {
+		if (slug) setData({ text, rating, slug })
+	}, [slug, text, rating])
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const val = event.target?.value
-		setValue(val)
-		setData(prev => prev && { ...prev, text: val })
-		console.log(data)
+		setText(val)
 	}
 
-	// const handleClickReport = () => {
-	// 	$host.post('/reviews', data).then(res => console.log(res))
-	// }
+	const handleClickReport = () => {
+		$host.post('/reviews', data).then(() => {
+			message.success('Pikir bildirildi.')
+			queryClient.invalidateQueries('book-info')
+			setText('')
+		})
+	}
+
 	return (
 		<div className={styles.report}>
-			<div className={styles.head}>
-				<h2>Pikir qaldırıw</h2>
-				<Rate defaultValue={4} />
-			</div>
-			<div className={styles.text}>
-				<img src={avatar} alt='user avatar' />
-				<textarea
-					placeholder={"Pikir qaldırin'..."}
-					onChange={handleChange}
-					ref={textAreaRef}
-					rows={1}
-					value={data?.text}
-				/>
-				<StyledButton
-					// onClick={handleClickReport}
-					backgroundcolor='var(--brand-color-1)'
-					color='#fff'
-				>
-					Sholıw
-				</StyledButton>
-			</div>
+			{auth ? (
+				<>
+					<div className={styles.head}>
+						<h2>Pikir qaldırıw</h2>
+						<Rate onChange={e => setRating(e)} value={rating} />
+					</div>
+					<div className={styles.text}>
+						<img src={avatar} alt='user avatar' />
+						<textarea
+							placeholder={"Pikir qaldırin'..."}
+							onChange={handleChange}
+							ref={textAreaRef}
+							rows={1}
+							value={text}
+						/>
+						<StyledButton
+							onClick={handleClickReport}
+							backgroundcolor='var(--brand-color-1)'
+							color='#fff'
+						>
+							Sholıw
+						</StyledButton>
+					</div>
+				</>
+			) : (
+				<h2 className={styles.notlogged}>
+					Pikir qaldırıw ushın, dáslep, akkauntıńızǵa kiriwińiz kerek boladı
+				</h2>
+			)}
 		</div>
 	)
 }

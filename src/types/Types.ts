@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
 
-type TReview = {
-	rating: number
+export type TReview = {
+	slug: string
 	text: string
-	user_id: number
+	rating: number
 }
 
 type TAudio = {
@@ -11,6 +11,21 @@ type TAudio = {
 	is_free: boolean
 	slug: string
 	audio_url: string
+}
+
+export type TFeedback = {
+	name: string
+	rating: number
+	description: string
+}
+
+export type TUserData = {
+	id: number
+	role_id: number
+	name: string
+	phone: string
+	email: string | null
+	role: string
 }
 
 type TBookImg = {
@@ -48,7 +63,7 @@ export interface IBookInfo {
 	language: string
 	narrator: [{ name: string; slug: string }]
 	price: number
-	reviews: [{ rating: number; text: string; user_id: number }]
+	reviews: [{ rating: number; text: string; name: string }]
 	slug: string
 	title: string
 }

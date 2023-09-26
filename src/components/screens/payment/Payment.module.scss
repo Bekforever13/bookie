@@ -61,9 +61,9 @@
 						display: flex;
 						align-items: center;
 						gap: 30px;
-						span {
+						img {
 							cursor: pointer;
-							@include adaptiv-font(16, 12, 16);
+							width: 22px;
 						}
 					}
 				}

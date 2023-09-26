@@ -9,15 +9,11 @@ import { AiOutlinePhone } from 'react-icons/ai'
 import { $host } from 'src/config/axios'
 import { useMutation } from 'react-query'
 import Cookies from 'js-cookie'
+import { TUserData } from 'src/types/Types'
 
 type TData = {
 	phone: string
 	password: string
-}
-
-async function signIn(data: TData) {
-	const res = await $host.post('/login', data)
-	Cookies.set('token', res.data.token, { expires: 7 })
 }
 
 const Login: React.FC = () => {
@@ -28,6 +24,17 @@ const Login: React.FC = () => {
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 		mutation.mutateAsync({ phone: phone, password: password })
+	}
+
+	async function signIn(data: TData) {
+		const res = await $host.post('/login', data)
+		Cookies.set('token', res.data.token, { expires: 7 })
+		const checkUser = await $host.get('/getme')
+		const user: TUserData = checkUser.data.data
+
+		if (user.role === 'super_admin') {
+			navigate('/admin')
+		}
 	}
 
 	useEffect(() => {

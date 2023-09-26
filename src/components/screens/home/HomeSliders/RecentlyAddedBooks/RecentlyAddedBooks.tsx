@@ -8,7 +8,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { Navigation } from 'swiper/modules'
 import styles from './RecentlyAddedBooks.module.scss'
-import { IBookItem } from 'src/assets/types/Types'
+import { IBookItem } from 'src/types/Types'
 import { BookCard } from 'src/components/shared/BookCard/BookCard'
 import { Skeleton } from 'src/components/shared/BookCard/Skeleton'
 

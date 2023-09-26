@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { ICategoryInfo } from 'src/assets/types/Types'
+import { ICategoryInfo } from 'src/types/Types'
 import { BookCard } from 'src/components/shared/BookCard/BookCard'
 import { $host } from 'src/config/axios'
 import styles from './Category.module.scss'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IBookItem } from 'src/assets/types/Types'
+import { IBookItem } from 'src/types/Types'
 import styles from './BookCard.module.scss'
 import prince from 'src/assets/images/prince.png'
 import heart0 from 'src/assets/images/heart0.svg'

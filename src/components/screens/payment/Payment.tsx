@@ -7,7 +7,7 @@ import uzum from 'src/assets/images/Uzum.svg'
 import arrow from 'src/assets/images/Chevron.svg'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import { userStore } from 'src/store/userStore'
-import { BsTrash } from 'react-icons/bs'
+import trash from 'src/assets/images/trash0.svg'
 import { Popconfirm } from 'antd'
 
 const Payment: React.FC = () => {
@@ -56,9 +56,7 @@ const Payment: React.FC = () => {
 										onConfirm={() => handleClickRemove(item.slug)}
 										title='Kitapti oshirip taslaymizba?'
 									>
-										<span>
-											<BsTrash />
-										</span>
+										<img src={trash} alt='trash' />
 									</Popconfirm>
 								</h2>
 							</div>

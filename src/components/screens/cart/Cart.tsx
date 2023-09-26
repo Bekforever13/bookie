@@ -4,9 +4,9 @@ import styles from './Cart.module.scss'
 import { StyledSubmitButton } from 'src/components/ui/button/StyledButtons'
 import prince from 'src/assets/images/prince.png'
 import { Checkbox, Popconfirm, message } from 'antd'
-import { BsTrash } from 'react-icons/bs'
+import trash from 'src/assets/images/trash0.svg'
 import { useNavigate } from 'react-router-dom'
-import { IBookItem } from 'src/assets/types/Types'
+import { IBookItem } from 'src/types/Types'
 
 const Cart: React.FC = () => {
 	const navigate = useNavigate()
@@ -64,7 +64,7 @@ const Cart: React.FC = () => {
 										title='Delete the book?'
 									>
 										<p>
-											<BsTrash />
+											<img src={trash} alt='trash' />
 											Oshiriw
 										</p>
 									</Popconfirm>

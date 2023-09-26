@@ -3,7 +3,7 @@ import styles from './MyBooks.module.scss'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
-import { IBookInfo } from 'src/assets/types/Types'
+import { IBookInfo } from 'src/types/Types'
 import { BookCard } from 'src/components/shared/BookCard/BookCard'
 import prince from 'src/assets/images/prince.png'
 import playbtn from 'src/assets/images/blue_play.svg'
@@ -101,6 +101,6 @@ const MyBooks: React.FC = () => {
 			)}
 		</div>
 	)
-} 
+}
 
 export { MyBooks }

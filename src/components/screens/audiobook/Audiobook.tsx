@@ -5,7 +5,7 @@ import wave from 'src/assets/images/wave.svg'
 import { useParams } from 'react-router-dom'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
-import { IBookInfo } from 'src/assets/types/Types'
+import { IBookInfo } from 'src/types/Types'
 import { AudioPlayer } from './AudioPlayer'
 import { Romanize } from './Romanize'
 
