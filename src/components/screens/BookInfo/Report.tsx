@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import { useQueryClient } from 'react-query'
 import { authStore } from 'src/store/authStore'
 import { TReview } from 'src/types/Types'
+import TextArea from 'antd/es/input/TextArea'
 
 const Report: React.FC = () => {
 	const { slug } = useParams()
@@ -45,12 +46,13 @@ const Report: React.FC = () => {
 					</div>
 					<div className={styles.text}>
 						<img src={avatar} alt='user avatar' />
-						<textarea
+						<TextArea
 							placeholder={"Pikir qaldırin'..."}
 							onChange={handleChange}
 							ref={textAreaRef}
 							rows={1}
 							value={text}
+							autoSize
 						/>
 						<StyledButton
 							onClick={handleClickReport}

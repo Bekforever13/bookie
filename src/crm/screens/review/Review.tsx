@@ -1,50 +1,40 @@
 import React from 'react'
-import styles from './Users.module.scss'
+import styles from './Review.module.scss'
 import { BookTable } from 'src/crm/components'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
 
-const Users: React.FC = () => {
+const Review: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['book_info'],
 		queryFn: getBooks,
 	})
 	async function getBooks() {
-		const res = await $host.get('/authors')
+		const res = await $host.get('/reviews')
 		return res.data.data
 	}
 	const columns = [
-		{
-			title: 'ID',
-			dataIndex: 'id',
-			key: 'id',
-		},
 		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
 		},
 		{
-			title: 'Phone',
-			dataIndex: 'phone',
-			key: 'phone',
+			title: 'Text',
+			dataIndex: 'text',
+			key: 'text',
 		},
 		{
-			title: 'Email',
-			dataIndex: 'email',
-			key: 'email',
-		},
-		{
-			title: 'Role',
-			dataIndex: 'role',
-			key: 'role',
+			title: 'Rating',
+			dataIndex: 'rating',
+			key: 'rating',
 		},
 	]
 	return (
-		<div className={styles.users}>
+		<div className={styles.review}>
 			{data && <BookTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }
 
-export { Users }
+export { Review }

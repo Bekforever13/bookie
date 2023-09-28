@@ -6,6 +6,12 @@ export type TReview = {
 	rating: number
 }
 
+export type TIdNameSlug = {
+	id: number
+	name: string
+	slug: string
+}
+
 type TAudio = {
 	title: string
 	is_free: boolean
@@ -53,28 +59,35 @@ export interface IBookItem {
 	]
 }
 
-export interface IBookInfo {
-	audios: TAudio[]
-	author: [{ name: string; slug: string }]
-	category: [{ id: number; name: string; slug: string }]
-	description: string
-	genre: [{ name: string; slug: string }]
-	image: TBookImg[]
-	language: string
-	narrator: [{ name: string; slug: string }]
-	price: number
-	reviews: [{ rating: number; text: string; name: string }]
-	slug: string
-	title: string
-}
-
-export type TCategory = {
+export type FormData = {
 	id: number
-	name: string
+	title: string
+	description: string
+	price: number
+	language: string
+	author_id: string
+	narrator_id: string
+	category_id: string
+	genre_id: string[]
+}
+
+export interface IBookInfo {
+	id: number
+	title: string
+	description: string
+	price: number
+	language: string
+	audios: TAudio[]
+	author: TIdNameSlug[]
+	category: TIdNameSlug[]
+	genre: TIdNameSlug[]
+	image: TBookImg[]
+	narrator: TIdNameSlug[]
+	reviews: TIdNameSlug[]
 	slug: string
 }
 
-export interface ICategoryInfo extends TCategory {
+export interface ICategoryInfo extends TIdNameSlug {
 	books: IBookItem[]
 }
 

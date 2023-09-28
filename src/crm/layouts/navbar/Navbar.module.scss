@@ -1,5 +1,47 @@
 .navbar {
+	position: fixed;
 	display: flex;
 	flex-direction: column;
 	row-gap: 50px;
+	background-color: var(--brand-color-2);
+	min-height: 100vh;
+	padding: 30px;
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		row-gap: 10px;
+		color: var(--typography-light);
+
+		div {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 20px;
+			padding: 10px 20px;
+			border-radius: 16px;
+			cursor: pointer;
+
+			&:hover {
+				background-color: rgba($color: #000000, $alpha: 0.1);
+			}
+			a {
+				color: var(--typography-light);
+			}
+			&.active {
+				background-color: rgba($color: #000000, $alpha: 0.2);
+			}
+		}
+	}
+	.logout {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: 20px;
+		padding: 10px 20px;
+		border-radius: 16px;
+
+		a {
+			color: var(--typography-light);
+		}
+	}
 }

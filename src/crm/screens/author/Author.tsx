@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './Users.module.scss'
-import { BookTable } from 'src/crm/components'
+import styles from './Author.module.scss'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
+import { BookTable } from 'src/crm/components'
 
-const Users: React.FC = () => {
+const Author: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['book_info'],
 		queryFn: getBooks,
@@ -13,6 +13,7 @@ const Users: React.FC = () => {
 		const res = await $host.get('/authors')
 		return res.data.data
 	}
+
 	const columns = [
 		{
 			title: 'ID',
@@ -25,26 +26,16 @@ const Users: React.FC = () => {
 			key: 'name',
 		},
 		{
-			title: 'Phone',
-			dataIndex: 'phone',
-			key: 'phone',
-		},
-		{
-			title: 'Email',
-			dataIndex: 'email',
-			key: 'email',
-		},
-		{
-			title: 'Role',
-			dataIndex: 'role',
-			key: 'role',
+			title: 'Slug',
+			dataIndex: 'slug',
+			key: 'slug',
 		},
 	]
 	return (
-		<div className={styles.users}>
+		<div className={styles.author}>
 			{data && <BookTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }
 
-export { Users }
+export { Author }
