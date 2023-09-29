@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Users.module.scss'
-import { BookTable } from 'src/crm/components'
+import { CustomTable } from 'src/crm/components'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
 
@@ -42,7 +42,7 @@ const Users: React.FC = () => {
 	]
 	return (
 		<div className={styles.users}>
-			{data && <BookTable columns={columns} dataSource={data} />}
+			{data && <CustomTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }

@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Modal, ModalProps, Select } from 'antd'
-import styles from './ModalWindow.module.scss'
-import { adminStore } from 'src/store/adminStore'
+import { Modal, Select } from 'antd'
+import styles from './BooksModal.module.scss'
+import { adminStore } from 'src/store/admin/adminStore'
 import { $host } from 'src/config/axios'
 import { FormData } from 'src/types/Types'
 import { useQueryClient } from 'react-query'
+import { bookStore } from 'src/store/admin/booksStore'
+import { ModalWindowProps, ModalWindowState } from 'src/crm/types/types'
 
-interface Props extends ModalProps {
-	setIsModalOpen: (el: boolean) => void
-}
-
-type TState = {
-	label: string
-	value: string | number
-}
-
-const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
+const ModalWindow: React.FC<ModalWindowProps> = ({
+	setIsModalOpen,
+	...props
+}) => {
 	const queryClient = useQueryClient()
-	const {
-		authors,
-		categories,
-		genres,
-		narrators,
-		isEditingBook,
-		setEditingBook,
-		bookToEdit,
-	} = adminStore()
+	const { authors, categories, genres, narrators } = adminStore()
+	const { isEditingBook, setEditingBook, bookToEdit } = bookStore()
 	const [formData, setFormData] = useState<FormData | null>(null)
-	const [authorOptions, setAuthorOptions] = useState<TState[]>([])
-	const [categoriesOptions, setCategoriesOptions] = useState<TState[]>([])
-	const [genresOptions, setGenresOptions] = useState<TState[]>([])
-	const [narratorsOptions, setNarratorsOptions] = useState<TState[]>([])
+	const [authorOptions, setAuthorOptions] = useState<ModalWindowState[]>([])
+	const [categoriesOptions, setCategoriesOptions] = useState<
+		ModalWindowState[]
+	>([])
+	const [selectedAuthor, setSelectedAuthor] = useState<string>('')
+	const [selectedNarrator, setSelectedNarrator] = useState<string>('')
+	const [selectedCategory, setSelectedCategory] = useState<string>('')
+	const [selectedGenres, setSelectedGenres] = useState<string | string[]>([])
+
+	const [genresOptions, setGenresOptions] = useState<ModalWindowState[]>([])
+	const [narratorsOptions, setNarratorsOptions] = useState<ModalWindowState[]>(
+		[]
+	)
 	const {
 		register,
 		handleSubmit,
@@ -43,6 +41,10 @@ const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
 	const handleCancel = () => {
 		setIsModalOpen(false)
 		reset()
+		setSelectedAuthor('')
+		setSelectedCategory('')
+		setSelectedGenres([])
+		setSelectedNarrator('')
 	}
 
 	const onSubmit = handleSubmit(data => {
@@ -50,7 +52,15 @@ const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
 			? $host.put(`/books/${bookToEdit?.id}`, data)
 			: $host.post('/books', data)
 
-		request.then(() => setEditingBook(false)).catch(error => console.log(error))
+		request
+			.then(() => {
+				setEditingBook(false)
+				setSelectedAuthor('')
+				setSelectedCategory('')
+				setSelectedGenres([])
+				setSelectedNarrator('')
+			})
+			.catch(error => console.log(error))
 
 		queryClient.invalidateQueries('admin-books')
 		setIsModalOpen(false)
@@ -162,9 +172,12 @@ const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
 					<Select
 						style={{ width: '100%' }}
 						placeholder='Select author'
-						onChange={value => handleChange(value, 'author_id')}
+						onChange={value => {
+							handleChange(value, 'author_id')
+							setSelectedAuthor(value)
+						}}
 						options={authorOptions}
-						defaultValue={isEditingBook ? formData?.author_id : undefined}
+						value={selectedAuthor}
 					/>
 					{errors.author_id && <span style={{ color: 'red' }}>*</span>}
 				</label>
@@ -173,9 +186,12 @@ const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
 					<Select
 						style={{ width: '100%' }}
 						placeholder='Select narrator'
-						onChange={value => handleChange(value, 'narrator_id')}
+						onChange={value => {
+							handleChange(value, 'narrator_id')
+							setSelectedNarrator(value)
+						}}
 						options={narratorsOptions}
-						defaultValue={isEditingBook ? formData?.narrator_id : undefined}
+						value={selectedNarrator}
 					/>
 					{errors.narrator_id && <span style={{ color: 'red' }}>*</span>}
 				</label>
@@ -184,9 +200,12 @@ const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
 					<Select
 						style={{ width: '100%' }}
 						placeholder='Select category'
-						onChange={value => handleChange(value, 'category_id')}
+						onChange={value => {
+							handleChange(value, 'category_id')
+							setSelectedCategory(value)
+						}}
 						options={categoriesOptions}
-						defaultValue={isEditingBook ? formData?.category_id : undefined}
+						value={selectedCategory}
 					/>
 					{errors.category_id && <span style={{ color: 'red' }}>*</span>}
 				</label>
@@ -197,9 +216,12 @@ const ModalWindow: React.FC<Props> = ({ setIsModalOpen, ...props }) => {
 						allowClear
 						style={{ width: '100%' }}
 						placeholder='Select genre'
-						onChange={value => handleChange(value, 'genre_id')}
+						onChange={value => {
+							handleChange(value, 'genre_id')
+							setSelectedGenres(value)
+						}}
 						options={genresOptions}
-						defaultValue={isEditingBook ? formData?.genre_id : undefined}
+						value={selectedGenres}
 					/>
 					{errors.genre_id && <span style={{ color: 'red' }}>*</span>}
 				</label>

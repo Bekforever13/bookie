@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Narrator.module.scss'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
-import { BookTable } from 'src/crm/components'
+import { CustomTable } from 'src/crm/components'
 
 const Narrator: React.FC = () => {
 	const { data } = useQuery<any[]>({
@@ -33,7 +33,7 @@ const Narrator: React.FC = () => {
 	]
 	return (
 		<div className={styles.narrator}>
-			{data && <BookTable columns={columns} dataSource={data} />}
+			{data && <CustomTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }

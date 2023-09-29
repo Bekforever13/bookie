@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Category.module.scss'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
-import { BookTable } from 'src/crm/components'
+import { CustomTable } from 'src/crm/components'
 
 const Category: React.FC = () => {
 	const { data } = useQuery<any[]>({
@@ -33,7 +33,7 @@ const Category: React.FC = () => {
 	return (
 		<div className={styles.category}>
 			<div></div>
-			{data && <BookTable columns={columns} dataSource={data} />}
+			{data && <CustomTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { $host } from 'src/config/axios'
-import { FormData, TIdNameSlug } from 'src/types/Types'
+import { TIdNameSlug } from 'src/types/Types'
 
 interface adminState {
 	activeCategory: string
@@ -8,11 +8,7 @@ interface adminState {
 	narrators: TIdNameSlug[]
 	genres: TIdNameSlug[]
 	categories: TIdNameSlug[]
-	isEditingBook: boolean
-	bookToEdit: FormData | null
 	setActiveCategory: (payload: string) => void
-	setBookToEdit: (payload: FormData) => void
-	setEditingBook: (paylaod: boolean) => void
 	fetchAuthors: () => void
 	fetchNarrators: () => void
 	fetchGenres: () => void
@@ -25,10 +21,6 @@ export const adminStore = create<adminState>(set => ({
 	narrators: [],
 	genres: [],
 	categories: [],
-	isEditingBook: false,
-	bookToEdit: null,
-	setEditingBook: payload => set({ isEditingBook: payload }),
-	setBookToEdit: payload => set({ bookToEdit: payload }),
 	setActiveCategory: payload => set({ activeCategory: payload }),
 	fetchAuthors: () => {
 		$host

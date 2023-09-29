@@ -10,7 +10,7 @@ const Images: React.FC = () => {
 	// 	const res = await $host.get('/authors')
 	// 	return res.data.data
 	// }
-	// data && <BookTable columns={columns} dataSource={data} />
+	// data && <CustomTable columns={columns} dataSource={data} />
 	return <div className={styles.images}>Images</div>
 }
 

@@ -2,26 +2,28 @@ import React, { useState, useEffect } from 'react'
 import styles from './Books.module.scss'
 import { BookCategories } from './BookCategories'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
-import { BookTable } from 'src/crm/components'
+import { CustomTable } from 'src/crm/components'
 import { $host } from 'src/config/axios'
 import { useQuery, useQueryClient } from 'react-query'
 import { IBookInfo, TIdNameSlug, FormData } from 'src/types/Types'
-import { adminStore } from 'src/store/adminStore'
-import { ModalWindow } from 'src/crm/components/modal/ModalWindow'
+import { adminStore } from 'src/store/admin/adminStore'
+import { ModalWindow } from 'src/crm/components/modal/books/BooksModal'
 import { Space } from 'antd'
 import { BsPencil, BsTrash } from 'react-icons/bs'
+import { bookStore } from 'src/store/admin/booksStore'
 
 const Books: React.FC = () => {
 	const queryClient = useQueryClient()
+	const [currentPage, setCurrentPage] = useState(1)
+	const [total, setTotal] = useState(1)
 	const {
 		activeCategory,
 		fetchAuthors,
 		fetchCategories,
 		fetchGenres,
 		fetchNarrators,
-		setEditingBook,
-		setBookToEdit,
 	} = adminStore()
+	const { setEditingBook, setBookToEdit } = bookStore()
 	const [isModalOpen, setIsModalOpen] = useState(false)
 
 	const showModal = () => {
@@ -33,7 +35,11 @@ const Books: React.FC = () => {
 		queryFn: getBooks,
 	})
 	async function getBooks() {
-		const res = await $host.get(`/books?category=${activeCategory}`)
+		const res = await $host.get(
+			`/books?category=${activeCategory}&page=${currentPage}`
+		)
+		const totalBooks = res.data.meta.total
+		setTotal(totalBooks)
 		return res.data.data
 	}
 
@@ -154,7 +160,15 @@ const Books: React.FC = () => {
 					open={isModalOpen}
 				/>
 			</div>
-			{data && <BookTable columns={columns} dataSource={data} />}
+			{data && (
+				<CustomTable
+					total={total}
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
+					columns={columns}
+					dataSource={data}
+				/>
+			)}
 		</div>
 	)
 }

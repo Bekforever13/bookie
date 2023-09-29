@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Genre.module.scss'
-import { BookTable } from 'src/crm/components'
+import { CustomTable } from 'src/crm/components'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
 import { Space } from 'antd'
@@ -57,7 +57,7 @@ const Genre: React.FC = () => {
 	]
 	return (
 		<div className={styles.genre}>
-			{data && <BookTable columns={columns} dataSource={data} />}
+			{data && <CustomTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Orders.module.scss'
-import { BookTable } from 'src/crm/components'
+import { CustomTable } from 'src/crm/components'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
 
@@ -55,7 +55,7 @@ const Orders: React.FC = () => {
 	]
 	return (
 		<div className={styles.orders}>
-			{data && <BookTable columns={columns} dataSource={data} />}
+			{data && <CustomTable columns={columns} dataSource={data} />}
 		</div>
 	)
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { QueryClient } from 'react-query'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import styles from './Books.module.scss'
-import { adminStore } from 'src/store/adminStore'
+import { adminStore } from 'src/store/admin/adminStore'
 
 const BookCategories: React.FC = () => {
 	const queryClient = new QueryClient()
