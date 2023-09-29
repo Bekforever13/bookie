@@ -37,9 +37,9 @@ const Books: React.FC = () => {
 		return res.data.data
 	}
 
-	const handleDelete = (id: number) => {
-		$host.delete(`/books/${id}`)
-		queryClient.setQueryData(['admin-books', activeCategory], null)
+	const handleDelete = async (id: number) => {
+		await $host.delete(`/books/${id}`)
+		queryClient.refetchQueries('admin-books')
 	}
 
 	const columns = [
