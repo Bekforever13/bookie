@@ -1,4 +1,4 @@
-import { StyledButton } from 'src/components/ui/button/StyledButtons'
+import { StyledButton } from 'src/components/ui'
 import styles from './GuestHeader.module.scss'
 import { useNavigate } from 'react-router-dom'
 

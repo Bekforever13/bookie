@@ -20,7 +20,7 @@ const Report: React.FC = () => {
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
 	useEffect(() => {
-		if (slug) setData({ text, rating, slug })
+		if (slug) setData(prevState => ({ ...prevState, text, rating, slug }))
 	}, [slug, text, rating])
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

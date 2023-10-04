@@ -1,6 +1,5 @@
 import styles from './Login.module.scss'
-import { StyledSubmitButton } from 'src/components/ui/button/StyledButtons'
-import { StyledInputPassword } from 'src/components/ui/input/password/StyledInputPassword'
+import { StyledSubmitButton, StyledInputPassword } from 'src/components/ui'
 import { authStore } from 'src/store/authStore'
 import { UiInput } from 'src/components/ui/input/UiInput'
 import { Link, useNavigate } from 'react-router-dom'

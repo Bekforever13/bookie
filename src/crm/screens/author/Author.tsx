@@ -1,19 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import styles from './Author.module.scss'
 import { $host } from 'src/config/axios'
 import { useQuery, useQueryClient } from 'react-query'
-import { CustomTable } from 'src/crm/components'
+import { CustomTable, NameChangeModal } from 'src/crm/components'
 import { Popconfirm, Space } from 'antd'
 import { StyledButton } from 'src/components/ui/button/StyledButtons'
 import { BsTrash } from 'react-icons/bs'
 import { FiSave } from 'react-icons/fi'
-import { authorStore } from 'src/store/admin/authorStore'
 import { TIdNameSlug } from 'src/types/Types'
 import {
 	PiPencilSimpleDuotone,
 	PiPencilSimpleSlashDuotone,
 } from 'react-icons/pi'
-import { AuthorsModal } from 'src/crm/components/modal/authors/AuthorsModal'
+import { sharedStore } from 'src/store/admin/sharedStore'
 
 const Author: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1)
@@ -21,7 +20,7 @@ const Author: React.FC = () => {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const queryClient = useQueryClient()
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const { isEdit, setIsEdit, authorToEdit, setAuthorToEdit } = authorStore()
+	const { isEdit, setIsEdit, itemToEdit, setItemToEdit } = sharedStore()
 	const [newAuthorName, setNewAuthorName] = useState({
 		name: '',
 	})
@@ -45,7 +44,7 @@ const Author: React.FC = () => {
 	const handleSaveEdited = async (id: number) => {
 		await $host.put(`/authors/${id}`, newAuthorName)
 		queryClient.refetchQueries('admin-authors')
-		setAuthorToEdit(null)
+		setItemToEdit(null)
 	}
 
 	const handleBtnEdit = (record: TIdNameSlug) => {
@@ -53,12 +52,15 @@ const Author: React.FC = () => {
 			setIsEdit(false)
 			handleSaveEdited(record.id)
 		} else {
-			setAuthorToEdit(record)
-			inputRef?.current?.focus()
+			setItemToEdit(record)
 			setIsEdit(true)
 			setNewAuthorName({ name: record.name })
 		}
 	}
+
+	useEffect(() => {
+		inputRef.current?.focus()
+	}, [isEdit])
 
 	const showModal = () => {
 		setIsModalOpen(true)
@@ -66,7 +68,7 @@ const Author: React.FC = () => {
 
 	const handleCancelEdit = () => {
 		setIsEdit(false)
-		setAuthorToEdit(null)
+		setItemToEdit(null)
 	}
 
 	const columns = [
@@ -81,7 +83,7 @@ const Author: React.FC = () => {
 			key: 'name',
 			width: 300,
 			render: (el: string, record: TIdNameSlug) => {
-				if (record.id === authorToEdit?.id) {
+				if (record.id === itemToEdit?.id) {
 					return (
 						<input
 							ref={inputRef}
@@ -108,7 +110,7 @@ const Author: React.FC = () => {
 			title: 'Action',
 			key: 'action',
 			render: (_: any, rec: TIdNameSlug) => {
-				const isEditing = isEdit && authorToEdit?.id === rec.id
+				const isEditing = isEdit && itemToEdit?.id === rec.id
 				const isDisabled = isEdit && !isEditing
 				return (
 					<Space className={styles.btns} size='middle'>
@@ -119,7 +121,7 @@ const Author: React.FC = () => {
 							onClick={() => handleBtnEdit(rec)}
 							disabled={isDisabled}
 						>
-							{isEdit && authorToEdit?.id === rec.id ? (
+							{isEdit && itemToEdit?.id === rec.id ? (
 								<FiSave />
 							) : (
 								<PiPencilSimpleDuotone />
@@ -165,10 +167,11 @@ const Author: React.FC = () => {
 				>
 					Add author
 				</StyledButton>
-				<AuthorsModal
+				<NameChangeModal
 					setIsModalOpen={setIsModalOpen}
-					title='Avtor qosıw'
+					title='Author qosıw'
 					open={isModalOpen}
+					route='authors'
 				/>
 			</div>
 			{data && (

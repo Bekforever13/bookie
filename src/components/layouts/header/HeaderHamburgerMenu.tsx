@@ -7,7 +7,7 @@ import exit from 'src/assets/images/Exit.svg'
 import Cookies from 'js-cookie'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
-import { TCategory, THamburgerMenuProps } from 'src/types/Types'
+import { TIdNameSlug, THamburgerMenuProps } from 'src/types/Types'
 import home from 'src/assets/images/home0.svg'
 import cart from 'src/assets/images/cart0.svg'
 import favorite from 'src/assets/images/favorites0.svg'
@@ -20,7 +20,7 @@ const HeaderHamburgerMenu: React.FC<THamburgerMenuProps> = ({
 }) => {
 	const navigate = useNavigate()
 	const { auth, setAuth } = authStore()
-	const { data } = useQuery<TCategory[]>({
+	const { data } = useQuery<TIdNameSlug[]>({
 		queryKey: ['categories'],
 		queryFn: getCategories,
 		staleTime: Infinity,

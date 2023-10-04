@@ -1,7 +1,7 @@
 import React from 'react'
 import { userStore } from 'src/store/userStore'
 import styles from './Cart.module.scss'
-import { StyledSubmitButton } from 'src/components/ui/button/StyledButtons'
+import { StyledSubmitButton } from 'src/components/ui'
 import prince from 'src/assets/images/prince.png'
 import { Checkbox, Popconfirm, message } from 'antd'
 import trash from 'src/assets/images/trash0.svg'

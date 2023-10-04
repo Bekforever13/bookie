@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction } from 'react'
 
 export type TReview = {
-	slug: string
+	id?: string
 	text: string
 	rating: number
+	name?: string
+	user_id?: number
 }
 
 export type TIdNameSlug = {
@@ -12,7 +14,8 @@ export type TIdNameSlug = {
 	slug: string
 }
 
-type TAudio = {
+export type TAudio = {
+	id?: number
 	title: string
 	is_free: boolean
 	slug: string
@@ -51,12 +54,7 @@ export interface IBookItem {
 	slug: string
 	reviews?: TReview[]
 	id?: number
-	author?: [
-		{
-			name: string
-			slug: string
-		}
-	]
+	author?: TIdNameSlug[]
 }
 
 export type FormData = {
@@ -83,7 +81,7 @@ export interface IBookInfo {
 	genre: TIdNameSlug[]
 	image: TBookImg[]
 	narrator: TIdNameSlug[]
-	reviews: TIdNameSlug[]
+	reviews: TReview[]
 	slug: string
 }
 

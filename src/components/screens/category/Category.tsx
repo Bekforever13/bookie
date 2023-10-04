@@ -11,9 +11,9 @@ const Category: React.FC = () => {
 	const { slug } = useParams()
 	const { data, isLoading } = useQuery<ICategoryInfo>({
 		queryKey: ['category', slug],
-		queryFn: getCategoryBooks,
+		queryFn: geTIdNameSlugBooks,
 	})
-	async function getCategoryBooks() {
+	async function geTIdNameSlugBooks() {
 		const res = await $host.get(`/category/${slug}`)
 		return res.data.data[0]
 	}

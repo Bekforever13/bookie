@@ -7,8 +7,8 @@ import { $host } from 'src/config/axios'
 import { useQuery, useQueryClient } from 'react-query'
 import { IBookInfo, TIdNameSlug, FormData } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
-import { ModalWindow } from 'src/crm/components/modal/books/BooksModal'
-import { Space } from 'antd'
+import { ModalWindow } from 'src/crm/components'
+import { Popconfirm, Space } from 'antd'
 import { BsPencil, BsTrash } from 'react-icons/bs'
 import { bookStore } from 'src/store/admin/booksStore'
 
@@ -36,7 +36,7 @@ const Books: React.FC = () => {
 	})
 	async function getBooks() {
 		const res = await $host.get(
-			`/books?category=${activeCategory}&page=${currentPage}`
+			`/books?page=${currentPage}&category=${activeCategory}`
 		)
 		const totalBooks = res.data.meta.total
 		setTotal(totalBooks)
@@ -53,11 +53,15 @@ const Books: React.FC = () => {
 			title: 'Title',
 			dataIndex: 'title',
 			key: 'title',
+			width: 120,
+			ellipsis: true,
 		},
 		{
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
+			width: 200,
+			ellipsis: true,
 		},
 		{
 			title: 'Price',
@@ -68,11 +72,6 @@ const Books: React.FC = () => {
 			title: 'Language',
 			dataIndex: 'language',
 			key: 'language',
-		},
-		{
-			title: 'Slug',
-			dataIndex: 'slug',
-			key: 'slug',
 		},
 		{
 			title: 'Author',
@@ -92,7 +91,7 @@ const Books: React.FC = () => {
 				return (
 					<>
 						{el?.map(item => (
-							<span key={item.slug}>{item.name}</span>
+							<span key={item.slug}>{item.name} </span>
 						))}
 					</>
 				)
@@ -106,6 +105,8 @@ const Books: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
+			width: 200,
+			ellipsis: true,
 			render: (_: any, rec: FormData) => {
 				return (
 					<Space className={styles.btns} size='middle'>
@@ -121,14 +122,18 @@ const Books: React.FC = () => {
 						>
 							<BsPencil />
 						</StyledButton>
-						<StyledButton
-							color='red'
-							backgroundcolor='#fff'
-							border='1px solid red'
-							onClick={() => handleDelete(rec.id)}
+						<Popconfirm
+							title='Вы действительно хотите удалить?'
+							onConfirm={() => handleDelete(rec.id)}
 						>
-							<BsTrash />
-						</StyledButton>
+							<StyledButton
+								color='red'
+								backgroundcolor='#fff'
+								border='1px solid red'
+							>
+								<BsTrash />
+							</StyledButton>
+						</Popconfirm>
 					</Space>
 				)
 			},
@@ -160,15 +165,13 @@ const Books: React.FC = () => {
 					open={isModalOpen}
 				/>
 			</div>
-			{data && (
-				<CustomTable
-					total={total}
-					currentPage={currentPage}
-					setCurrentPage={setCurrentPage}
-					columns={columns}
-					dataSource={data}
-				/>
-			)}
+			<CustomTable
+				total={total}
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+				columns={columns}
+				dataSource={data as any}
+			/>
 		</div>
 	)
 }

@@ -5,4 +5,24 @@
 	display: flex;
 	flex-direction: column;
 	row-gap: 30px;
+
+	.btns {
+
+		button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 18px;
+
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+	}
+
+	input {
+		border-bottom: 1px solid var(--typography-secondary);
+		padding: 10px;
+		width: 100%;
+	}
 }

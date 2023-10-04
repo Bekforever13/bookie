@@ -6,26 +6,32 @@
 	flex-direction: column;
 	row-gap: 30px;
 
+
 	.wrapper {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
+
 	.categories {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
 		gap: 30px;
+
 		.active {
 			background-color: rgba($color: #000000, $alpha: 0.2);
 			color: var(--typography-primary);
 		}
 	}
+
 	.btns {
 		button {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 18px;
+			font-size: 14px;
+
 			&:hover {
 				opacity: 0.5;
 			}

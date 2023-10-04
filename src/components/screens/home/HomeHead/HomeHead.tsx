@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledButton } from 'src/components/ui/button/StyledButtons'
+import { StyledButton } from 'src/components/ui'
 import styles from './HomeHead.module.scss'
 import girl from 'src/assets/images/girl.jpg'
 

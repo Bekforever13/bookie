@@ -1,0 +1,17 @@
+.modal {
+	label {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin: 15px 0;
+		border-radius: 16px;
+		padding: 10px 20px;
+		font-size: 18px;
+		white-space: nowrap;
+
+		input {
+			border-bottom: 1px solid #acacac;
+			width: 100%;
+		}
+	}
+}

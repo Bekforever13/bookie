@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Modal } from 'antd'
 import { ModalWindowProps } from 'src/crm/types/types'
-import styles from './AuthorsModal.module.scss'
+import styles from './NameChangeModal.module.scss'
 import { $host } from 'src/config/axios'
 import { useQueryClient } from 'react-query'
 
-const AuthorsModal: React.FC<ModalWindowProps> = ({
+const NameChangeModal: React.FC<ModalWindowProps> = ({
 	setIsModalOpen,
+	route,
 	...props
 }) => {
 	const [formData, setFormData] = useState({ name: '' })
@@ -17,8 +18,8 @@ const AuthorsModal: React.FC<ModalWindowProps> = ({
 	}
 
 	const onSubmit = async () => {
-		await $host.post('/authors', formData)
-		queryClient.refetchQueries('admin-authors')
+		await $host.post(`/${route}`, formData)
+		queryClient.refetchQueries(`admin-${route}`)
 		setIsModalOpen(false)
 		setFormData({ name: '' })
 	}
@@ -51,4 +52,4 @@ const AuthorsModal: React.FC<ModalWindowProps> = ({
 	)
 }
 
-export { AuthorsModal }
+export { NameChangeModal }
