@@ -9,10 +9,15 @@ import { StyledButton } from 'src/components/ui'
 
 const Audio: React.FC = () => {
 	const [id, setId] = useState<string>('')
-	const [newAudioData, setNewAudioData] = useState({
+	const [newAudioData, setNewAudioData] = useState<{
+		book_id: number
+		title: string
+		file: File | null
+		is_free: number
+	}>({
 		book_id: 0,
 		title: '',
-		file: '',
+		file: null,
 		is_free: 1,
 	})
 	const queryClient = useQueryClient()
@@ -21,8 +26,12 @@ const Audio: React.FC = () => {
 		queryFn: getAudio,
 	})
 	async function getAudio() {
-		const res = await $host.get(`/audios/${id}`)
-		return res.data.data
+		try {
+			const res = await $host.get(`/audios/${id}`)
+			return res.data.data
+		} catch (error) {
+			return Promise.reject(error)
+		}
 	}
 
 	const handleDelete = async (id: number | undefined) => {
@@ -33,8 +42,16 @@ const Audio: React.FC = () => {
 	}
 
 	const handleSubmit = async () => {
-		// await $host.post('/audios', newAudioData).then(res => console.log(res.data))
-		console.log(newAudioData)
+		if (newAudioData && newAudioData.file) {
+			const formData = new FormData()
+			formData.append('book_id', newAudioData.book_id.toString())
+			formData.append('title', newAudioData.title)
+			formData.append('file', newAudioData.file)
+			formData.append('is_free', newAudioData.is_free.toString())
+
+			await $host.post('/audios', formData)
+			setNewAudioData({ book_id: 0, title: '', file: null, is_free: 1 })
+		}
 	}
 
 	return (
@@ -51,7 +68,7 @@ const Audio: React.FC = () => {
 						<BsSearch />
 					</label>
 				</div>
-				{data && (
+				{data ? (
 					<ul>
 						<li>ID: {data.id}</li>
 						<li>Title: {data.title}</li>
@@ -73,6 +90,8 @@ const Audio: React.FC = () => {
 							</StyledButton>
 						</Popconfirm>
 					</ul>
+				) : (
+					id !== '' && <h2>Selected id is invalid</h2>
 				)}
 			</div>
 			<div className={styles.right}>
@@ -111,10 +130,11 @@ const Audio: React.FC = () => {
 						onChange={e =>
 							setNewAudioData(prevData => ({
 								...prevData,
-								file: e.target.value ?? '',
+								file: e.target.files?.[0]
+									? new File([e.target.files[0]], e.target.files[0].name)
+									: null,
 							}))
 						}
-						value={newAudioData.file}
 					/>
 				</label>
 				<label>
