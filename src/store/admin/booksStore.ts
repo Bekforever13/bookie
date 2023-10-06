@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { IBookStore } from 'src/crm/types/types'
+import { IBookStore } from 'src/types/Types'
 
 export const bookStore = create<IBookStore>(set => ({
 	isEditingBook: false,

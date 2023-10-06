@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { ISharedStore } from 'src/crm/types/types'
+import { ISharedStore } from 'src/types/Types'
 
 export const sharedStore = create<ISharedStore>(set => ({
 	isEdit: false,

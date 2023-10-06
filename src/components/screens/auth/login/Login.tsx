@@ -16,7 +16,16 @@ type TData = {
 }
 
 const Login: React.FC = () => {
-	const { phone, password, setPhone, setPassword, setAuth, auth } = authStore()
+	const {
+		phone,
+		password,
+		setPhone,
+		setPassword,
+		setAuth,
+		auth,
+		setRole,
+		role,
+	} = authStore()
 	const navigate = useNavigate()
 	const mutation = useMutation(signIn, { onSuccess: () => setAuth(true) })
 
@@ -27,20 +36,9 @@ const Login: React.FC = () => {
 
 	async function signIn(data: TData) {
 		const res = await $host.post('/login', data)
-		Cookies.set('token', res.data.token, { expires: 7 })
-		const checkUser = await $host.get('/getme')
-		const user: TUserData = checkUser.data.data
-
-		if (user.role === 'super_admin') {
-			navigate('/admin')
-		}
+		await Cookies.set('token', res.data.token, { expires: 7 })
+		await setRole()
 	}
-
-	useEffect(() => {
-		if (auth) {
-			navigate('/', { replace: true })
-		}
-	}, [auth])
 
 	return (
 		<div className={styles.login}>

@@ -1,4 +1,58 @@
 import { Dispatch, SetStateAction } from 'react'
+import { ModalProps } from 'antd'
+
+export interface ModalWindowProps extends ModalProps {
+	setIsModalOpen: (el: boolean) => void
+	route?: string
+}
+
+export type ModalWindowState = {
+	label: string
+	value: string | number
+}
+
+export interface IOrder {
+	id: number
+	status_id: number
+	user_id: number
+	amount: number
+	is_paid: boolean
+	books: {
+		id: number
+		author_id: number
+		narrator_id: number
+		category_id: number
+		title: string
+		description: string
+		price: number
+		language: string
+		slug: string
+	}[]
+	url: string
+}
+
+export interface IBookStore {
+	isEditingBook: boolean
+	bookToEdit: FormData | null
+	setBookToEdit: (payload: FormData) => void
+	setEditingBook: (payload: boolean) => void
+}
+
+export interface IAuthorStore {
+	isEdit: boolean
+	authorToEdit: TIdNameSlug | null
+	setAuthorToEdit: (payload: TIdNameSlug | null) => void
+	setIsEdit: (payload: boolean) => void
+}
+
+export interface ISharedStore {
+	isEdit: boolean
+	itemToEdit: TIdNameSlug | TUserData | TReview | null
+	reviewToEdit: TReview | null
+	setIsEdit: (payload: boolean) => void
+	setItemToEdit: (payload: TIdNameSlug | TUserData | TReview | null) => void
+	setReviewToEdit: (payload: TReview | null) => void
+}
 
 export type TReview = {
 	id?: string
@@ -46,6 +100,8 @@ type TBookImg = {
 }
 
 export interface IBookItem {
+	audios: TAudio[]
+	author?: TIdNameSlug[]
 	title: string
 	description: string
 	image: TBookImg[]
@@ -54,7 +110,7 @@ export interface IBookItem {
 	slug: string
 	reviews?: TReview[]
 	id?: number
-	author?: TIdNameSlug[]
+	category: TIdNameSlug[]
 }
 
 export type FormData = {
@@ -63,26 +119,28 @@ export type FormData = {
 	description: string
 	price: number
 	language: string
-	author_id: string
-	narrator_id: string
-	category_id: string
-	genre_id: string[]
+	author: string
+	narrator: string
+	category: string
+	genre: TIdNameSlug[]
+	image: TBookImg[]
+	slug: string
 }
 
 export interface IBookInfo {
-	id: number
-	title: string
-	description: string
-	price: number
-	language: string
 	audios: TAudio[]
 	author: TIdNameSlug[]
 	category: TIdNameSlug[]
+	description: string
+	id: number
 	genre: TIdNameSlug[]
 	image: TBookImg[]
+	language: string
 	narrator: TIdNameSlug[]
+	price: number
 	reviews: TReview[]
 	slug: string
+	title: string
 }
 
 export interface ICategoryInfo extends TIdNameSlug {
