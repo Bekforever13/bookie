@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import s from 'src/assets/styles/App.module.scss'
 import { Layout } from './components/layouts/user/Layout'
@@ -11,7 +10,7 @@ import { AdminRoutes } from './components/routes/AdminRoutes'
 import { AdminLayout } from './components/layouts/admin/AdminLayout'
 
 const App = () => {
-	const { auth, setRole, role } = authStore()
+	const { auth, role } = authStore()
 
 	return (
 		<div className={s.app}>
@@ -31,7 +30,7 @@ const App = () => {
 							))}
 						<Route path='*' element={<NotFound />} />
 					</Route>
-					{role === ('admin' || 'super_admin') && (
+					{role.includes('admin') && (
 						<Route path='/admin' element={<AdminLayout />}>
 							{AdminRoutes.map(item => (
 								<Route

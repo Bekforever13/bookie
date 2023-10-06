@@ -8,7 +8,6 @@ import { AiOutlinePhone } from 'react-icons/ai'
 import { $host } from 'src/config/axios'
 import { useMutation } from 'react-query'
 import Cookies from 'js-cookie'
-import { TUserData } from 'src/types/Types'
 
 type TData = {
 	phone: string
@@ -16,16 +15,8 @@ type TData = {
 }
 
 const Login: React.FC = () => {
-	const {
-		phone,
-		password,
-		setPhone,
-		setPassword,
-		setAuth,
-		auth,
-		setRole,
-		role,
-	} = authStore()
+	const { phone, password, setPhone, setPassword, setAuth, setRole, role } =
+		authStore()
 	const navigate = useNavigate()
 	const mutation = useMutation(signIn, { onSuccess: () => setAuth(true) })
 
@@ -36,9 +27,15 @@ const Login: React.FC = () => {
 
 	async function signIn(data: TData) {
 		const res = await $host.post('/login', data)
-		await Cookies.set('token', res.data.token, { expires: 7 })
-		await setRole()
+		Cookies.set('token', res.data.token, { expires: 7 })
+		setRole()
 	}
+
+	useEffect(() => {
+		if (role === 'admin' || role === 'super_admin') {
+			navigate('/admin')
+		} else if (role === 'user') navigate('/')
+	}, [role])
 
 	return (
 		<div className={styles.login}>

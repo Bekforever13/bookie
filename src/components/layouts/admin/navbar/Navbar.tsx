@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
 
 	return (
 		<nav className={styles.navbar}>
-			<img src={logo} alt='logo' />
+			<img onClick={() => navigate('/')} src={logo} alt='logo' />
 			<div className={styles.wrapper}>
 				{menuItems.map(item => {
 					return (

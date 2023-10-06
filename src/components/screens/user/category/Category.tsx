@@ -15,7 +15,7 @@ const Category: React.FC = () => {
 	})
 	async function geTIdNameSlugBooks() {
 		const res = await $host.get(`/category/${slug}`)
-		return res.data.data[0]
+		return res.data.data
 	}
 
 	return (
