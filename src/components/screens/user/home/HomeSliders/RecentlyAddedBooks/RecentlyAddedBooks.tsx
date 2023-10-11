@@ -2,15 +2,13 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
 import { Navigation } from 'swiper/modules'
 import styles from './RecentlyAddedBooks.module.scss'
 import { IBookItem } from 'src/types/Types'
-import { BookCard } from 'src/components/shared/BookCard/BookCard'
-import { Skeleton } from 'src/components/shared/BookCard/Skeleton'
+import { BookCard, Skeleton } from 'src/components/shared'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
 
 async function getRecentlyAddedBooks() {
 	const res = await $host.get('/latest-additions')
@@ -18,12 +16,7 @@ async function getRecentlyAddedBooks() {
 }
 
 const RecentlyAddedBooks: React.FC = () => {
-	const { data, isLoading } = useQuery({
-		queryKey: ['recentlyAdded'],
-		queryFn: getRecentlyAddedBooks,
-		staleTime: 5 * 60 * 1000,
-		cacheTime: 60 * 60 * 1000,
-	})
+	const { data, isLoading } = useQuery({ queryFn: getRecentlyAddedBooks })
 
 	return (
 		<div className={styles.recently}>

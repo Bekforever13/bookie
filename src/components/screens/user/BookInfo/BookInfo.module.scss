@@ -41,9 +41,8 @@
 				@include adaptiv-font(48, 36, 48);
 				font-weight: 600;
 				line-height: 130%;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
+				word-break: break-all;
+				padding-right: 30px
 			}
 
 			h4 {

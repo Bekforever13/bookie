@@ -3,7 +3,7 @@
 .payment {
 	display: flex;
 	flex-direction: column;
-	padding: 30px 80px;
+	padding: 30px 80px 60px;
 	row-gap: 30px;
 	h1 {
 		@include adaptiv-font(36, 22, 36);

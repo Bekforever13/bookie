@@ -69,7 +69,9 @@ const BookCard: React.FC<IBookItem> = props => {
 							<img className={styles.play} src={play} alt='play icon' />
 						</Link>
 					)}
-					{priceFilter && <h4>{price} sum</h4>}
+					{priceFilter && (
+						<h4>{price.toLocaleString('ru-RU', { useGrouping: true })} som</h4>
+					)}
 					<div>
 						<img src={wave0} alt='wave' />
 						<span>123</span>
@@ -78,7 +80,7 @@ const BookCard: React.FC<IBookItem> = props => {
 						<StyledButton
 							backgroundcolor='var(--additional-color-4)'
 							color='var(--typography-light)'
-							onClick={() => navigate(`/book/${slug}`, { replace: true })}
+							onClick={() => navigate(`/audiobook/${slug}`, { replace: true })}
 						>
 							Tıńlaw
 						</StyledButton>

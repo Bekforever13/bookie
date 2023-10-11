@@ -46,11 +46,12 @@ const Book: React.FC = () => {
 		data && addToCart(data)
 		message.success('Sebetke qosıldı')
 	}
-	const handleClickNavigate = () => {
-		navigate('/cart', { replace: true })
-	}
+
+	const handleClickNavigate = () => navigate('/cart', { replace: true })
+
 	const handleClickBuy = () => {
 		if (!auth) {
+			navigate('/register')
 			message.warning(
 				'Kitap satıp alıw ushın, dáslep, akkauntıńızǵa kiriwińiz kerek boladı',
 				3
@@ -65,7 +66,6 @@ const Book: React.FC = () => {
 		const res = await $host.get(`/all-books/${slug}`)
 		return res.data.data
 	}
-
 
 	return (
 		<div className={styles.book}>
@@ -84,7 +84,9 @@ const Book: React.FC = () => {
 						<span key={item.slug}>{item.name}</span>
 					))}
 				</div>
-				<h2>{data?.price} sum</h2>
+				<h2>
+					{data?.price.toLocaleString('ru-RU', { useGrouping: true })} som
+				</h2>
 				<div className={styles.btns}>
 					<StyledButton
 						border='1px solid #2D71AE'

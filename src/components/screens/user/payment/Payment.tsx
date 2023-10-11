@@ -51,7 +51,8 @@ const Payment: React.FC = () => {
 									<p>{item.author?.[0]?.name}</p>
 								</div>
 								<h2>
-									{item.price} som
+									{item?.price.toLocaleString('ru-RU', { useGrouping: true })}{' '}
+									som
 									<Popconfirm
 										onConfirm={() => handleClickRemove(item.slug)}
 										title='Kitapti oshirip taslaymizba?'

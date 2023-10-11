@@ -1,46 +1,53 @@
-import { Rate, message } from 'antd'
 import React, { useEffect, useState } from 'react'
+import { message } from 'antd'
 import feedback from 'src/assets/images/feedback.png'
 import styles from './HomeFeedback.module.scss'
 import { UiButton } from 'src/components/ui'
 import { $host } from 'src/config/axios'
 import { TFeedback } from 'src/types/Types'
+import { UiRate } from 'src/components/ui'
 
 const HomeFeedback: React.FC = () => {
-	const [name, setName] = useState('')
-	const [description, setDescription] = useState('')
-	const [rating, setRating] = useState(5)
-	const [data, setData] = useState<TFeedback>()
+	const [formData, setFormData] = useState<TFeedback>({
+		name: '',
+		description: '',
+		rating: 5,
+	})
+	const { name, description, rating } = formData
+
+	const handleClickBtn = async () => {
+		try {
+			await $host.post('/supports', formData)
+			setFormData({ name: '', description: '', rating: 5 })
+			message.success('Pikirińiz ushın raxmet')
+		} catch (error) {
+			message.error('Maǵlıwmatlardı júklewde qátelik júz berdi')
+		}
+	}
 
 	useEffect(() => {
-		setData({ name, description, rating })
-	}, [name, description, rating])
-
-	const handleClickBtn = () => {
-		$host
-			.post('/supports', data)
-			.then(() => {
-				setName('')
-				setDescription('')
-				setRating(5)
-			})
-			.then(() => message.success('Pikirińiz ushın raxmet'))
-	}
+		setFormData(prevState => ({ ...prevState, ...formData }))
+	}, [formData])
 
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.feedback}>
 				<h2>Pikir bildiriw</h2>
-				<Rate value={rating} onChange={e => setRating(e)} />
+				<UiRate
+					value={rating}
+					onChange={e => setFormData({ ...formData, rating: e })}
+				/>
 				<input
 					placeholder='Atıńız'
 					value={name}
-					onChange={e => setName(e.target.value)}
+					onChange={e => setFormData({ ...formData, name: e.target.value })}
 				/>
 				<textarea
 					placeholder='Pikiriniz'
 					value={description}
-					onChange={e => setDescription(e.target.value)}
+					onChange={e =>
+						setFormData({ ...formData, description: e.target.value })
+					}
 				/>
 				<UiButton onClick={handleClickBtn}>Jollaw</UiButton>
 			</div>

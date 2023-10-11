@@ -9,6 +9,7 @@
 	@media (max-width: 820px) {
 		padding: 40px 60px;
 	}
+
 	@media (max-width: 600px) {
 		padding: 20px;
 	}
@@ -22,33 +23,40 @@
 			flex-wrap: wrap;
 			gap: 30px;
 		}
+
 		img {
 			width: 360px;
 		}
+
 		.desc {
 			display: flex;
 			flex-direction: column;
 			row-gap: 30px;
+
 			h1 {
 				@include adaptiv-font(48, 36, 48);
 				font-weight: 600;
 				line-height: 130%;
 			}
+
 			h4 {
 				@include adaptiv-font(20, 16, 22);
 				font-weight: 400;
 				line-height: 130%;
 			}
+
 			p {
 				@include adaptiv-font(16, 12, 18);
 
 				font-weight: 400;
 				line-height: 150%;
 			}
+
 			div {
 				display: flex;
 				align-items: center;
 				gap: 8px;
+
 				span {
 					padding: 5px 12px;
 					background: rgba(101, 27, 147, 0.7);
@@ -61,6 +69,7 @@
 			}
 		}
 	}
+
 	.audio {
 		display: flex;
 		align-items: center;
@@ -86,21 +95,22 @@
 				line-height: 130%;
 				color: var(--typography-secondary);
 			}
-			ul {
+
+			.chapter_wrapper {
 				display: flex;
 				flex-direction: column;
 				row-gap: 32px;
-				li {
+
+				button {
+					background-color: transparent;
 					cursor: pointer;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
-					div:hover {
-						opacity: 0.5;
-					}
 				}
 			}
 		}
+
 		.player {
 			background-color: var(--brand-color-3);
 			padding: 30px 40px;
@@ -114,6 +124,7 @@
 			@media (max-width: 820px) {
 				padding: 20px;
 			}
+
 			@media (max-width: 600px) {
 				padding: 10px;
 			}
@@ -130,37 +141,44 @@
 					justify-content: center;
 					width: 100%;
 					gap: 36px;
+
 					img {
 						cursor: pointer;
 					}
+
 					svg {
 						color: var(--brand-color-1);
 						font-size: 60px;
 						cursor: pointer;
 					}
 				}
+
 				.times {
 					display: flex;
 					flex-direction: column;
 					width: 100%;
 					row-gap: 10px;
+
 					.time {
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
 						width: 100%;
+
 						div {
 							color: var(--brand-color-1);
 						}
 					}
 				}
 			}
+
 			.volume {
 				margin-left: 10%;
 
 				@media (max-width: 500px) {
 					margin-left: 0;
 				}
+
 				:nth-child(1) {
 					height: 70px;
 				}

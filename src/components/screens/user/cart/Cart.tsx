@@ -16,7 +16,7 @@ const Cart: React.FC = () => {
 
 	const handleRemove = (slug: string) => {
 		removeFromCart(slug)
-		message.error('Sebetten óshirildi')
+		message.success('Sebetten óshirildi')
 	}
 
 	const handleSelectAll = () => {
@@ -58,7 +58,10 @@ const Cart: React.FC = () => {
 									<p>{item.author?.[0].name}</p>
 								</div>
 								<div className={styles.price}>
-									<h2>{item.price} som</h2>
+									<h2>
+										{item.price.toLocaleString('ru-RU', { useGrouping: true })}{' '}
+										som
+									</h2>
 									<Popconfirm
 										onConfirm={() => handleRemove(item.slug)}
 										title='Kitaptı óshirmekshimisiz?'
