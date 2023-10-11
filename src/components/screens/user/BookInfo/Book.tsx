@@ -66,7 +66,6 @@ const Book: React.FC = () => {
 		return res.data.data
 	}
 
-	console.log(data)
 
 	return (
 		<div className={styles.book}>

@@ -158,3 +158,18 @@ export type THamburgerMenuProps = {
 	isOpen: boolean
 	setOpen: Dispatch<SetStateAction<boolean>>
 }
+
+export interface IAdminBookInfo {
+	audios: TAudio[]
+	author: TIdNameSlug[]
+	category: string
+	description: string
+	id: number
+	genre: TIdNameSlug[]
+	image: TBookImg[]
+	language: string
+	narrator: TIdNameSlug[]
+	price: number
+	slug: string
+	title: string
+}

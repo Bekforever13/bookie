@@ -127,7 +127,7 @@ const Books: React.FC = () => {
 							color='var(--brand-color-1)'
 							backgroundcolor='#fff'
 							border='1px solid var(--brand-color-1)'
-							onClick={() => navigate(`/admin/books/${rec.slug}`)}
+							onClick={() => navigate(`/admin/books/${rec.id}`)}
 						>
 							<BsEye />
 						</StyledButton>

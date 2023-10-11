@@ -1,0 +1,49 @@
+@import 'src/assets/styles/base/mixin';
+
+.AdminBookInfo {
+	background-color: #fff;
+	border-radius: 16px;
+	display: flex;
+	align-items: flex-start;
+	padding: 60px 30px;
+	gap: 20px;
+
+	.image {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+
+		img {
+			width: 250px;
+		}
+	}
+
+	.text {
+		width: 40vw;
+		display: flex;
+		flex-direction: column;
+		row-gap: 10px;
+
+		h5 {
+			@include adaptiv-font(16, 12, 16);
+			font-weight: 600;
+		}
+
+		p {
+			@include adaptiv-font(14, 12, 14);
+			font-weight: 400;
+		}
+
+		h5 {
+			@include adaptiv-font(14, 12, 14);
+			font-weight: 600;
+		}
+
+		div {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 12px;
+		}
+	}
+}
