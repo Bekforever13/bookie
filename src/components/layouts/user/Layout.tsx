@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import styles from './Layout.module.scss'
 import { Header } from './header/Header'
 import { Footer } from './footer/Footer'
@@ -8,13 +8,15 @@ import { authStore } from 'src/store/authStore'
 import Cookies from 'js-cookie'
 
 const Layout: React.FC = () => {
-	const { setRole } = authStore()
 	const token = Cookies.get('token')
+	const { pathname } = useLocation()
+	const { setRole } = authStore()
+
 	useEffect(() => {
 		if (token) {
 			setRole()
 		}
-	}, [])
+	}, [pathname])
 
 	return (
 		<div className={styles.layout}>

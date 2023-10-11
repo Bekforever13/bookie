@@ -22,7 +22,6 @@ const UiInput: React.FC<IProps> = ({
 				value={value}
 				type={type}
 				onChange={e => setValue(e.target.value)}
-				maxLength={type === 'tel' ? 13 : 20}
 				placeholder={placeholder}
 			/>
 			{icon}

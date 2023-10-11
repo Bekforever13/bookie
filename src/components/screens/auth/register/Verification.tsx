@@ -51,7 +51,7 @@ const Verification: React.FC<TRegisterProps> = ({ setIsVerification }) => {
 				setValue={setPhone}
 			/>
 			<UiInput
-				type='text'
+				type='number'
 				icon={<FaSms />}
 				value={code}
 				placeholder='SMS kod'

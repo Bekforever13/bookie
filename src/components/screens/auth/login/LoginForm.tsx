@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyledSubmitButton } from 'src/components/ui'
 import { authStore } from 'src/store/authStore'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,34 +6,35 @@ import { $host } from 'src/config/axios'
 import { useMutation } from 'react-query'
 import Cookies from 'js-cookie'
 import { MaskedInput } from 'antd-mask-input'
-import { Form, Input } from 'antd'
+import { Form, Input, message } from 'antd'
 import styles from './Login.module.scss'
 import { IFormValues, TLoginProps } from './Login.types'
+import { formatPhone } from 'src/services/services'
 
 const LoginForm: React.FC<TLoginProps> = ({ setIsForgotPassword }) => {
 	const [form] = Form.useForm()
 	const { setAuth, setRole } = authStore()
 	const navigate = useNavigate()
-	const onSuccess = () => setAuth(true)
-	const mutation = useMutation(signIn, { onSuccess })
+	const { mutate, isSuccess, isError } = useMutation(signIn)
 
 	const onSubmit = ({ phone, password }: IFormValues) => {
-		const formattedPhone = phone.substring(1).split(' ').join('')
-		mutation.mutateAsync(
-			{ password, phone: formattedPhone },
-			{
-				onSuccess: () => {
-					navigate('/')
-					setRole()
-				},
-			}
-		)
+		mutate({ password, phone: formatPhone(phone) })
 	}
 
 	async function signIn(data: IFormValues) {
 		const res = await $host.post('/login', data)
 		Cookies.set('token', res.data.token, { expires: 7 })
 	}
+
+	useEffect(() => {
+		if (isSuccess) {
+			setAuth(true)
+			navigate('/')
+			setRole()
+		}
+		if (isError) message.error('Akkaunt maǵlıwmatları qáte kiritildi')
+	}, [isSuccess, isError])
+
 	return (
 		<>
 			<h1>Kiriw</h1>
@@ -50,11 +51,7 @@ const LoginForm: React.FC<TLoginProps> = ({ setIsForgotPassword }) => {
 					name='phone'
 					rules={[{ required: true, message: 'Telefon nomerińizdi kiritiń' }]}
 				>
-					<MaskedInput
-						style={{ width: '305px !important' }}
-						inputMode='tel'
-						mask='+{998} 00 000 00 00'
-					/>
+					<MaskedInput inputMode='tel' mask='+{998} 00 000 00 00' />
 				</Form.Item>
 				<Form.Item
 					name='password'

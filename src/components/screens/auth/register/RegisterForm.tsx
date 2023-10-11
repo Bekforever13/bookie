@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react'
 import { ConfigProvider, Form, Input, message } from 'antd'
-import React from 'react'
 import { useMutation } from 'react-query'
 import { $host } from 'src/config/axios'
 import { IRegisterValues, TRegisterProps } from './Register.types'
@@ -8,27 +8,30 @@ import { StyledSubmitButton } from 'src/components/ui'
 import { Link } from 'react-router-dom'
 import styles from './Register.module.scss'
 import { authStore } from 'src/store/authStore'
+import { formatPhone } from 'src/services/services'
 
 const RegisterForm: React.FC<TRegisterProps> = ({ setIsVerification }) => {
 	const [form] = Form.useForm()
 	const { setPhone } = authStore()
-	const mutation = useMutation(signUp, {
+	const { mutate, isSuccess } = useMutation(signUp, {
 		onSuccess: () => setIsVerification(true),
+		onError: () => {
+			message.error('Sońıraq qaytadan urınıp kóriń')
+		},
 	})
 
 	async function signUp(data: IRegisterValues) {
-		await $host.post('/register', data).catch(err => message.error(err))
+		await $host.post('/register', data)
 	}
 
 	const onSubmit = ({ phone, password, name }: IRegisterValues) => {
-		const formattedPhone = phone.substring(1).split(' ').join('')
-		setPhone(formattedPhone)
-		mutation.mutateAsync({
-			password: password,
-			name: name,
-			phone: formattedPhone,
-		})
+		setPhone(phone)
+		mutate({ password, name, phone: formatPhone(phone) })
 	}
+
+	useEffect(() => {
+		if (isSuccess) setIsVerification(true)
+	}, [isSuccess])
 
 	return (
 		<ConfigProvider
