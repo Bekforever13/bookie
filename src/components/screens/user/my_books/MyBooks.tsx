@@ -21,6 +21,8 @@ const MyBooks: React.FC = () => {
 	const { data } = useQuery<IBookInfo[]>({
 		queryKey: ['my_books'],
 		queryFn: getMyBooks,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 
 	const handleClick = (slug: string) => {
@@ -69,6 +71,7 @@ const MyBooks: React.FC = () => {
 					{data?.map(item => (
 						<BookCard key={item.slug} {...item} />
 					))}
+					{data?.length === 0 && <h2>Sizde kitaplar joq</h2>}
 				</div>
 			)}
 			{active === 'listen' && (
@@ -97,6 +100,7 @@ const MyBooks: React.FC = () => {
 							</div>
 						</div>
 					))}
+					{data?.length === 0 && <h2>Sizde audiokitaplar joq</h2>}
 				</div>
 			)}
 		</div>

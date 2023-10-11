@@ -8,6 +8,10 @@
 	padding: 30px;
 	z-index: 999;
 
+	img {
+		cursor: pointer;
+	}
+
 	.wrapper {
 		display: flex;
 		flex-direction: column;
@@ -37,5 +41,5 @@
 		}
 	}
 
-	
+
 }

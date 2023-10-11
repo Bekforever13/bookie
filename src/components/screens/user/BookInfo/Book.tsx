@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { IBookInfo } from 'src/types/Types'
 import prince from 'src/assets/images/prince.png'
 import { StyledButton } from 'src/components/ui'
@@ -15,6 +15,7 @@ import { message } from 'antd'
 const Book: React.FC = () => {
 	const { slug } = useParams()
 	const navigate = useNavigate()
+	const { pathname } = useLocation()
 	const { auth } = authStore()
 	const {
 		favorites,
@@ -25,8 +26,10 @@ const Book: React.FC = () => {
 		addBooksToBuy,
 	} = userStore()
 	const { data } = useQuery<IBookInfo>({
-		queryKey: ['book_info'],
+		queryKey: ['book_info', pathname],
 		queryFn: getBookInfo,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 	const isFav = favorites.some(item => item.slug === data?.slug)
 	const isCart = cart.some(item => item.slug === data?.slug)

@@ -23,8 +23,8 @@ const HeaderHamburgerMenu: React.FC<THamburgerMenuProps> = ({
 	const { data } = useQuery<TIdNameSlug[]>({
 		queryKey: ['categories'],
 		queryFn: getCategories,
-		staleTime: Infinity,
-		cacheTime: Infinity,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 	async function getCategories() {
 		const res = await $host.get('/category')
@@ -72,18 +72,16 @@ const HeaderHamburgerMenu: React.FC<THamburgerMenuProps> = ({
 				</div>
 			))}
 			{auth ? (
-				authorizedMenuItems.map(item => {
-					return (
-						<div
-							className={styles.menuItem}
-							onClick={() => onClick(`/${item.pathname}`)}
-							key={item.label}
-						>
-							{item.icon}
-							{item.label}
-						</div>
-					)
-				})
+				authorizedMenuItems.map(item => (
+					<div
+						className={styles.menuItem}
+						onClick={() => onClick(`/${item.pathname}`)}
+						key={item.label}
+					>
+						{item.icon}
+						{item.label}
+					</div>
+				))
 			) : (
 				<div className={styles.guestMenu}>
 					<div

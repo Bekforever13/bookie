@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom'
 import styles from './Categories.module.scss'
-import search from 'src/assets/images/search.svg'
-import { Input } from 'antd'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
 import { TIdNameSlug } from 'src/types/Types'
+import { CategoriesSearch } from './CategoriesSearch'
 
 const Categories: React.FC = () => {
 	const { data } = useQuery<TIdNameSlug[]>({
 		queryKey: ['categories'],
 		queryFn: getCategories,
-		staleTime: Infinity,
-		cacheTime: Infinity,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 	async function getCategories() {
 		const res = await $host.get('/category')
@@ -25,13 +24,7 @@ const Categories: React.FC = () => {
 					{item.name}
 				</Link>
 			))}
-			<div>
-				<Input
-					className={styles.search}
-					prefix={<img src={search} alt='search' />}
-					placeholder='Kitaptı izleń'
-				/>
-			</div>
+			<CategoriesSearch />
 		</div>
 	)
 }

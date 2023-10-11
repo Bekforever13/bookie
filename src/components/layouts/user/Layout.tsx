@@ -5,10 +5,16 @@ import { Header } from './header/Header'
 import { Footer } from './footer/Footer'
 import { Categories } from './categories/Categories'
 import { authStore } from 'src/store/authStore'
+import Cookies from 'js-cookie'
 
 const Layout: React.FC = () => {
 	const { setRole } = authStore()
-	useEffect(() => setRole(), [])
+	const token = Cookies.get('token')
+	useEffect(() => {
+		if (token) {
+			setRole()
+		}
+	}, [])
 
 	return (
 		<div className={styles.layout}>

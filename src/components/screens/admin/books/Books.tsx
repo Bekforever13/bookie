@@ -7,7 +7,7 @@ import { useQuery, useQueryClient } from 'react-query'
 import { IBookInfo, FormData } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
 import { ModalWindow } from 'src/components/shared'
-import { Popconfirm, Space, Table } from 'antd'
+import { Popconfirm, Space, Table, message } from 'antd'
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
 import { bookStore } from 'src/store/admin/booksStore'
 import { useNavigate } from 'react-router-dom'
@@ -34,6 +34,8 @@ const Books: React.FC = () => {
 	const { data } = useQuery<IBookInfo[]>({
 		queryKey: ['admin-books', activeCategory, isModalOpen],
 		queryFn: getBooks,
+		staleTime: 5 * 60 * 1000, 
+		cacheTime: 60 * 60 * 1000, 
 	})
 	async function getBooks() {
 		const res = await $host.get(
@@ -47,6 +49,7 @@ const Books: React.FC = () => {
 	const handleDelete = async (id: number) => {
 		await $host.delete(`/books/${id}`)
 		queryClient.refetchQueries('admin-books')
+		message.error('Deleted!')
 	}
 
 	const columns = [

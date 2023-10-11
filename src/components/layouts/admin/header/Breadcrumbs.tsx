@@ -1,9 +1,10 @@
 import { Breadcrumb } from 'antd'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { HomeOutlined } from '@ant-design/icons'
 
 const Breadcrumbs: React.FC = () => {
 	const { pathname } = useLocation()
+	const navigate = useNavigate()
 	const pathnames = pathname.split('/').filter(item => item)
 	const capatilize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
@@ -12,9 +13,12 @@ const Breadcrumbs: React.FC = () => {
 		const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
 		const isLast = index === pathnames.length - 1
 		return {
-			title: capatilize(name), // Заголовок элемента
-			path: isLast ? undefined : routeTo, // Путь к элементу, если он не последний
-			icon: index === 0 ? <HomeOutlined /> : null, // Иконка для первого элемента
+			title: capatilize(name),
+			path: isLast ? undefined : routeTo,
+			icon: index === 0 ? <HomeOutlined /> : null,
+			onClick: () => {
+				navigate(routeTo)
+			},
 		}
 	})
 

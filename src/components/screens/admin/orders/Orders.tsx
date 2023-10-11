@@ -14,6 +14,8 @@ const Orders: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['admin-orders'],
 		queryFn: getOrders,
+		staleTime: 5 * 60 * 1000, 
+		cacheTime: 60 * 60 * 1000, 
 	})
 	async function getOrders() {
 		const res = await $host.get('/orders')

@@ -9,6 +9,7 @@ interface authState {
 	password: string
 	name: string
 	email: string
+	code: string
 	setAuth: (payload: boolean) => void
 	setRole: () => void
 	clearRole: () => void
@@ -16,6 +17,7 @@ interface authState {
 	setPassword: (payload: string) => void
 	setName: (payload: string) => void
 	setEmail: (payload: string) => void
+	setCode: (payload: string) => void
 }
 
 export const authStore = create<authState>(set => {
@@ -37,7 +39,9 @@ export const authStore = create<authState>(set => {
 		password: '',
 		name: '',
 		email: '',
+		code: '',
 		setAuth: payload => set({ auth: payload }),
+		setCode: payload => set({ code: payload }),
 		setPhone: payload => set({ phone: payload }),
 		setPassword: payload => set({ password: payload }),
 		setName: payload => set({ name: payload }),

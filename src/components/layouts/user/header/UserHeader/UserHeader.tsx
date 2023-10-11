@@ -5,7 +5,7 @@ import { authStore } from 'src/store/authStore'
 import Cookies from 'js-cookie'
 
 const UserHeader: React.FC = () => {
-	const { setAuth, clearRole } = authStore()
+	const { setAuth, clearRole, role } = authStore()
 
 	const handleClickExit = () => {
 		Cookies.remove('token')
@@ -15,6 +15,7 @@ const UserHeader: React.FC = () => {
 
 	return (
 		<div className={styles.actions}>
+			{role.includes('admin') && <Link to='/admin'>Admin Panel</Link>}
 			<Link to='/favorites'>Saylandilar</Link>
 			<Link to='/cart'>Sebet</Link>
 			<Link to='/my_books'>Kitaplarim</Link>

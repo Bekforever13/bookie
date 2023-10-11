@@ -65,6 +65,7 @@
 			display: flex;
 			align-items: center;
 			gap: 16px;
+			white-space: nowrap;
 
 			input {
 				border: 1px solid var(--typography-secondary);

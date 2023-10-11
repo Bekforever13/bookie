@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Modal, Select } from 'antd'
+import { Modal, Select, message } from 'antd'
 import styles from './BooksModal.module.scss'
 import { adminStore } from 'src/store/admin/adminStore'
 import { $host } from 'src/config/axios'
@@ -58,6 +58,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 				setSelectedCategory('')
 				setSelectedGenres([])
 				setSelectedNarrator('')
+				message.success('Successfully!')
 			})
 			.catch(error => console.log(error))
 

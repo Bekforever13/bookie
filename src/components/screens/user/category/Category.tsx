@@ -12,6 +12,8 @@ const Category: React.FC = () => {
 	const { data, isLoading } = useQuery<ICategoryInfo>({
 		queryKey: ['category', slug],
 		queryFn: geTIdNameSlugBooks,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 	async function geTIdNameSlugBooks() {
 		const res = await $host.get(`/category/${slug}`)

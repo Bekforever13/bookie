@@ -61,7 +61,7 @@ const Cart: React.FC = () => {
 									<h2>{item.price} som</h2>
 									<Popconfirm
 										onConfirm={() => handleRemove(item.slug)}
-										title='Delete the book?'
+										title='Kitaptı óshirmekshimisiz?'
 									>
 										<p>
 											<img src={trash} alt='trash' />
@@ -78,6 +78,7 @@ const Cart: React.FC = () => {
 							</div>
 						</div>
 					))}
+					{cart?.length === 0 && <h2>Hazirshe sebet bos</h2>}
 				</div>
 				<div className={styles.box}>
 					<p>

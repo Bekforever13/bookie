@@ -27,6 +27,8 @@ const Narrator: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['admin-narrators', currentPage],
 		queryFn: getBooks,
+		staleTime: 5 * 60 * 1000, 
+		cacheTime: 60 * 60 * 1000, 
 	})
 	async function getBooks() {
 		const res = await $host.get(`/narrators?page=${currentPage}`)

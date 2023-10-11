@@ -1,23 +1,53 @@
 @import 'src/assets/styles/base/mixin';
+
 .login {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	row-gap: 50px;
-	height: 70vh;
-	width: 100%;
+	padding: 160px 0;
+
+	&>* {
+		width: 305px;
+	}
+
+
 
 	h1 {
 		@include adaptiv-font(36, 22, 36);
 		font-weight: 600;
 		line-height: 100%;
+		text-align: center;
+		width: 100%;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
-		row-gap: 12px;
+
+		.actions {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			margin-bottom: 12px;
+
+
+			span {
+				white-space: nowrap;
+				cursor: pointer;
+				color: var(--typography-secondary);
+			}
+
+			p {
+				white-space: nowrap;
+				cursor: pointer;
+				color: var(--brand-color-1);
+			}
+
+
+		}
 
 		input {
 			width: 100%;
@@ -26,14 +56,30 @@
 			border: 1px solid var(--brand-color-1);
 			background: var(--typography-light);
 		}
+
+		.getsms {
+			transform: translate(230px, -60px);
+			white-space: nowrap;
+			cursor: pointer;
+			color: var(--brand-color-1);
+
+			&:hover {
+				text-decoration: underline
+			}
+		}
+
 	}
 
 	.reg {
-		@include adaptiv-font(16, 12, 18);
+		@include adaptiv-font(16, 14, 16);
 		font-weight: 600;
 		line-height: 130%;
 		color: var(--brand-color-1);
+		text-align: center;
 	}
+
+
+
 
 	button {
 		width: 100%;

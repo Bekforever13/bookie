@@ -1,4 +1,4 @@
-import { Rate } from 'antd'
+import { Rate, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import feedback from 'src/assets/images/feedback.png'
 import styles from './HomeFeedback.module.scss'
@@ -17,11 +17,14 @@ const HomeFeedback: React.FC = () => {
 	}, [name, description, rating])
 
 	const handleClickBtn = () => {
-		$host.post('/supports', data).then(() => {
-			setName('')
-			setDescription('')
-			setRating(5)
-		})
+		$host
+			.post('/supports', data)
+			.then(() => {
+				setName('')
+				setDescription('')
+				setRating(5)
+			})
+			.then(() => message.success('Pikirińiz ushın raxmet'))
 	}
 
 	return (

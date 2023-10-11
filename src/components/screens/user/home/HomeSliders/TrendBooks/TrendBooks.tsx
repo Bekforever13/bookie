@@ -27,6 +27,8 @@ const TrendBooks: React.FC = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ['TrendBooks'],
 		queryFn: getTrendAddedBooks,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 
 	return (

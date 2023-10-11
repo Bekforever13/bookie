@@ -21,6 +21,8 @@ const RecentlyAddedBooks: React.FC = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ['recentlyAdded'],
 		queryFn: getRecentlyAddedBooks,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 
 	return (

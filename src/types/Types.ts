@@ -6,6 +6,13 @@ export interface ModalWindowProps extends ModalProps {
 	route?: string
 }
 
+export type TNewAudioData = {
+	book_id: string
+	title: string
+	file: File | null
+	is_free: number
+}
+
 export type ModalWindowState = {
 	label: string
 	value: string | number

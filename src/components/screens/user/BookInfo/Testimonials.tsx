@@ -12,6 +12,8 @@ const Testimonials: React.FC = () => {
 	const { data } = useQuery<IBookInfo>({
 		queryKey: ['book-info'],
 		queryFn: getBookInfo,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
 
 	async function getBookInfo() {
