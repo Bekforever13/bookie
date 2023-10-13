@@ -14,7 +14,7 @@ const HomeHead: React.FC = () => {
 	return (
 		<div className={styles.head}>
 			<div className={styles.text}>
-				<h1>«Bookie» — audiokitaplar platformasına xosh keldiń, oqıwshı!</h1>
+				<h1>«Bookie» — audiokitaplar platformasına xosh keldińiz!</h1>
 				<p>
 					Bul platformada qaraqalpaq tilinde basıp shıǵarılǵan jáhán, ózbek hám
 					qaraqalpaq ádebiyatınıń dúrdana shıǵarmaları jáne qaraqalpaq awızeki

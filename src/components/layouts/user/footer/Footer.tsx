@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
 					</a>
 				</div>
 				<div className={styles.social}>
-					<h2>Social tarmaqlar</h2>
+					<h2>Sociallıq tarmaqlar</h2>
 					<div className={styles.logos}>
 						<img
 							onClick={handleClickInstagram}
