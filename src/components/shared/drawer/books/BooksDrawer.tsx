@@ -11,25 +11,91 @@ import {
 	Space,
 	message,
 } from 'antd'
-import { IDrawerBooks, IDrawerFormData } from 'src/types/Types'
+import { IDrawerBooks, IDrawerFormData, TIdNameSlug } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
 import { $host } from 'src/config/axios'
-import { useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { bookStore } from 'src/store/admin/booksStore'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import styles from './BooksDrawer.module.scss'
 
 const { Option } = Select
 
 const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
-	const { authors, categories, genres, narrators } = adminStore()
+	const { categories, genres } = adminStore()
 	const { isEditingBook, bookToEdit } = bookStore()
 	const queryClient = useQueryClient()
 	const formRef = useRef<FormInstance>(null)
-	// const [formData, setFormData] = useState<IDrawerFormData>()
+	const [author, setAuthor] = useState('')
+	const [narrator, setNarrator] = useState('')
+	// const [genre, setGenre] = useState('')
+
+	const { data: authors } = useQuery<TIdNameSlug[]>({
+		queryKey: ['authors', author],
+		queryFn: getAuthors,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
+	})
+	async function getAuthors() {
+		const res = await $host.get(`/authors?search=${author}`)
+		return res.data.data
+	}
+	const { data: narrators } = useQuery<TIdNameSlug[]>({
+		queryKey: ['narrators', narrator],
+		queryFn: getNarrators,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
+	})
+	async function getNarrators() {
+		const res = await $host.get(`/narrators?search=${narrator}`)
+		return res.data.data
+	}
+	// const { data: genres } = useQuery<TIdNameSlug[]>({
+	// 	queryKey: ['genres', genre],
+	// 	queryFn: getGenres,
+	// 	staleTime: 5 * 60 * 1000,
+	// 	cacheTime: 60 * 60 * 1000,
+	// })
+	// async function getGenres() {
+	// 	const res = await $host.get(`/genres?search=${genre}`)
+	// 	return res.data.data
+	// }
 
 	const onClose = () => {
 		setModalIsOpen(false)
 	}
+
+	const handleChangeAuthor = (e: string) => {
+		setAuthor(e)
+	}
+
+	const handleClickAuthor = (item: TIdNameSlug) => {
+		formRef.current?.setFieldsValue({
+			author_id: item.id,
+		})
+		setAuthor(item.name)
+	}
+
+	const handleChangeNarrator = (e: string) => {
+		setNarrator(e)
+	}
+
+	const handleClickNarrator = (item: TIdNameSlug) => {
+		formRef.current?.setFieldsValue({
+			narrator_id: item.id,
+		})
+		setNarrator(item.name)
+	}
+	// const handleChangeGenre = (e: string) => {
+	// 	setGenre(e)
+	// }
+
+	// const handleClickGenre = (item: TIdNameSlug) => {
+	// 	formRef.current?.setFieldsValue({
+	// 		genre_id: item.id,
+	// 	})
+	// 	setGenre(item.name)
+	// }
 
 	const onSubmit = (values: IDrawerFormData) => {
 		const request = isEditingBook
@@ -46,6 +112,10 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 		queryClient.invalidateQueries('admin-books')
 		setModalIsOpen(false)
 	}
+
+	// const handleSearchGenre = (value: string) => {
+	// 	setGenre(value)
+	// }
 
 	return (
 		<Drawer
@@ -119,13 +189,22 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							label='Avtor'
 							rules={[{ required: true, message: 'Please choose the author' }]}
 						>
-							<Select placeholder='Please choose the author'>
-								{authors.map(item => (
-									<Option key={item.id} value={item.id}>
+							<Input
+								value={author}
+								onChange={e => handleChangeAuthor(e.target.value)}
+								placeholder='Please enter author'
+							/>
+							<ul className={author ? styles.authors : styles.hidden}>
+								{authors?.map(item => (
+									<li
+										className={author === item.name ? styles.hidden : ''}
+										onClick={() => handleClickAuthor(item)}
+										key={item.id}
+									>
 										{item.name}
-									</Option>
+									</li>
 								))}
-							</Select>
+							</ul>
 						</Form.Item>
 					</Col>
 					<Col span={12}>
@@ -136,13 +215,22 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 								{ required: true, message: 'Please choose the narrator' },
 							]}
 						>
-							<Select placeholder='Please choose the narrator'>
-								{narrators.map(item => (
-									<Option key={item.id} value={item.id}>
+							<Input
+								value={narrator}
+								onChange={e => handleChangeNarrator(e.target.value)}
+								placeholder='Please enter narrator'
+							/>
+							<ul className={narrator ? styles.narrator : styles.hidden}>
+								{narrators?.map(item => (
+									<li
+										className={narrator === item.name ? styles.hidden : ''}
+										onClick={() => handleClickNarrator(item)}
+										key={item.id}
+									>
 										{item.name}
-									</Option>
+									</li>
 								))}
-							</Select>
+							</ul>
 						</Form.Item>
 					</Col>
 				</Row>
@@ -158,8 +246,29 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 								},
 							]}
 						>
-							<Select mode='multiple' placeholder='Please choose the genre'>
-								{genres.map(item => (
+							{/* <Input
+								value={genre}
+								onChange={e => handleChangeGenre(e.target.value)}
+								placeholder='Please enter genre'
+							/>
+							<ul className={genre ? styles.genre : styles.hidden}>
+								{genres?.map(item => (
+									<li
+										className={genre === item.name ? styles.hidden : ''}
+										onClick={() => handleClickGenre(item)}
+										key={item.id}
+									>
+										{item.name}
+									</li>
+								))}
+							</ul> */}
+							<Select
+								// key={genre}
+								// onSearch={handleSearchGenre}
+								mode='multiple'
+								placeholder='Please choose the genre'
+							>
+								{genres?.map(item => (
 									<Option key={item.id} value={item.id}>
 										{item.name}
 									</Option>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyledButton } from 'src/components/ui'
 import { userStore } from 'src/store/userStore'
-import { Popconfirm } from 'antd'
+import { Popconfirm, message } from 'antd'
 import styles from './Payment.module.scss'
 import click from 'src/assets/images/Click.svg'
 import payme from 'src/assets/images/Payme.svg'
@@ -10,35 +10,46 @@ import arrow from 'src/assets/images/Chevron.svg'
 import trash from 'src/assets/images/trash0.svg'
 import prince from 'src/assets/images/prince.png'
 import { formatPrice } from 'src/services/services'
-// import { $host } from 'src/config/axios'
+import { $host } from 'src/config/axios'
 
 const Payment: React.FC = () => {
 	const [totalSum, setTotalSum] = useState(0)
 	const [selectedPayment, setSelectedPayment] = useState('')
 	const { booksToBuy, removeFromBooksToBuy } = userStore()
-	// const [data, setData] = useState<{ books: number[]; payment_id: number }>({
-	// 	books: [1],
-	// 	payment_id: 2,
-	// })
+	const [books, setBooks] = useState<number[]>([])
+	const [paymentId, setPaymentId] = useState<number | undefined>()
 
 	const handlePaymentClick = () => {
 		setSelectedPayment('click')
+		setPaymentId(1)
 	}
 
 	const handlePaymentPayme = () => {
 		setSelectedPayment('payme')
-		// $host.post('/orders', data).then(res => console.log(res))
+		setPaymentId(2)
 	}
 
 	const handlePaymentUzum = () => {
 		setSelectedPayment('uzum')
+		setPaymentId(3)
 	}
 
 	const handleClickRemove = (slug: string) => removeFromBooksToBuy(slug)
 
+	const handleClickBuy = () => {
+		$host
+			.post('/orders', { books: books, payment_id: paymentId })
+			.then(() => message.success('Buyırtpańız qabıl etildi'))
+	}
+
 	useEffect(() => {
+		booksToBuy.map(item => {
+			if (item.id !== undefined) {
+				setBooks(prev => [...prev, item.id])
+			}
+		})
 		setTotalSum(booksToBuy.reduce((acc, b) => acc + b.price, 0))
-	}, [booksToBuy])
+	}, [])
 
 	return (
 		<div className={styles.payment}>
@@ -111,6 +122,7 @@ const Payment: React.FC = () => {
 						<StyledButton
 							color='var(--typography-light)'
 							backgroundcolor='var(--brand-color-5)'
+							onClick={handleClickBuy}
 						>
 							Tólew <img src={arrow} alt='arrow' />
 						</StyledButton>

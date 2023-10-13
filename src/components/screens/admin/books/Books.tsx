@@ -11,7 +11,7 @@ import { Popconfirm, Space, Table, message } from 'antd'
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
 import { bookStore } from 'src/store/admin/booksStore'
 import { useNavigate } from 'react-router-dom'
-import { BooksDrawer } from 'src/components/shared/modal/books/BooksDrawer'
+import { BooksDrawer } from 'src/components/shared/drawer/books/BooksDrawer'
 
 const Books: React.FC = () => {
 	const navigate = useNavigate()
@@ -33,8 +33,6 @@ const Books: React.FC = () => {
 	const { data } = useQuery<TFormData[]>({
 		queryKey: ['admin-books', activeCategory, isModalOpen, currentPage],
 		queryFn: getBooks,
-		staleTime: 5 * 60 * 1000,
-		cacheTime: 60 * 60 * 1000,
 	})
 
 	async function getBooks() {

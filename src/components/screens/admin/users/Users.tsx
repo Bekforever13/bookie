@@ -14,8 +14,6 @@ const Users: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['admin-users', currentPage],
 		queryFn: getUsers,
-		staleTime: 5 * 60 * 1000,
-		cacheTime: 60 * 60 * 1000,
 	})
 	async function getUsers() {
 		const res = await $host.get(`/users?page=${currentPage}`)

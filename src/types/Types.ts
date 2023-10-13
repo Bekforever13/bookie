@@ -23,8 +23,8 @@ export type ModalWindowState = {
 
 export interface IOrder {
 	id: number
-	status_id: number
-	user_id: number
+	status: number
+	user: number
 	amount: number
 	is_paid: boolean
 	books: {
@@ -121,7 +121,7 @@ export interface IBookItem {
 	price: number
 	slug: string
 	reviews?: TReview[]
-	id?: number
+	id: number
 	category: TIdNameSlug[]
 }
 

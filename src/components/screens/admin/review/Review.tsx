@@ -19,8 +19,6 @@ const Review: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['admin-reviews', currentPage],
 		queryFn: getReviews,
-		staleTime: 5 * 60 * 1000, 
-		cacheTime: 60 * 60 * 1000, 
 	})
 	async function getReviews() {
 		const res = await $host.get(`/reviews?page=${currentPage}`)

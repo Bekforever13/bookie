@@ -28,8 +28,6 @@ const Author: React.FC = () => {
 	const { data } = useQuery<any[]>({
 		queryKey: ['admin-authors', currentPage],
 		queryFn: getBooks,
-		staleTime: 5 * 60 * 1000, 
-		cacheTime: 60 * 60 * 1000, 
 	})
 	async function getBooks() {
 		const res = await $host.get(`/authors?page=${currentPage}`)

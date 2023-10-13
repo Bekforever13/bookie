@@ -1,0 +1,16 @@
+.authors,
+.narrator,
+.genre {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+
+	li {
+		cursor: pointer;
+	}
+
+}
+
+.hidden {
+	display: none;
+}
