@@ -1,11 +1,14 @@
 import { Dispatch, SetStateAction } from 'react'
-import { ModalProps } from 'antd'
+import { ModalProps, DrawerProps } from 'antd'
 
 export interface ModalWindowProps extends ModalProps {
-	setIsModalOpen: (el: boolean) => void
+	setModalIsOpen: (el: boolean) => void
 	route?: string
 }
 
+export interface IDrawerBooks extends DrawerProps {
+	setModalIsOpen: (el: boolean) => void
+}
 export type TNewAudioData = {
 	book_id: string
 	title: string
@@ -109,6 +112,7 @@ type TBookImg = {
 export interface IBookItem {
 	audios: TAudio[]
 	author?: TIdNameSlug[]
+	quantity?: number
 	title: string
 	description: string
 	image: TBookImg[]
@@ -172,4 +176,15 @@ export interface IAdminBookInfo {
 	price: number
 	slug: string
 	title: string
+}
+
+export interface IDrawerFormData {
+	title: string
+	description: string
+	price: number
+	language: string
+	author_id: number
+	narrator_id: number
+	category_id: number
+	genre_id: number[]
 }

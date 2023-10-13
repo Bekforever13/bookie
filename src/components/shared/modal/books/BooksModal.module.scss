@@ -1,5 +1,7 @@
 .modal {
+
 	label {
+		background-color: var(--brand-color-3) !important;
 		display: flex;
 		align-items: center;
 		gap: 12px;
@@ -8,9 +10,10 @@
 		padding: 10px 20px;
 		font-size: 18px;
 		white-space: nowrap;
+
 		input {
-			border-bottom: 1px solid #acacac;
-			width: 100%;
+			background-color: #fff;
+			border-radius: 16px;
 		}
 	}
 }

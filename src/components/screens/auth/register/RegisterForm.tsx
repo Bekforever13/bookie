@@ -1,37 +1,38 @@
-import React, { useEffect } from 'react'
-import { ConfigProvider, Form, Input, message } from 'antd'
+import React from 'react'
+import { ConfigProvider, Form, Input } from 'antd'
 import { useMutation } from 'react-query'
 import { $host } from 'src/config/axios'
-import { IRegisterValues, TRegisterProps } from './Register.types'
+import { IRegisterValues } from './Register.types'
 import { MaskedInput } from 'antd-mask-input'
 import { StyledSubmitButton } from 'src/components/ui'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Register.module.scss'
 import { authStore } from 'src/store/authStore'
 import { formatPhone } from 'src/services/services'
+import Cookies from 'js-cookie'
 
-const RegisterForm: React.FC<TRegisterProps> = ({ setIsVerification }) => {
+const RegisterForm: React.FC = () => {
 	const [form] = Form.useForm()
-	const { setPhone } = authStore()
-	const { mutate, isSuccess } = useMutation(signUp, {
-		onSuccess: () => setIsVerification(true),
-		onError: () => {
-			message.error('Sońıraq qaytadan urınıp kóriń')
+	const navigate = useNavigate()
+	const { setPhone, setAuth } = authStore()
+	const { mutate } = useMutation(signUp, {
+		onSuccess: () => {
+			navigate('/')
+			setAuth(true)
 		},
 	})
 
 	async function signUp(data: IRegisterValues) {
-		await $host.post('/register', data)
+		const res = await $host.post('/register', data)
+		console.log(res.data.token)
+		Cookies.set('token', res.data.token, { expires: 7 })
+		return res.data.token
 	}
 
 	const onSubmit = ({ phone, password, name }: IRegisterValues) => {
 		setPhone(phone)
 		mutate({ password, name, phone: formatPhone(phone) })
 	}
-
-	useEffect(() => {
-		if (isSuccess) setIsVerification(true)
-	}, [isSuccess])
 
 	return (
 		<ConfigProvider

@@ -4,17 +4,18 @@ import styles from './BookCard.module.scss'
 import prince from 'src/assets/images/prince.png'
 import heart0 from 'src/assets/images/heart0.svg'
 import heart1 from 'src/assets/images/heart1.svg'
-import wave0 from 'src/assets/images/AudioWave.svg'
+import views from 'src/assets/images/views.svg'
 import { StyledButton } from 'src/components/ui'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { userStore } from 'src/store/userStore'
 import play from 'src/assets/images/play.svg'
+import { formatPrice } from 'src/services/services'
 
 const BookCard: React.FC<IBookItem> = props => {
 	const { categoryId } = useParams()
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
-	const { price, slug, title, author, image } = props
+	const { price, slug, title, author, image, quantity } = props
 	const { addToFavorite, favorites, removeFromFavorite } = userStore()
 	const isFav = favorites.some(item => item.slug === slug)
 
@@ -69,12 +70,10 @@ const BookCard: React.FC<IBookItem> = props => {
 							<img className={styles.play} src={play} alt='play icon' />
 						</Link>
 					)}
-					{priceFilter && (
-						<h4>{price.toLocaleString('ru-RU', { useGrouping: true })} som</h4>
-					)}
+					{priceFilter && <h4>{formatPrice(price)} som</h4>}
 					<div>
-						<img src={wave0} alt='wave' />
-						<span>123</span>
+						<img src={views} alt='wave' />
+						<span>{quantity}</span>
 					</div>
 					{buttonFilter && (
 						<StyledButton

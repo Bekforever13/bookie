@@ -168,7 +168,7 @@ const Narrator: React.FC = () => {
 					Add narrator
 				</StyledButton>
 				<NameChangeModal
-					setIsModalOpen={setIsModalOpen}
+					setModalIsOpen={setIsModalOpen}
 					title='Narrator qosıw'
 					open={isModalOpen}
 					route='narrators'

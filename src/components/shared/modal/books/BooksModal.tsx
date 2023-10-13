@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Modal, Select, message } from 'antd'
+import { ConfigProvider, Modal, Select, message } from 'antd'
 import styles from './BooksModal.module.scss'
 import { adminStore } from 'src/store/admin/adminStore'
 import { $host } from 'src/config/axios'
@@ -10,7 +10,7 @@ import { bookStore } from 'src/store/admin/booksStore'
 import { ModalWindowProps, ModalWindowState } from 'src/types/Types'
 
 const ModalWindow: React.FC<ModalWindowProps> = ({
-	setIsModalOpen,
+	setModalIsOpen,
 	...props
 }) => {
 	const queryClient = useQueryClient()
@@ -38,7 +38,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 	} = useForm<FormData>()
 
 	const handleCancel = () => {
-		setIsModalOpen(false)
+		setModalIsOpen(false)
 		reset()
 		setSelectedAuthor('')
 		setSelectedCategory('')
@@ -63,7 +63,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 			.catch(error => console.log(error))
 
 		queryClient.invalidateQueries('admin-books')
-		setIsModalOpen(false)
+		setModalIsOpen(false)
 		reset()
 	})
 
@@ -126,109 +126,118 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 	}, [authors, categories, genres, narrators, bookToEdit])
 
 	return (
-		<Modal
-			onCancel={handleCancel}
-			onOk={onSubmit}
-			className={styles.modal}
-			{...props}
+		<ConfigProvider
+			theme={{
+				token: {
+					colorBgBase: '#d7e7f8',
+				},
+			}}
 		>
-			<form onSubmit={onSubmit}>
-				<label>
-					Kitap atı:
-					<input
-						type='text'
-						{...register('title', { required: true })}
-						defaultValue={isEditingBook ? formData?.title : ''}
-					/>
-					{errors.title && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Kitap haqqında maǵlıwmat:
-					<input
-						type='text'
-						{...register('description', { required: true })}
-						defaultValue={isEditingBook ? formData?.description : ''}
-					/>
-					{errors.description && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Baha:
-					<input
-						type='number'
-						{...register('price', { required: true })}
-						defaultValue={isEditingBook ? formData?.price : ''}
-					/>
-					{errors.price && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Til:
-					<input
-						type='text'
-						{...register('language', { required: true })}
-						defaultValue={isEditingBook ? formData?.language : ''}
-					/>
-					{errors.language && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Author:
-					<Select
-						style={{ width: '100%' }}
-						placeholder='Select author'
-						onChange={value => {
-							handleChange(value, 'author')
-							setSelectedAuthor(value)
-						}}
-						options={authorOptions}
-						value={selectedAuthor}
-					/>
-					{errors.author && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Gúrriń etiwshi:
-					<Select
-						style={{ width: '100%' }}
-						placeholder='Select narrator'
-						onChange={value => {
-							handleChange(value, 'narrator')
-							setSelectedNarrator(value)
-						}}
-						options={narratorsOptions}
-						value={selectedNarrator}
-					/>
-					{errors.narrator && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Kategoriya:
-					<Select
-						style={{ width: '100%' }}
-						placeholder='Select category'
-						onChange={value => {
-							handleChange(value, 'category')
-							setSelectedCategory(value)
-						}}
-						options={categoriesOptions}
-						value={selectedCategory}
-					/>
-					{errors.category && <span style={{ color: 'red' }}>*</span>}
-				</label>
-				<label>
-					Janr:
-					<Select
-						mode='multiple'
-						allowClear
-						style={{ width: '100%' }}
-						placeholder='Select genre'
-						onChange={value => {
-							handleChange(value, 'genre')
-							setSelectedGenres(value)
-						}}
-						options={genresOptions}
-						value={selectedGenres}
-					/>
-					{errors.genre && <span style={{ color: 'red' }}>*</span>}
-				</label>
-			</form>
-		</Modal>
+			<Modal
+				onCancel={handleCancel}
+				onOk={onSubmit}
+				style={{ background: 'var(--brand-color-3)' }}
+				className={styles.modal}
+				{...props}
+			>
+				<form onSubmit={onSubmit}>
+					<label>
+						Kitap atı:
+						<input
+							type='text'
+							{...register('title', { required: true })}
+							defaultValue={isEditingBook ? formData?.title : ''}
+						/>
+						{errors.title && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Kitap haqqında maǵlıwmat:
+						<input
+							type='text'
+							{...register('description', { required: true })}
+							defaultValue={isEditingBook ? formData?.description : ''}
+						/>
+						{errors.description && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Baha:
+						<input
+							type='number'
+							{...register('price', { required: true })}
+							defaultValue={isEditingBook ? formData?.price : ''}
+						/>
+						{errors.price && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Til:
+						<input
+							type='text'
+							{...register('language', { required: true })}
+							defaultValue={isEditingBook ? formData?.language : ''}
+						/>
+						{errors.language && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Author:
+						<Select
+							style={{ width: '100%' }}
+							placeholder='Select author'
+							onChange={value => {
+								handleChange(value, 'author')
+								setSelectedAuthor(value)
+							}}
+							options={authorOptions}
+							value={selectedAuthor}
+						/>
+						{errors.author && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Gúrriń etiwshi:
+						<Select
+							style={{ width: '100%' }}
+							placeholder='Select narrator'
+							onChange={value => {
+								handleChange(value, 'narrator')
+								setSelectedNarrator(value)
+							}}
+							options={narratorsOptions}
+							value={selectedNarrator}
+						/>
+						{errors.narrator && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Kategoriya:
+						<Select
+							style={{ width: '100%' }}
+							placeholder='Select category'
+							onChange={value => {
+								handleChange(value, 'category')
+								setSelectedCategory(value)
+							}}
+							options={categoriesOptions}
+							value={selectedCategory}
+						/>
+						{errors.category && <span style={{ color: 'red' }}>*</span>}
+					</label>
+					<label>
+						Janr:
+						<Select
+							mode='multiple'
+							allowClear
+							style={{ width: '100%' }}
+							placeholder='Select genre'
+							onChange={value => {
+								handleChange(value, 'genre')
+								setSelectedGenres(value)
+							}}
+							options={genresOptions}
+							value={selectedGenres}
+						/>
+						{errors.genre && <span style={{ color: 'red' }}>*</span>}
+					</label>
+				</form>
+			</Modal>
+		</ConfigProvider>
 	)
 }
 

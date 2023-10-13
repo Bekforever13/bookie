@@ -36,6 +36,11 @@
 			display: flex;
 			flex-direction: column;
 			row-gap: 30px;
+			padding-right: 70px;
+
+			@media (max-width: 850px) {
+				padding-right: 0;
+			}
 
 			h1 {
 				@include adaptiv-font(48, 36, 48);
@@ -79,6 +84,14 @@
 				display: flex;
 				align-items: center;
 				gap: 16px;
+
+				.headset {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 10px;
+					padding: 6px 14px;
+				}
 
 				img {
 					cursor: pointer;

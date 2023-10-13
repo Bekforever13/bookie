@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { StyledButton } from 'src/components/ui'
+import { userStore } from 'src/store/userStore'
+import { Popconfirm } from 'antd'
 import styles from './Payment.module.scss'
-import prince from 'src/assets/images/prince.png'
 import click from 'src/assets/images/Click.svg'
 import payme from 'src/assets/images/Payme.svg'
 import uzum from 'src/assets/images/Uzum.svg'
 import arrow from 'src/assets/images/Chevron.svg'
-import { StyledButton } from 'src/components/ui'
-import { userStore } from 'src/store/userStore'
 import trash from 'src/assets/images/trash0.svg'
-import { Popconfirm } from 'antd'
+import prince from 'src/assets/images/prince.png'
+import { formatPrice } from 'src/services/services'
 
 const Payment: React.FC = () => {
 	const [totalSum, setTotalSum] = useState(0)
@@ -26,9 +27,7 @@ const Payment: React.FC = () => {
 		// Обработка события для кнопки uzum
 	}
 
-	const handleClickRemove = (slug: string) => {
-		removeFromBooksToBuy(slug)
-	}
+	const handleClickRemove = (slug: string) => removeFromBooksToBuy(slug)
 
 	useEffect(() => {
 		setTotalSum(booksToBuy.reduce((acc, b) => acc + b.price, 0))
@@ -48,14 +47,15 @@ const Payment: React.FC = () => {
 							<div className={styles.text}>
 								<div className={styles.name}>
 									<h4>{item.title}</h4>
-									<p>{item.author?.[0]?.name}</p>
+									<p>{item.author?.[0]?.name ?? ''}</p>
 								</div>
 								<h2>
-									{item?.price.toLocaleString('ru-RU', { useGrouping: true })}{' '}
-									som
+									{formatPrice(item?.price)} som
 									<Popconfirm
 										onConfirm={() => handleClickRemove(item.slug)}
 										title='Kitapti oshirip taslaymizba?'
+										okText='Awa'
+										cancelText='Yaq'
 									>
 										<img src={trash} alt='trash' />
 									</Popconfirm>
@@ -74,15 +74,15 @@ const Payment: React.FC = () => {
 						Jámi <span>{totalSum} som</span>
 					</div>
 					<div className={styles.btns}>
-						<button onClick={handlePaymentClick}>
+						<button type='button' onClick={handlePaymentClick}>
 							<img src={click} alt='image' />
 						</button>
 
-						<button onClick={handlePaymentPayme}>
+						<button type='button' onClick={handlePaymentPayme}>
 							<img src={payme} alt='image' />
 						</button>
 
-						<button onClick={handlePaymentUzum}>
+						<button type='button' onClick={handlePaymentUzum}>
 							<img src={uzum} alt='image' />
 						</button>
 					</div>

@@ -3,5 +3,3 @@ export interface IRegisterValues {
 	name: string
 	password: string
 }
-
-export type TRegisterProps = { setIsVerification: (el: boolean) => void }

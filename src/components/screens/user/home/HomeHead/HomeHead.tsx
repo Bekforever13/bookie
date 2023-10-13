@@ -2,14 +2,15 @@ import React from 'react'
 import { StyledButton } from 'src/components/ui'
 import styles from './HomeHead.module.scss'
 import girl from 'src/assets/images/girl.jpg'
+import { useNavigate } from 'react-router-dom'
 
 const HomeHead: React.FC = () => {
+	const navigate = useNavigate()
+
 	const scrollToFrame = () => {
-		const frameElement = document.getElementById('frame')
-		if (frameElement) {
-			frameElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-		}
+		navigate('/register', { replace: true })
 	}
+
 	return (
 		<div className={styles.head}>
 			<div className={styles.text}>

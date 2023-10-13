@@ -170,7 +170,7 @@ const Author: React.FC = () => {
 					Add author
 				</StyledButton>
 				<NameChangeModal
-					setIsModalOpen={setIsModalOpen}
+					setModalIsOpen={setIsModalOpen}
 					title='Author qosıw'
 					open={isModalOpen}
 					route='authors'

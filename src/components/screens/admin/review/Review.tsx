@@ -105,7 +105,7 @@ const Review: React.FC = () => {
 					<ReviewModal
 						title='Review edit'
 						open={isModalOpen}
-						setIsModalOpen={setIsModalOpen}
+						setModalIsOpen={setIsModalOpen}
 					/>
 				</>
 			)}

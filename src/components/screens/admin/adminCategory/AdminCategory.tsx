@@ -136,7 +136,7 @@ const AdminCategory: React.FC = () => {
 					Add category
 				</StyledButton>
 				<NameChangeModal
-					setIsModalOpen={setIsModalOpen}
+					setModalIsOpen={setIsModalOpen}
 					title='Category qosıw'
 					open={isModalOpen}
 					route='categories'

@@ -7,7 +7,7 @@ import { sharedStore } from 'src/store/admin/sharedStore'
 import { ModalWindowProps } from 'src/types/Types'
 
 const ReviewModal: React.FC<ModalWindowProps> = ({
-	setIsModalOpen,
+	setModalIsOpen,
 	...props
 }) => {
 	const { reviewToEdit } = sharedStore()
@@ -27,14 +27,14 @@ const ReviewModal: React.FC<ModalWindowProps> = ({
 	}, [reviewToEdit])
 
 	const handleCancel = () => {
-		setIsModalOpen(false)
+		setModalIsOpen(false)
 	}
 
 	const onSubmit = async () => {
 		await $host.put(`/reviews/${reviewToEdit?.id}`, formData)
 		queryClient.refetchQueries(`admin-reviews`)
 		console.log(reviewToEdit)
-		setIsModalOpen(false)
+		setModalIsOpen(false)
 		setFormData({ text: '', rating: 0 })
 	}
 

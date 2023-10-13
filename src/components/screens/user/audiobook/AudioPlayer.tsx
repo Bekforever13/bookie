@@ -5,6 +5,8 @@ import play from 'src/assets/images/playaudio.svg'
 import next from 'src/assets/images/nextaudio.svg'
 import { Slider } from 'antd'
 import { HiPause } from 'react-icons/hi'
+import comment from 'src/assets/images/comment.svg'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface AudioPlayerProps {
 	currentAudio: string
@@ -17,6 +19,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 	onNext,
 	onPrev,
 }) => {
+	const navigate = useNavigate()
+	const params = useParams()
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
 	const [currentTime, setCurrentTime] = useState<number>(0)
 	const [volume, setVolume] = useState<number>(50)
@@ -39,6 +43,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 	const nextAudio = () => onNext
 
 	const prevAudio = () => onPrev
+
+	const handleClickComment = () => navigate(`/book/${params.slug}`)
 
 	const handleTimelineChange = (value: number) => {
 		if (audio.current) {
@@ -71,6 +77,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 		<div className={styles.player}>
 			<div className={styles.controls}>
 				<div className={styles.play}>
+					<img onClick={handleClickComment} src={comment} alt='prev' />
 					<img onClick={prevAudio} src={prev} alt='prev' />
 					{isPlaying ? (
 						<HiPause onClick={pauseAudio} />

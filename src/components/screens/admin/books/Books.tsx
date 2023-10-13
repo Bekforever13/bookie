@@ -4,19 +4,22 @@ import { BookCategories } from './BookCategories'
 import { StyledButton } from 'src/components/ui'
 import { $host } from 'src/config/axios'
 import { useQuery, useQueryClient } from 'react-query'
-import { IBookInfo, FormData } from 'src/types/Types'
+import { FormData } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
-import { ModalWindow } from 'src/components/shared'
+// import { ModalWindow } from 'src/components/shared'
 import { Popconfirm, Space, Table, message } from 'antd'
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
 import { bookStore } from 'src/store/admin/booksStore'
 import { useNavigate } from 'react-router-dom'
+import { BooksDrawer } from 'src/components/shared/modal/books/BooksDrawer'
 
 const Books: React.FC = () => {
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 	const [currentPage, setCurrentPage] = useState(1)
+	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [total, setTotal] = useState(1)
+	const { setEditingBook, setBookToEdit } = bookStore()
 	const {
 		activeCategory,
 		fetchAuthors,
@@ -24,19 +27,16 @@ const Books: React.FC = () => {
 		fetchGenres,
 		fetchNarrators,
 	} = adminStore()
-	const { setEditingBook, setBookToEdit } = bookStore()
-	const [isModalOpen, setIsModalOpen] = useState(false)
 
-	const showModal = () => {
-		setIsModalOpen(true)
-	}
+	const showModal = () => setIsModalOpen(true)
 
-	const { data } = useQuery<IBookInfo[]>({
+	const { data } = useQuery<FormData[]>({
 		queryKey: ['admin-books', activeCategory, isModalOpen],
 		queryFn: getBooks,
-		staleTime: 5 * 60 * 1000, 
-		cacheTime: 60 * 60 * 1000, 
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
 	})
+
 	async function getBooks() {
 		const res = await $host.get(
 			`/books?page=${currentPage}&category=${activeCategory}`
@@ -96,7 +96,7 @@ const Books: React.FC = () => {
 			key: 'action',
 			width: 200,
 			ellipsis: true,
-			render: (_: any, rec: FormData) => {
+			render: (_: FormData, rec: FormData) => {
 				return (
 					<Space className={styles.btns} size='middle'>
 						<StyledButton
@@ -156,8 +156,13 @@ const Books: React.FC = () => {
 				>
 					Add book
 				</StyledButton>
-				<ModalWindow
-					setIsModalOpen={setIsModalOpen}
+				{/* <ModalWindow
+					setModalIsOpen={setIsModalOpen}
+					title='Kitap qosıw'
+					open={isModalOpen}
+				/> */}
+				<BooksDrawer
+					setModalIsOpen={setIsModalOpen}
 					title='Kitap qosıw'
 					open={isModalOpen}
 				/>
@@ -170,7 +175,7 @@ const Books: React.FC = () => {
 				}}
 				columns={columns}
 				dataSource={data as any}
-				rowKey={(record: any) => record.title}
+				rowKey={(record: FormData) => record.title}
 			/>
 		</div>
 	)

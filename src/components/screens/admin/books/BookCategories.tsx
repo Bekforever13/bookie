@@ -9,7 +9,7 @@ const BookCategories: React.FC = () => {
 	const { activeCategory, setActiveCategory, fetchCategories, categories } =
 		adminStore()
 
-	const handleClickCategory = (str: string) => {
+	const handleClickCategory = (str: string = '') => {
 		queryClient.invalidateQueries(['admin-books'])
 		setActiveCategory(str)
 	}
@@ -23,7 +23,7 @@ const BookCategories: React.FC = () => {
 				backgroundcolor='transparent'
 				color='#2D71AE'
 				className={activeCategory === '' ? styles.active : ''}
-				onClick={() => handleClickCategory('')}
+				onClick={handleClickCategory}
 			>
 				All
 			</StyledButton>

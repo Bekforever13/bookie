@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import styles from './Audiobook.module.scss'
 import wave from 'src/assets/images/wave.svg'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { $host } from 'src/config/axios'
 import { useQuery } from 'react-query'
 import { IBookInfo } from 'src/types/Types'
 import { AudioPlayer } from './AudioPlayer'
 import { Romanize } from 'src/services/Romanize'
 import no_photo from 'src/assets/images/no_photo.jpg'
+import lock from 'src/assets/images/lock.svg'
+import unlock from 'src/assets/images/unlock.svg'
+import { Popover } from 'antd'
+import { authStore } from 'src/store/authStore'
+import { userStore } from 'src/store/userStore'
 
 const Audiobook: React.FC = () => {
 	const colors = [
@@ -22,8 +27,11 @@ const Audiobook: React.FC = () => {
 		'rgba(80, 151, 117, 0.70)',
 		'rgba(69, 189, 110, 0.70)',
 	]
+	const navigate = useNavigate()
 	const [currentAudio, setCurrentAudio] = useState('')
 	const { slug } = useParams()
+	const { auth } = authStore()
+	const { addBooksToBuy, clearBooksToBuy } = userStore()
 	const [selectedAudioIndex, setSelectedAudioIndex] = useState(0)
 	const { pathname } = useLocation()
 	const { data } = useQuery<IBookInfo>({
@@ -35,6 +43,25 @@ const Audiobook: React.FC = () => {
 			setCurrentAudio(data.audios[0]?.audio_url)
 		},
 	})
+
+	const handleUnlockBtn = () => {
+		if (auth) {
+			clearBooksToBuy()
+			data && addBooksToBuy(data)
+			navigate('/payment')
+		} else {
+			navigate('/login')
+		}
+	}
+
+	const content = (
+		<div className={styles.content}>
+			<div>Qalǵan bólimlerdi esitiw ushın, kitaptı satıp alıń.</div>
+			<button onClick={handleUnlockBtn}>
+				<img src={unlock} alt='unlock' /> Satıp alıw
+			</button>
+		</div>
+	)
 
 	const handleClickAudio = (index: number) => {
 		setSelectedAudioIndex(index)
@@ -82,16 +109,31 @@ const Audiobook: React.FC = () => {
 				<div className={styles.chapters}>
 					<h4>Sóz bası</h4>
 					<div className={styles.chapter_wrapper}>
-						{data?.audios?.map((el, index) => (
-							<button
-								disabled={el.is_free}
-								onClick={() => handleClickAudio(index)}
-								key={index}
-							>
-								<div>{Romanize(index + 1)} bólim</div>
-								{index === selectedAudioIndex && <img src={wave} alt='wave' />}
-							</button>
-						))}
+						{data?.audios?.map((el, index) => {
+							return el.is_free ? (
+								<button onClick={() => handleClickAudio(index)} key={index}>
+									<div>{Romanize(index + 1)} bólim</div>
+									{index === selectedAudioIndex && (
+										<img src={wave} alt='wave' />
+									)}
+								</button>
+							) : (
+								<Popover content={content}>
+									<button
+										disabled
+										key={index}
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+										}}
+									>
+										{Romanize(index + 1)} bólim
+										<img className={styles.lock} src={lock} alt='lock' />
+									</button>
+								</Popover>
+							)
+						})}
 					</div>
 				</div>
 				<AudioPlayer

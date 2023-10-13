@@ -5,11 +5,11 @@ import { IBookInfo } from 'src/types/Types'
 import { $host } from 'src/config/axios'
 import { useParams } from 'react-router-dom'
 import avatar from 'src/assets/images/user.png'
-import { Rate } from 'antd'
+import { Rate, Spin } from 'antd'
 
 const Testimonials: React.FC = () => {
 	const params = useParams()
-	const { data } = useQuery<IBookInfo>({
+	const { data, isFetching } = useQuery<IBookInfo>({
 		queryKey: ['book-info'],
 		queryFn: getBookInfo,
 		staleTime: 5 * 60 * 1000,
@@ -21,7 +21,7 @@ const Testimonials: React.FC = () => {
 		return res.data.data
 	}
 	return (
-		<>
+		<Spin spinning={isFetching}>
 			{data && (
 				<div className={styles.testimonials}>
 					<h1>Paydalanıwshılar pikiri</h1>
@@ -44,7 +44,7 @@ const Testimonials: React.FC = () => {
 			{!data?.reviews?.length && (
 				<h1 className={styles.empty}>Házirshe hesh kim pikir qaldırmadi</h1>
 			)}
-		</>
+		</Spin>
 	)
 }
 

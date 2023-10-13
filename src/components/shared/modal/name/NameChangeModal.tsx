@@ -6,7 +6,7 @@ import { useQueryClient } from 'react-query'
 import { ModalWindowProps } from 'src/types/Types'
 
 const NameChangeModal: React.FC<ModalWindowProps> = ({
-	setIsModalOpen,
+	setModalIsOpen,
 	route,
 	...props
 }) => {
@@ -14,13 +14,13 @@ const NameChangeModal: React.FC<ModalWindowProps> = ({
 	const queryClient = useQueryClient()
 
 	const handleCancel = () => {
-		setIsModalOpen(false)
+		setModalIsOpen(false)
 	}
 
 	const onSubmit = async () => {
 		await $host.post(`/${route}`, formData)
 		queryClient.refetchQueries(`admin-${route}`)
-		setIsModalOpen(false)
+		setModalIsOpen(false)
 		setFormData({ name: '' })
 	}
 

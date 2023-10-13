@@ -7,6 +7,18 @@ import youtube from 'src/assets/images/youtube.svg'
 import { Link } from 'react-router-dom'
 
 const Footer: React.FC = () => {
+	const handleClickTelegram = () => {
+		window.open('https://t.me/bookie_nks', '_blank')
+	}
+	const handleClickInstagram = () => {
+		window.open('https://www.instagram.com/bookie_karakalpak/', '_blank')
+	}
+	const handleClickYoutube = () => {
+		window.open(
+			'https://youtube.com/channel/UCrb_94b-JGhG0X43CUx6CyA',
+			'_blank'
+		)
+	}
 	return (
 		<div className={styles.footer}>
 			<div className={styles.wrapper}>
@@ -27,9 +39,13 @@ const Footer: React.FC = () => {
 				<div className={styles.social}>
 					<h2>Social tarmaqlar</h2>
 					<div className={styles.logos}>
-						<img src={instagram} alt='instagram' />
-						<img src={telegram} alt='telegram' />
-						<img src={youtube} alt='youtube' />
+						<img
+							onClick={handleClickInstagram}
+							src={instagram}
+							alt='instagram'
+						/>
+						<img onClick={handleClickTelegram} src={telegram} alt='telegram' />
+						<img onClick={handleClickYoutube} src={youtube} alt='youtube' />
 					</div>
 				</div>
 				<div className={styles.support}>

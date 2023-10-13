@@ -12,6 +12,7 @@ interface userState {
 	removeFromCart: (payload: string) => void
 	addBooksToBuy: (payload: IBookItem) => void
 	removeFromBooksToBuy: (payload: string) => void
+	clearBooksToBuy: () => void
 }
 
 export const userStore = create<userState>()(set => {
@@ -32,6 +33,7 @@ export const userStore = create<userState>()(set => {
 				return { favorites: updatedFavorites }
 			})
 		},
+		clearBooksToBuy: () => set({ booksToBuy: [] }),
 		removeFromFavorite: payload => {
 			set((state: userState) => {
 				const updatedFavorites = state.favorites.filter(

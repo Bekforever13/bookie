@@ -5,6 +5,7 @@ import { IAdminBookInfo } from 'src/types/Types'
 import { useLocation, useParams } from 'react-router-dom'
 import { $host } from 'src/config/axios'
 import no_photo from 'src/assets/images/no_photo.jpg'
+import { formatPrice } from 'src/services/services'
 
 const AdminBookInfo: React.FC = () => {
 	const { id } = useParams()
@@ -45,9 +46,7 @@ const AdminBookInfo: React.FC = () => {
 						</div>
 						<p>{data.description}</p>
 						<h5>{data.category}</h5>
-						<h5>
-							{data?.price.toLocaleString('ru-RU', { useGrouping: true })} som
-						</h5>
+						<h5>{formatPrice(data?.price)} som</h5>
 						<div>
 							{Array.isArray(data.narrator) &&
 								data.narrator.map(item => <div key={item.id}>{item.name}</div>)}

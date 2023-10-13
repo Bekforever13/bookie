@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { message } from 'antd'
 import feedback from 'src/assets/images/feedback.png'
 import styles from './HomeFeedback.module.scss'
@@ -18,16 +18,13 @@ const HomeFeedback: React.FC = () => {
 	const handleClickBtn = async () => {
 		try {
 			await $host.post('/supports', formData)
-			setFormData({ name: '', description: '', rating: 5 })
 			message.success('Pikirińiz ushın raxmet')
 		} catch (error) {
 			message.error('Maǵlıwmatlardı júklewde qátelik júz berdi')
+		} finally {
+			setFormData({ name: '', description: '', rating: 5 })
 		}
 	}
-
-	useEffect(() => {
-		setFormData(prevState => ({ ...prevState, ...formData }))
-	}, [formData])
 
 	return (
 		<div className={styles.wrapper}>

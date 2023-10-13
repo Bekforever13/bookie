@@ -168,7 +168,7 @@ const Genre: React.FC = () => {
 					Add genre
 				</StyledButton>
 				<NameChangeModal
-					setIsModalOpen={setIsModalOpen}
+					setModalIsOpen={setIsModalOpen}
 					title='Genre qosıw'
 					open={isModalOpen}
 					route='genres'

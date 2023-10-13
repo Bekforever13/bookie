@@ -7,10 +7,11 @@ import { Checkbox, Popconfirm, message } from 'antd'
 import trash from 'src/assets/images/trash0.svg'
 import { useNavigate } from 'react-router-dom'
 import { IBookItem } from 'src/types/Types'
+import { formatPrice } from 'src/services/services'
 
 const Cart: React.FC = () => {
 	const navigate = useNavigate()
-	const { cart, removeFromCart, addBooksToBuy } = userStore()
+	const { cart, removeFromCart, addBooksToBuy, clearBooksToBuy } = userStore()
 	const [isAllSelected, setIsAllSelected] = React.useState(false)
 	const [selectedBooks, setSelectedBooks] = React.useState<IBookItem[]>([])
 
@@ -38,6 +39,7 @@ const Cart: React.FC = () => {
 	}
 
 	const handleClickBuy = () => {
+		clearBooksToBuy()
 		selectedBooks.forEach(book => {
 			addBooksToBuy(book)
 		})
@@ -58,10 +60,7 @@ const Cart: React.FC = () => {
 									<p>{item.author?.[0].name}</p>
 								</div>
 								<div className={styles.price}>
-									<h2>
-										{item.price.toLocaleString('ru-RU', { useGrouping: true })}{' '}
-										som
-									</h2>
+									<h2>{formatPrice(item?.price)} som</h2>
 									<Popconfirm
 										onConfirm={() => handleRemove(item.slug)}
 										title='Kitaptı óshirmekshimisiz?'
