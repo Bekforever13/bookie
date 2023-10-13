@@ -11,6 +11,7 @@ import trash from 'src/assets/images/trash0.svg'
 import prince from 'src/assets/images/no_photo.jpg'
 import { formatPrice } from 'src/services/services'
 import { $host } from 'src/config/axios'
+import { IBookItem } from 'src/types/Types'
 
 const Payment: React.FC = () => {
 	const [totalSum, setTotalSum] = useState(0)
@@ -34,7 +35,10 @@ const Payment: React.FC = () => {
 		setPaymentId(3)
 	}
 
-	const handleClickRemove = (slug: string) => removeFromBooksToBuy(slug)
+	const handleClickRemove = (item: IBookItem) => {
+		removeFromBooksToBuy(item.slug)
+		setTotalSum(prev => prev - item.price)
+	}
 
 	const handleClickBuy = () => {
 		$host
@@ -73,7 +77,7 @@ const Payment: React.FC = () => {
 								<h2>
 									{formatPrice(item?.price)} som
 									<Popconfirm
-										onConfirm={() => handleClickRemove(item.slug)}
+										onConfirm={() => handleClickRemove(item)}
 										title='Kitapti oshirip taslaymizba?'
 										okText='Awa'
 										cancelText='Yaq'
@@ -105,6 +109,7 @@ const Payment: React.FC = () => {
 						</button>
 
 						<button
+							disabled={books.length === 0}
 							className={selectedPayment === 'payme' ? styles.active : ''}
 							type='button'
 							onClick={handlePaymentPayme}
@@ -123,6 +128,7 @@ const Payment: React.FC = () => {
 					</div>
 					<div className={styles.submit}>
 						<StyledButton
+							disabled={!booksToBuy.length}
 							color='var(--typography-light)'
 							backgroundcolor='var(--brand-color-5)'
 							onClick={handleClickBuy}
