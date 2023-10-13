@@ -1,7 +1,7 @@
 import React from 'react'
 import { IBookItem } from 'src/types/Types'
 import styles from './BookCard.module.scss'
-import prince from 'src/assets/images/prince.png'
+import prince from 'src/assets/images/no_photo.jpg'
 import heart0 from 'src/assets/images/heart0.svg'
 import heart1 from 'src/assets/images/heart1.svg'
 import views from 'src/assets/images/views.svg'

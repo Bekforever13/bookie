@@ -8,7 +8,7 @@ import payme from 'src/assets/images/Payme.svg'
 import uzum from 'src/assets/images/Uzum.svg'
 import arrow from 'src/assets/images/Chevron.svg'
 import trash from 'src/assets/images/trash0.svg'
-import prince from 'src/assets/images/prince.png'
+import prince from 'src/assets/images/no_photo.jpg'
 import { formatPrice } from 'src/services/services'
 import { $host } from 'src/config/axios'
 
