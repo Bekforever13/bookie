@@ -10,21 +10,28 @@ import arrow from 'src/assets/images/Chevron.svg'
 import trash from 'src/assets/images/trash0.svg'
 import prince from 'src/assets/images/prince.png'
 import { formatPrice } from 'src/services/services'
+// import { $host } from 'src/config/axios'
 
 const Payment: React.FC = () => {
 	const [totalSum, setTotalSum] = useState(0)
+	const [selectedPayment, setSelectedPayment] = useState('')
 	const { booksToBuy, removeFromBooksToBuy } = userStore()
+	// const [data, setData] = useState<{ books: number[]; payment_id: number }>({
+	// 	books: [1],
+	// 	payment_id: 2,
+	// })
 
 	const handlePaymentClick = () => {
-		// Обработка события для кнопки click
+		setSelectedPayment('click')
 	}
 
 	const handlePaymentPayme = () => {
-		// Обработка события для кнопки payme
+		setSelectedPayment('payme')
+		// $host.post('/orders', data).then(res => console.log(res))
 	}
 
 	const handlePaymentUzum = () => {
-		// Обработка события для кнопки uzum
+		setSelectedPayment('uzum')
 	}
 
 	const handleClickRemove = (slug: string) => removeFromBooksToBuy(slug)
@@ -74,15 +81,29 @@ const Payment: React.FC = () => {
 						Jámi <span>{totalSum} som</span>
 					</div>
 					<div className={styles.btns}>
-						<button type='button' onClick={handlePaymentClick}>
+						<button
+							className={selectedPayment === 'click' ? styles.active : ''}
+							disabled
+							type='button'
+							onClick={handlePaymentClick}
+						>
 							<img src={click} alt='image' />
 						</button>
 
-						<button type='button' onClick={handlePaymentPayme}>
+						<button
+							className={selectedPayment === 'payme' ? styles.active : ''}
+							type='button'
+							onClick={handlePaymentPayme}
+						>
 							<img src={payme} alt='image' />
 						</button>
 
-						<button type='button' onClick={handlePaymentUzum}>
+						<button
+							className={selectedPayment === 'uzum' ? styles.active : ''}
+							disabled
+							type='button'
+							onClick={handlePaymentUzum}
+						>
 							<img src={uzum} alt='image' />
 						</button>
 					</div>

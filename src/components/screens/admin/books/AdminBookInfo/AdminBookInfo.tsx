@@ -53,7 +53,7 @@ const AdminBookInfo: React.FC = () => {
 						<div className={styles.images}>
 							{data.image[0] ? (
 								data.image.map(item => (
-									<div className={styles.img}>
+									<div key={item.id} className={styles.img}>
 										<img
 											key={item.image_url}
 											src={item.image_url}

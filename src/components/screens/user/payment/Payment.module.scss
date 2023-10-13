@@ -126,6 +126,10 @@
 				justify-content: flex-start;
 				gap: 12px;
 
+				.active {
+					border: 2px solid var(--brand-color-1);
+				}
+
 				button {
 					display: flex;
 					width: 77px;
@@ -137,8 +141,12 @@
 					border: 1px solid var(--brand-color-3);
 					background: var(--brand-color-4);
 
+					&:disabled {
+						cursor: not-allowed;
+					}
+
 					&:hover {
-						border: 1px solid var(--brand-color-2);
+						border: 2px solid var(--brand-color-1);
 					}
 				}
 			}

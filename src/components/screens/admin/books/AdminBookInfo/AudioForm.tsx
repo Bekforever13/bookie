@@ -4,7 +4,6 @@ import { StyledButton } from 'src/components/ui'
 import { TNewAudioData } from 'src/types/Types'
 import { $host } from 'src/config/axios'
 import { useParams } from 'react-router-dom'
-import { useQueryClient } from 'react-query'
 
 interface AudioFormProps {
 	setIsAdded: React.Dispatch<React.SetStateAction<number>>
@@ -12,7 +11,6 @@ interface AudioFormProps {
 }
 
 const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
-	const queryClient = useQueryClient()
 	const { id } = useParams()
 	const [newAudioData, setNewAudioData] = React.useState<TNewAudioData>({
 		book_id: id ? id : '',
@@ -27,23 +25,16 @@ const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
 
 	const handleSubmit = async () => {
 		if (newAudioData && newAudioData.file) {
-			const formData = new FormData()
+			let formData = new FormData()
 			formData.append('book_id', newAudioData.book_id.toString())
 			formData.append('title', newAudioData.title)
 			formData.append('file', newAudioData.file)
 			formData.append('is_free', newAudioData.is_free.toString())
 
+			console.log(formData)
 			await $host.post('/audios', formData).then(() => {
-				queryClient.refetchQueries('admin-book-info')
 				setIsAdded(prev => prev + 1)
 				message.success('Qosıldı')
-				setNewAudioData(prevData => ({
-					...prevData,
-					book_id: '',
-					title: '',
-					file: null,
-					is_free: 1,
-				}))
 			})
 		}
 	}
@@ -73,9 +64,7 @@ const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
 					onChange={e =>
 						setNewAudioData({
 							...newAudioData,
-							file: e.target.files?.[0]
-								? new File([e.target.files[0]], e.target.files[0].name)
-								: null,
+							file: e.target.files?.[0] ? e.target.files?.[0] : null,
 						})
 					}
 				/>
@@ -87,10 +76,10 @@ const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
 					onChange={e =>
 						setNewAudioData({
 							...newAudioData,
-							is_free: e.value,
+							is_free: e,
 						})
 					}
-					defaultValue={options[1]}
+					value={newAudioData.is_free}
 				/>
 			</label>
 			<StyledButton
