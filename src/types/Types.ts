@@ -102,6 +102,7 @@ export type TUserData = {
 }
 
 type TBookImg = {
+	id: number
 	imageable_id: number
 	imageable_type: string
 	file_name: string
