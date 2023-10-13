@@ -15,8 +15,6 @@ import { TIdNameSlug } from 'src/types/Types'
 import { sharedStore } from 'src/store/admin/sharedStore'
 
 const Genre: React.FC = () => {
-	const [currentPage, setCurrentPage] = useState(1)
-	const [total, setTotal] = useState(1)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const queryClient = useQueryClient()
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -25,13 +23,11 @@ const Genre: React.FC = () => {
 		name: '',
 	})
 	const { data } = useQuery<any[]>({
-		queryKey: ['admin-genres', currentPage],
+		queryKey: ['admin-genres'],
 		queryFn: getBooks,
 	})
 	async function getBooks() {
-		const res = await $host.get(`/genres?page=${currentPage}`)
-		const totalGenres = res.data.meta.total
-		setTotal(totalGenres)
+		const res = await $host.get('/genres')
 		return res.data.data
 	}
 
@@ -169,11 +165,6 @@ const Genre: React.FC = () => {
 			</div>
 			{data && (
 				<Table
-					pagination={{
-						total: total,
-						current: currentPage,
-						onChange: page => setCurrentPage(page),
-					}}
 					columns={columns}
 					dataSource={data}
 					rowKey={(record: any) => record.slug}
