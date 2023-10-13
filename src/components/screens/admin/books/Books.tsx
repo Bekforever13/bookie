@@ -16,7 +16,7 @@ import { BooksDrawer } from 'src/components/shared/modal/books/BooksDrawer'
 const Books: React.FC = () => {
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
-	const [currentPage, setCurrentPage] = useState<number>()
+	const [currentPage, setCurrentPage] = useState<number>(1)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [total, setTotal] = useState(1)
 	const { setEditingBook, setBookToEdit } = bookStore()
@@ -31,7 +31,7 @@ const Books: React.FC = () => {
 	const showModal = () => setIsModalOpen(true)
 
 	const { data } = useQuery<TFormData[]>({
-		queryKey: ['admin-books', activeCategory, isModalOpen],
+		queryKey: ['admin-books', activeCategory, isModalOpen, currentPage],
 		queryFn: getBooks,
 		staleTime: 5 * 60 * 1000,
 		cacheTime: 60 * 60 * 1000,

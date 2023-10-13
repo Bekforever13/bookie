@@ -4,6 +4,7 @@ import {
 	Col,
 	Drawer,
 	Form,
+	FormInstance,
 	Input,
 	Row,
 	Select,
@@ -15,6 +16,7 @@ import { adminStore } from 'src/store/admin/adminStore'
 import { $host } from 'src/config/axios'
 import { useQueryClient } from 'react-query'
 import { bookStore } from 'src/store/admin/booksStore'
+import { useRef } from 'react'
 
 const { Option } = Select
 
@@ -22,6 +24,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	const { authors, categories, genres, narrators } = adminStore()
 	const { isEditingBook, bookToEdit } = bookStore()
 	const queryClient = useQueryClient()
+	const formRef = useRef<FormInstance>(null)
 	// const [formData, setFormData] = useState<IDrawerFormData>()
 
 	const onClose = () => {
@@ -36,6 +39,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 		request
 			.then(() => {
 				message.success('Successfully!')
+				formRef.current?.resetFields()
 			})
 			.catch(error => console.log(error))
 
@@ -57,7 +61,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 				</Space>
 			}
 		>
-			<Form id='myForm' layout='vertical' onFinish={onSubmit}>
+			<Form id='myForm' layout='vertical' onFinish={onSubmit} ref={formRef}>
 				<Row gutter={16}>
 					<Col span={12}>
 						<Form.Item
