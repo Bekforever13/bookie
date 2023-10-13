@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
 		window.open('https://t.me/bookie_nks', '_blank')
 	}
 	const handleClickInstagram = () => {
-		window.open('https://www.instagram.com/bookie_karakalpak/', '_blank')
+		window.open('https://instagram.com/bookie_karakalpak', '_blank')
 	}
 	const handleClickYoutube = () => {
 		window.open(

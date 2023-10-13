@@ -106,7 +106,7 @@
 			width: 360px;
 			background-color: var(--brand-color-3);
 			border-radius: 16px;
-			padding: 16px 34px;
+			padding: 16px 10px 16px 34px;
 			display: flex;
 			flex-direction: column;
 			row-gap: 32px;
@@ -123,6 +123,11 @@
 				flex-direction: column;
 				row-gap: 32px;
 				position: relative;
+				height: 250px;
+				overflow: auto;
+				padding-right: 15px;
+
+
 
 				button {
 					background-color: transparent;
@@ -212,7 +217,7 @@
 
 .lock {
 	position: absolute;
-	right: 0;
+	right: 15px;
 }
 
 .content {
@@ -229,4 +234,25 @@
 		gap: 5px;
 		color: var(--brand-color-1);
 	}
+}
+
+:global(::-webkit-scrollbar) {
+	width: 10px;
+	background-color: var(--brand-color-3);
+	border-radius: 50px;
+}
+
+:global(::-webkit-scrollbar-thumb) {
+	width: 5px;
+	height: 5px;
+	background-color: var(--brand-color-3);
+	border: 1px solid #000;
+	border-radius: 50px;
+}
+
+:global(::-webkit-scrollbar-track) {
+	width: 5px;
+	height: 5px;
+	background-color: var(--brand-color-2);
+	border-radius: 50px;
 }

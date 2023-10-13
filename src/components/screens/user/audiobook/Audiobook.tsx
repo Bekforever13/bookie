@@ -119,15 +119,7 @@ const Audiobook: React.FC = () => {
 								</button>
 							) : (
 								<Popover content={content}>
-									<button
-										disabled
-										key={index}
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'space-between',
-										}}
-									>
+									<button disabled key={index}>
 										{Romanize(index + 1)} bólim
 										<img className={styles.lock} src={lock} alt='lock' />
 									</button>

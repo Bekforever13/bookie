@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyledButton } from 'src/components/ui'
 import { userStore } from 'src/store/userStore'
-import { Popconfirm, message } from 'antd'
+import { Popconfirm } from 'antd'
 import styles from './Payment.module.scss'
 import click from 'src/assets/images/Click.svg'
 import payme from 'src/assets/images/Payme.svg'
@@ -38,8 +38,11 @@ const Payment: React.FC = () => {
 
 	const handleClickBuy = () => {
 		$host
-			.post('/orders', { books: books, payment_id: paymentId })
-			.then(() => message.success('Buyırtpańız qabıl etildi'))
+			.post('/orders', {
+				books: books,
+				payment_id: paymentId,
+			})
+			.then(res => window.open(res.data.data.url, '_blank'))
 	}
 
 	useEffect(() => {

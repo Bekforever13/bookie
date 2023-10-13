@@ -29,11 +29,6 @@ const Orders: React.FC = () => {
 
 	const columns = [
 		{
-			title: 'ID',
-			dataIndex: 'id',
-			key: 'id',
-		},
-		{
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',

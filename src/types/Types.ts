@@ -21,6 +21,13 @@ export type ModalWindowState = {
 	value: string | number
 }
 
+export interface IPayment {
+	id: number
+	amount: number
+	is_paid: boolean | null
+	url: string
+}
+
 export interface IOrder {
 	id: number
 	status: number
