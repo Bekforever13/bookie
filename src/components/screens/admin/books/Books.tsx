@@ -4,7 +4,7 @@ import { BookCategories } from './BookCategories'
 import { StyledButton } from 'src/components/ui'
 import { $host } from 'src/config/axios'
 import { useQuery, useQueryClient } from 'react-query'
-import { FormData } from 'src/types/Types'
+import { TFormData } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
 // import { ModalWindow } from 'src/components/shared'
 import { Popconfirm, Space, Table, message } from 'antd'
@@ -16,7 +16,7 @@ import { BooksDrawer } from 'src/components/shared/modal/books/BooksDrawer'
 const Books: React.FC = () => {
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
-	const [currentPage, setCurrentPage] = useState(1)
+	const [currentPage, setCurrentPage] = useState<number>()
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [total, setTotal] = useState(1)
 	const { setEditingBook, setBookToEdit } = bookStore()
@@ -30,7 +30,7 @@ const Books: React.FC = () => {
 
 	const showModal = () => setIsModalOpen(true)
 
-	const { data } = useQuery<FormData[]>({
+	const { data } = useQuery<TFormData[]>({
 		queryKey: ['admin-books', activeCategory, isModalOpen],
 		queryFn: getBooks,
 		staleTime: 5 * 60 * 1000,
@@ -96,7 +96,7 @@ const Books: React.FC = () => {
 			key: 'action',
 			width: 200,
 			ellipsis: true,
-			render: (_: FormData, rec: FormData) => {
+			render: (_: TFormData, rec: TFormData) => {
 				return (
 					<Space className={styles.btns} size='middle'>
 						<StyledButton
@@ -175,7 +175,7 @@ const Books: React.FC = () => {
 				}}
 				columns={columns}
 				dataSource={data as any}
-				rowKey={(record: FormData) => record.title}
+				rowKey={(record: TFormData) => record.title}
 			/>
 		</div>
 	)

@@ -3,15 +3,16 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { $host } from 'src/config/axios'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
 import { Navigation } from 'swiper/modules'
 import styles from './TrendBooks.module.scss'
 import { IBookItem } from 'src/types/Types'
 import { BookCard } from 'src/components/shared/BookCard/BookCard'
 import { Skeleton } from 'src/components/shared/BookCard/Skeleton'
+// import prev from 'src/assets/images/prevSlider.svg'
+// import next from 'src/assets/images/nextSlider.svg'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
 
 async function getTrendAddedBooks() {
 	const token = Cookies.get('token')
@@ -38,6 +39,10 @@ const TrendBooks: React.FC = () => {
 				loopPreventsSliding
 				modules={[Navigation]}
 				navigation
+				// navigation={{
+				// 	nextEl: '.swiper-button-next-custom',
+				// 	prevEl: '.swiper-button-prev-custom',
+				// }}
 				spaceBetween={30}
 				breakpoints={{
 					1: {
@@ -69,6 +74,12 @@ const TrendBooks: React.FC = () => {
 								<BookCard key={item.slug} {...item} />
 							</SwiperSlide>
 					  ))}
+				{/* <div className='swiper-button-next-custom'>
+					<img src={next} alt='chevron' />
+				</div>
+				<div className='swiper-button-prev-custom'>
+					<img src={prev} alt='chevron' />
+				</div> */}
 			</Swiper>
 		</div>
 	)

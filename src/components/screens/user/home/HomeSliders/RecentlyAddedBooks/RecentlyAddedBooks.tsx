@@ -6,6 +6,8 @@ import { Navigation } from 'swiper/modules'
 import styles from './RecentlyAddedBooks.module.scss'
 import { IBookItem } from 'src/types/Types'
 import { BookCard, Skeleton } from 'src/components/shared'
+// import prev from 'src/assets/images/prevSlider.svg'
+// import next from 'src/assets/images/nextSlider.svg'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -24,6 +26,10 @@ const RecentlyAddedBooks: React.FC = () => {
 			<Swiper
 				modules={[Navigation]}
 				navigation
+				// navigation={{
+				// 	nextEl: '.swiper-button-next',
+				// 	prevEl: '.swiper-button-prev',
+				// }}
 				spaceBetween={30}
 				breakpoints={{
 					1: {
@@ -55,6 +61,12 @@ const RecentlyAddedBooks: React.FC = () => {
 								<BookCard key={item.slug} {...item} />
 							</SwiperSlide>
 					  ))}
+				{/* <div className='swiper-button-next'>
+					<img src={next} alt='chevron' />
+				</div>
+				<div className='swiper-button-prev'>
+					<img src={prev} alt='chevron' />
+				</div> */}
 			</Swiper>
 		</div>
 	)

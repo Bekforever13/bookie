@@ -53,7 +53,10 @@ const Cart: React.FC = () => {
 				<div className={styles.books}>
 					{cart?.map(item => (
 						<div key={item.slug} className={styles.book}>
-							<img src={prince} alt='img' />
+							<img
+								src={item.image[0] ? item.image[0].image_url : prince}
+								alt='image'
+							/>
 							<div className={styles.text}>
 								<div className={styles.name}>
 									<h4>{item.title}</h4>

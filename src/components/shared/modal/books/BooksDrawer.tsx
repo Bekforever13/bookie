@@ -1,12 +1,27 @@
 // import React, { useState } from 'react'
-import { Button, Col, Drawer, Form, Input, Row, Select, Space } from 'antd'
+import {
+	Button,
+	Col,
+	Drawer,
+	Form,
+	Input,
+	Row,
+	Select,
+	Space,
+	message,
+} from 'antd'
 import { IDrawerBooks, IDrawerFormData } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
+import { $host } from 'src/config/axios'
+import { useQueryClient } from 'react-query'
+import { bookStore } from 'src/store/admin/booksStore'
 
 const { Option } = Select
 
 const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	const { authors, categories, genres, narrators } = adminStore()
+	const { isEditingBook, bookToEdit } = bookStore()
+	const queryClient = useQueryClient()
 	// const [formData, setFormData] = useState<IDrawerFormData>()
 
 	const onClose = () => {
@@ -14,7 +29,18 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	}
 
 	const onSubmit = (values: IDrawerFormData) => {
-		console.log(values)
+		const request = isEditingBook
+			? $host.put(`/books/${bookToEdit?.id}`, values)
+			: $host.post('/books', values)
+
+		request
+			.then(() => {
+				message.success('Successfully!')
+			})
+			.catch(error => console.log(error))
+
+		queryClient.invalidateQueries('admin-books')
+		setModalIsOpen(false)
 	}
 
 	return (
@@ -44,13 +70,13 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 					</Col>
 					<Col span={12}>
 						<Form.Item
-							name='category'
+							name='category_id'
 							label='Kategoriya'
 							rules={[{ required: true, message: 'Please enter category' }]}
 						>
 							<Select placeholder='Please choose the category'>
 								{categories.map(item => (
-									<Option key={item.id} value={item.name}>
+									<Option key={item.id} value={item.id}>
 										{item.name}
 									</Option>
 								))}
@@ -65,7 +91,11 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							label='Baha'
 							rules={[{ required: true, message: 'Please enter price' }]}
 						>
-							<Input style={{ width: '100%' }} placeholder='Price' />
+							<Input
+								type='number'
+								style={{ width: '100%' }}
+								placeholder='Price'
+							/>
 						</Form.Item>
 					</Col>
 					<Col span={12}>
@@ -81,13 +111,13 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 				<Row gutter={16}>
 					<Col span={12}>
 						<Form.Item
-							name='author'
+							name='author_id'
 							label='Avtor'
 							rules={[{ required: true, message: 'Please choose the author' }]}
 						>
 							<Select placeholder='Please choose the author'>
 								{authors.map(item => (
-									<Option key={item.id} value={item.name}>
+									<Option key={item.id} value={item.id}>
 										{item.name}
 									</Option>
 								))}
@@ -96,7 +126,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 					</Col>
 					<Col span={12}>
 						<Form.Item
-							name='narrator'
+							name='narrator_id'
 							label='Gúrriń etiwshi'
 							rules={[
 								{ required: true, message: 'Please choose the narrator' },
@@ -104,7 +134,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 						>
 							<Select placeholder='Please choose the narrator'>
 								{narrators.map(item => (
-									<Option key={item.id} value={item.name}>
+									<Option key={item.id} value={item.id}>
 										{item.name}
 									</Option>
 								))}
@@ -115,7 +145,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 				<Row gutter={16}>
 					<Col span={24}>
 						<Form.Item
-							name='genre'
+							name='genre_id'
 							label='Janr'
 							rules={[
 								{
@@ -126,7 +156,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 						>
 							<Select mode='multiple' placeholder='Please choose the genre'>
 								{genres.map(item => (
-									<Option key={item.id} value={item.name}>
+									<Option key={item.id} value={item.id}>
 										{item.name}
 									</Option>
 								))}

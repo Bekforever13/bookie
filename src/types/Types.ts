@@ -43,8 +43,8 @@ export interface IOrder {
 
 export interface IBookStore {
 	isEditingBook: boolean
-	bookToEdit: FormData | null
-	setBookToEdit: (payload: FormData) => void
+	bookToEdit: TFormData | null
+	setBookToEdit: (payload: TFormData) => void
 	setEditingBook: (payload: boolean) => void
 }
 
@@ -124,7 +124,7 @@ export interface IBookItem {
 	category: TIdNameSlug[]
 }
 
-export type FormData = {
+export type TFormData = {
 	id: number
 	title: string
 	description: string

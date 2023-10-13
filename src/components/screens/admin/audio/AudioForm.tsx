@@ -3,6 +3,11 @@ import React from 'react'
 import { Select } from 'antd'
 import { TNewAudioData } from 'src/types/Types'
 import { StyledButton } from 'src/components/ui'
+import { useQuery } from 'react-query'
+import { $host } from 'src/config/axios'
+import { TFormData } from 'src/types/Types'
+
+const { Option } = Select
 
 type AudioFormProps = {
 	newAudioData: TNewAudioData
@@ -21,22 +26,37 @@ const AudioForm: React.FC<AudioFormProps> = ({
 		{ label: 'Платный', value: 0 },
 		{ label: 'Бесплатный', value: 1 },
 	]
+	const { data } = useQuery<TFormData[]>({
+		queryKey: ['admin-books'],
+		queryFn: getBooks,
+		staleTime: 5 * 60 * 1000,
+		cacheTime: 60 * 60 * 1000,
+	})
+
+	async function getBooks() {
+		const res = await $host.get('/books')
+		return res.data.data
+	}
 
 	return (
 		<>
 			<label>
-				Book id:
-				<input
-					type='number'
-					value={newAudioData.book_id}
-					placeholder='Number...'
-					onChange={e =>
+				Book:
+				<Select
+					onSelect={e =>
 						setNewAudioData({
 							...newAudioData,
-							book_id: e.target.value || '',
+							book_id: e,
 						})
 					}
-				/>
+					placeholder='Please choose the book'
+				>
+					{data?.map(item => (
+						<Option key={item.id} value={item.id}>
+							{item.title}
+						</Option>
+					))}
+				</Select>
 			</label>
 			<label>
 				Title:

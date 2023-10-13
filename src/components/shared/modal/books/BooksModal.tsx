@@ -4,7 +4,7 @@ import { ConfigProvider, Modal, Select, message } from 'antd'
 import styles from './BooksModal.module.scss'
 import { adminStore } from 'src/store/admin/adminStore'
 import { $host } from 'src/config/axios'
-import { FormData } from 'src/types/Types'
+import { TFormData } from 'src/types/Types'
 import { useQueryClient } from 'react-query'
 import { bookStore } from 'src/store/admin/booksStore'
 import { ModalWindowProps, ModalWindowState } from 'src/types/Types'
@@ -16,7 +16,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 	const queryClient = useQueryClient()
 	const { authors, categories, genres, narrators } = adminStore()
 	const { isEditingBook, setEditingBook, bookToEdit } = bookStore()
-	const [formData, setFormData] = useState<FormData | null>(null)
+	const [formData, setFormData] = useState<TFormData | null>(null)
 	const [authorOptions, setAuthorOptions] = useState<ModalWindowState[]>([])
 	const [categoriesOptions, setCategoriesOptions] = useState<
 		ModalWindowState[]
@@ -35,7 +35,7 @@ const ModalWindow: React.FC<ModalWindowProps> = ({
 		setValue,
 		reset,
 		formState: { errors },
-	} = useForm<FormData>()
+	} = useForm<TFormData>()
 
 	const handleCancel = () => {
 		setModalIsOpen(false)

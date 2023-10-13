@@ -1,6 +1,21 @@
 .recently {
 	margin-top: 60px;
+
 	h2 {
 		margin-bottom: 30px !important;
 	}
 }
+
+// :global(.swiper-button-next),
+// :global(.swiper-button-prev) {
+// 	color: var(--brand-color-1);
+// 	background-color: var(--brand-color-4);
+// 	border-radius: 50%;
+// 	display: none;
+// 	padding: 20px;
+
+// 	&::after {
+// 		content: '';
+// 		display: none;
+// 	}
+// }
