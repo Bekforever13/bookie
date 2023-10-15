@@ -32,16 +32,13 @@ const Audiobook: React.FC = () => {
 	const { slug } = useParams()
 	const { auth } = authStore()
 	const { addBooksToBuy, clearBooksToBuy } = userStore()
-	const [selectedAudioIndex, setSelectedAudioIndex] = useState(0)
+	const [selectedAudioIndex, setSelectedAudioIndex] = useState(-1)
 	const { pathname } = useLocation()
 	const { data } = useQuery<IBookInfo>({
 		queryKey: [pathname],
 		queryFn: getBookInfo,
 		staleTime: 5 * 60 * 1000,
 		cacheTime: 60 * 60 * 1000,
-		onSuccess: data => {
-			setCurrentAudio(data.audios[0]?.audio_url)
-		},
 	})
 
 	const handleUnlockBtn = () => {
@@ -96,12 +93,15 @@ const Audiobook: React.FC = () => {
 					<h1>{data?.title}</h1>
 					<h4>{data?.author?.[0]?.name ?? ''}</h4>
 					<p>{data?.description}</p>
-					<div>
+					<div className={styles.genres}>
 						{data?.genre?.map((item, index) => (
 							<span key={item.slug} style={{ backgroundColor: colors[index] }}>
 								{item.name}
 							</span>
 						)) ?? ''}
+					</div>
+					<div className={styles.narrator}>
+						Oqıǵan: <span>{data?.narrator[0].name}</span>
 					</div>
 				</div>
 			</div>

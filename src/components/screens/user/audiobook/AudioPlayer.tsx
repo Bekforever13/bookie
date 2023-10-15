@@ -27,7 +27,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 	const audio = useRef<HTMLAudioElement>(null)
 
 	const playAudio = () => {
-		if (audio.current) {
+		if (audio.current && currentAudio) {
 			audio.current.play()
 			setIsPlaying(true)
 		}

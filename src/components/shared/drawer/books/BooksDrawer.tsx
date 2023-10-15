@@ -61,13 +61,9 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	// 	return res.data.data
 	// }
 
-	const onClose = () => {
-		setModalIsOpen(false)
-	}
+	const onClose = () => setModalIsOpen(false)
 
-	const handleChangeAuthor = (e: string) => {
-		setAuthor(e)
-	}
+	const handleChangeAuthor = (e: string) => setAuthor(e)
 
 	const handleClickAuthor = (item: TIdNameSlug) => {
 		formRef.current?.setFieldsValue({
@@ -76,9 +72,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 		setAuthor(item.name)
 	}
 
-	const handleChangeNarrator = (e: string) => {
-		setNarrator(e)
-	}
+	const handleChangeNarrator = (e: string) => setNarrator(e)
 
 	const handleClickNarrator = (item: TIdNameSlug) => {
 		formRef.current?.setFieldsValue({
@@ -131,13 +125,20 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 				</Space>
 			}
 		>
-			<Form id='myForm' layout='vertical' onFinish={onSubmit} ref={formRef}>
+			<Form
+				id='myForm'
+				layout='vertical'
+				onFinish={onSubmit}
+				ref={formRef}
+				// initialValues={bookToEdit ?? {}}
+			>
 				<Row gutter={16}>
 					<Col span={12}>
 						<Form.Item
 							name='title'
 							label='Kitap atı'
 							rules={[{ required: true, message: 'Please enter title' }]}
+							// initialValue={bookToEdit?.title}
 						>
 							<Input placeholder='Please enter title ' />
 						</Form.Item>
@@ -147,6 +148,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='category_id'
 							label='Kategoriya'
 							rules={[{ required: true, message: 'Please enter category' }]}
+							// initialValue={bookToEdit?.category}
 						>
 							<Select placeholder='Please choose the category'>
 								{categories.map(item => (
@@ -164,6 +166,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='price'
 							label='Baha'
 							rules={[{ required: true, message: 'Please enter price' }]}
+							// initialValue={bookToEdit?.price}
 						>
 							<Input
 								type='number'
@@ -177,6 +180,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='language'
 							label='Til'
 							rules={[{ required: true, message: 'Please choose the type' }]}
+							// initialValue={bookToEdit?.language}
 						>
 							<Input style={{ width: '100%' }} placeholder='Language' />
 						</Form.Item>
@@ -188,6 +192,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='author_id'
 							label='Avtor'
 							rules={[{ required: true, message: 'Please choose the author' }]}
+							// initialValue={bookToEdit?.author}
 						>
 							<Input
 								value={author}
@@ -214,6 +219,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							rules={[
 								{ required: true, message: 'Please choose the narrator' },
 							]}
+							// initialValue={bookToEdit?.narrator}
 						>
 							<Input
 								value={narrator}
@@ -245,6 +251,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 									message: 'please enter url description',
 								},
 							]}
+							// initialValue={bookToEdit?.genre}
 						>
 							{/* <Input
 								value={genre}
@@ -288,6 +295,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 									message: 'please enter url description',
 								},
 							]}
+							// initialValue={bookToEdit?.description}
 						>
 							<Input.TextArea
 								rows={8}

@@ -82,7 +82,10 @@ const RegisterForm: React.FC = () => {
 				</Form.Item>
 				<Form.Item
 					name='password'
-					rules={[{ required: true, message: 'Parolıńızdı kiritiń' }]}
+					rules={[
+						{ required: true, message: 'Parolıńızdı kiritiń' },
+						{ min: 8, message: 'Parol keminde 8 belginen ibarat bolıwı kerek' },
+					]}
 				>
 					<Input.Password
 						style={{

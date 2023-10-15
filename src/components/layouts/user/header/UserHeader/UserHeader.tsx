@@ -9,7 +9,7 @@ import { Badge } from 'antd'
 
 const UserHeader: React.FC = () => {
 	const { setAuth, clearRole, role } = authStore()
-	const { cart } = userStore()
+	const { cart, favorites } = userStore()
 
 	const handleClickExit = () => {
 		Cookies.remove('token')
@@ -20,7 +20,9 @@ const UserHeader: React.FC = () => {
 	return (
 		<div className={styles.actions}>
 			{role.includes('admin') && <Link to='/admin'>Admin Panel</Link>}
-			<Link to='/favorites'>Saylanǵanlar</Link>
+			<Badge count={favorites?.length} color='#ff9e30' offset={[0, -10]}>
+				<Link to='/favorites'>Saylanǵanlar</Link>
+			</Badge>
 			<Badge count={cart?.length} color='#ff9e30' offset={[0, -10]}>
 				<Link to='/cart'>Sebet</Link>
 			</Badge>

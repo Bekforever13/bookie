@@ -7,12 +7,16 @@ import { $host } from 'src/config/axios'
 import no_photo from 'src/assets/images/no_photo.jpg'
 import { formatPrice } from 'src/services/services'
 import { BsTrash } from 'react-icons/bs'
-import { Popconfirm, Spin } from 'antd'
+import { Form, Popconfirm, Select, Spin } from 'antd'
 import { StyledButton } from 'src/components/ui'
 import { AudioForm } from './AudioForm'
 import { ImageForm } from './ImageForm'
 
 const AdminBookInfo: React.FC = () => {
+	const options = [
+		{ label: 'Платный', value: 0 },
+		{ label: 'Бесплатный', value: 1 },
+	]
 	const [active, setActive] = React.useState('audio')
 	const { id } = useParams()
 	const { pathname } = useLocation()
@@ -73,45 +77,67 @@ const AdminBookInfo: React.FC = () => {
 								<img src={no_photo} alt='no photo' />
 							)}
 						</div>
-						<div className={styles.text}>
-							<h5>{data.title}</h5>
+						<Form className={styles.text}>
+							<Form.Item label='Title'>
+								<h5>{data.title}</h5>
+							</Form.Item>
 							<div>
 								{Array.isArray(data.author) &&
 									data.author.map(item => <div key={item.id}>{item.name}</div>)}
 							</div>
-							<p>{data.description}</p>
-							<h5>{data.category}</h5>
-							<h5>{formatPrice(data?.price)} som</h5>
-							<div className={styles.narrators}>
-								{Array.isArray(data.narrator) &&
-									data.narrator.map(item => (
-										<div key={item.id}>{item.name}</div>
+							<Form.Item label='Description'>
+								<p>{data.description}</p>
+							</Form.Item>
+							<Form.Item label='Category'>
+								<h5>{data.category}</h5>
+							</Form.Item>
+							<Form.Item label='Price'>
+								<h5>{formatPrice(data?.price)} som</h5>
+							</Form.Item>
+							<Form.Item label='Narrators'>
+								<div className={styles.narrators}>
+									{Array.isArray(data.narrator) &&
+										data.narrator.map(item => (
+											<div key={item.id}>{item.name}</div>
+										))}
+								</div>
+							</Form.Item>
+							<Form.Item label='Language'>
+								<h5>{data.language}</h5>
+							</Form.Item>
+							<Form.Item label='Genres'>
+								<div className={styles.genres}>
+									{data.genre?.map(item => (
+										<h5 key={item.id}>{item.name}</h5>
 									))}
-							</div>
-							<h5>{data.language}</h5>
-							<div className={styles.genres}>
-								{data.genre?.map(item => (
-									<h5 key={item.id}>{item.name}</h5>
-								))}
-							</div>
-							<div className={styles.audios}>
-								{data.audios?.map(item => (
-									<div className={styles.audio} key={item.audio_url}>
-										<audio controls>
-											<source src={item.audio_url} type='audio/mpeg' />
-										</audio>
-										<Popconfirm
-											title='Delete audio?'
-											onConfirm={() => handleDeleteAudio(item.id)}
-										>
-											<button>
-												<BsTrash />
-											</button>
-										</Popconfirm>
-									</div>
-								))}
-							</div>
-						</div>
+								</div>
+							</Form.Item>
+							<Form.Item label='Audio'>
+								<div className={styles.audios}>
+									{data.audios?.map(item => (
+										<div className={styles.audio} key={item.audio_url}>
+											<audio controls>
+												<source src={item.audio_url} type='audio/mpeg' />
+											</audio>
+											<Select
+												onSelect={e => console.log(e)}
+												style={{ width: '130px' }}
+												options={options}
+												value={item.is_free ? options[1] : options[0]}
+											/>
+											<Popconfirm
+												title='Delete audio?'
+												onConfirm={() => handleDeleteAudio(item.id)}
+											>
+												<button>
+													<BsTrash />
+												</button>
+											</Popconfirm>
+										</div>
+									))}
+								</div>
+							</Form.Item>
+						</Form>
 					</div>
 				)}
 				<div className={styles.audio_image}>
