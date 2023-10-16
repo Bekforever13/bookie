@@ -30,7 +30,7 @@ const HeaderHamburgerMenu: React.FC<THamburgerMenuProps> = ({
 		const res = await $host.get('/category')
 		return res.data.data
 	}
-	const handleClickExit = (e: any) => {
+	const handleClickExit = (e: React.MouseEvent) => {
 		e.stopPropagation()
 		Cookies.remove('token')
 		setAuth(false)

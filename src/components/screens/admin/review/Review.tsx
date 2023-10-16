@@ -16,7 +16,7 @@ const Review: React.FC = () => {
 	const queryClient = useQueryClient()
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const { setIsEdit, setReviewToEdit } = sharedStore()
-	const { data } = useQuery<any[]>({
+	const { data, isLoading } = useQuery<TReview[]>({
 		queryKey: ['admin-reviews', currentPage],
 		queryFn: getReviews,
 	})
@@ -27,9 +27,10 @@ const Review: React.FC = () => {
 		return res.data.data
 	}
 
-	const handleDelete = async (id: number) => {
-		await $host.delete(`/reviews/${id}`)
-		queryClient.refetchQueries('admin-reviews')
+	const handleDelete = (id: number) => {
+		$host
+			.delete(`/reviews/${id}`)
+			.then(() => queryClient.refetchQueries('admin-reviews'))
 	}
 
 	const handleBtnEdit = (record: TReview) => {
@@ -57,7 +58,7 @@ const Review: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, rec: TReview) => {
+			render: (_: TReview, rec: TReview) => {
 				return (
 					<Space className={styles.btns} size='middle'>
 						<StyledButton
@@ -91,13 +92,14 @@ const Review: React.FC = () => {
 			{data && (
 				<>
 					<Table
+						loading={isLoading}
 						pagination={{
 							total: total,
 							current: currentPage,
 							onChange: page => setCurrentPage(page),
 						}}
 						columns={columns}
-						rowKey={(record: any) => record.id}
+						rowKey={(record: TReview) => record.text}
 						dataSource={data}
 					/>
 					<ReviewModal

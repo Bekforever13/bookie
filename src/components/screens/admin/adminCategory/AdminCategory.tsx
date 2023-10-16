@@ -17,16 +17,12 @@ const AdminCategory: React.FC = () => {
 	const queryClient = useQueryClient()
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const { isEdit, setIsEdit, itemToEdit, setItemToEdit } = sharedStore()
-	const [newCategoryName, setNewCategoryName] = useState({
-		name: '',
-	})
+	const [newCategoryName, setNewCategoryName] = useState({ name: '' })
 
-	// get data
-	const { data } = useQuery<any[]>({
+	const { data, isLoading } = useQuery<TIdNameSlug[]>({
 		queryKey: ['admin-categories', currentPage],
 		queryFn: getBooks,
 	})
-	// get data function
 	async function getBooks() {
 		const res = await $host.get(`/categories?page=${currentPage}`)
 		const totalCategories = res.data.meta.total
@@ -34,23 +30,23 @@ const AdminCategory: React.FC = () => {
 		return res.data.data
 	}
 
-	// delete item
 	const handleDelete = async (id: number) => {
-		await $host.delete(`/categories/${id}`)
-		queryClient.refetchQueries('admin-categories')
-		message.error('Deleted!')
+		await $host.delete(`/categories/${id}`).then(() => {
+			queryClient.refetchQueries('admin-categories')
+			message.error('Deleted!')
+		})
 	}
 
-	// edit item from backend
 	const handleSaveEdited = async (id: number) => {
 		await $host
 			.put(`/categories/${id}`, newCategoryName)
 			.then(() => message.success('Successfully edited'))
-		queryClient.refetchQueries('admin-categories')
-		setItemToEdit(null)
+			.finally(() => {
+				queryClient.refetchQueries('admin-categories')
+				setItemToEdit(null)
+			})
 	}
 
-	// when click to edit button
 	const handleBtnEdit = (record: TIdNameSlug) => {
 		if (isEdit) {
 			setIsEdit(false)
@@ -62,7 +58,6 @@ const AdminCategory: React.FC = () => {
 		}
 	}
 
-	// when click to button focus to input
 	useEffect(() => inputRef.current?.focus(), [isEdit])
 
 	const showModal = () => setIsModalOpen(true)
@@ -137,6 +132,7 @@ const AdminCategory: React.FC = () => {
 			</div>
 			{data && (
 				<AdminCategoryTable
+					loading={isLoading}
 					data={data}
 					total={total}
 					columns={columns}

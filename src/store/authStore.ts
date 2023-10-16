@@ -24,7 +24,9 @@ export const authStore = create<authState>(set => {
 	const hasToken = Cookies.get('token') ? true : false
 
 	const setRole = () => {
-		if (hasToken) {
+		const token = Cookies.get('token') ? true : false
+
+		if (token) {
 			$host
 				.get('/getme')
 				.then(response => set({ role: response.data.data.role }))

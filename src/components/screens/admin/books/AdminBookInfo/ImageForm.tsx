@@ -12,6 +12,7 @@ interface ImageFormProps {
 
 const ImageForm: React.FC<ImageFormProps> = ({ setIsAdded }) => {
 	const { id } = useParams()
+	const fileInputRef = React.useRef<HTMLInputElement>(null)
 	const [data, setData] = useState<{
 		book_id: string
 		image: File | null
@@ -29,7 +30,9 @@ const ImageForm: React.FC<ImageFormProps> = ({ setIsAdded }) => {
 			await $host.post('/images', formData).then(() => {
 				setIsAdded(prev => prev + 1)
 				message.success('Qosıldı')
-				setData({ book_id: '', image: null })
+				if (fileInputRef.current) {
+					fileInputRef.current.value = ''
+				}
 			})
 		}
 	}
@@ -39,6 +42,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ setIsAdded }) => {
 			<label>
 				Image
 				<input
+					ref={fileInputRef}
 					type='file'
 					onChange={e =>
 						setData(prevData => ({

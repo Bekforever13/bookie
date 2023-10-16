@@ -19,10 +19,8 @@ const Genre: React.FC = () => {
 	const queryClient = useQueryClient()
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const { isEdit, setIsEdit, itemToEdit, setItemToEdit } = sharedStore()
-	const [newGenre, setNewGenreName] = useState({
-		name: '',
-	})
-	const { data } = useQuery<any[]>({
+	const [newGenre, setNewGenreName] = useState({ name: '' })
+	const { data, isLoading } = useQuery<TIdNameSlug[]>({
 		queryKey: ['admin-genres'],
 		queryFn: getBooks,
 	})
@@ -31,15 +29,17 @@ const Genre: React.FC = () => {
 		return res.data.data
 	}
 
-	const handleDelete = async (id: number) => {
-		await $host.delete(`/genres/${id}`)
-		queryClient.refetchQueries('admin-genres')
+	const handleDelete = (id: number) => {
+		$host
+			.delete(`/genres/${id}`)
+			.then(() => queryClient.refetchQueries('admin-genres'))
 	}
 
-	const handleSaveEdited = async (id: number) => {
-		await $host.put(`/genres/${id}`, newGenre)
-		queryClient.refetchQueries('admin-genres')
-		setItemToEdit(null)
+	const handleSaveEdited = (id: number) => {
+		$host.put(`/genres/${id}`, newGenre).then(() => {
+			queryClient.refetchQueries('admin-genres')
+			setItemToEdit(null)
+		})
 	}
 
 	const handleBtnEdit = (record: TIdNameSlug) => {
@@ -52,13 +52,9 @@ const Genre: React.FC = () => {
 			setNewGenreName({ name: record.name })
 		}
 	}
-	useEffect(() => {
-		inputRef.current?.focus()
-	}, [isEdit])
+	useEffect(() => inputRef.current?.focus(), [isEdit])
 
-	const showModal = () => {
-		setIsModalOpen(true)
-	}
+	const showModal = () => setIsModalOpen(true)
 
 	const handleCancelEdit = () => {
 		setIsEdit(false)
@@ -98,7 +94,7 @@ const Genre: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, rec: TIdNameSlug) => {
+			render: (_: TIdNameSlug, rec: TIdNameSlug) => {
 				const isEditing = isEdit && itemToEdit?.id === rec.id
 				const isDisabled = isEdit && !isEditing
 				return (
@@ -165,9 +161,10 @@ const Genre: React.FC = () => {
 			</div>
 			{data && (
 				<Table
+					loading={isLoading}
 					columns={columns}
 					dataSource={data}
-					rowKey={(record: any) => record.slug}
+					rowKey={(record: TIdNameSlug) => record.slug}
 				/>
 			)}
 		</div>

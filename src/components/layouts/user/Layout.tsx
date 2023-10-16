@@ -13,9 +13,7 @@ const Layout: React.FC = () => {
 	const { setRole } = authStore()
 
 	useEffect(() => {
-		if (token) {
-			setRole()
-		}
+		if (token) setRole()
 	}, [pathname])
 
 	return (

@@ -33,7 +33,7 @@ const HomeHead: React.FC = () => {
 				</StyledButton>
 			</div>
 			<div className={styles.image}>
-				<img src={girl} alt='girl books' />
+				<img loading='lazy' src={girl} alt='girl books' />
 			</div>
 		</div>
 	)

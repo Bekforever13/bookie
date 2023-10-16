@@ -12,6 +12,7 @@ interface AudioFormProps {
 
 const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
 	const { id } = useParams()
+	const fileInputRef = React.useRef<HTMLInputElement>(null)
 	const [newAudioData, setNewAudioData] = React.useState<TNewAudioData>({
 		book_id: id ? id : '',
 		title: '',
@@ -25,16 +26,24 @@ const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
 
 	const handleSubmit = async () => {
 		if (newAudioData && newAudioData.file) {
-			let formData = new FormData()
+			const formData = new FormData()
 			formData.append('book_id', newAudioData.book_id.toString())
 			formData.append('title', newAudioData.title)
 			formData.append('file', newAudioData.file)
 			formData.append('is_free', newAudioData.is_free.toString())
 
-			console.log(formData)
 			await $host.post('/audios', formData).then(() => {
 				setIsAdded(prev => prev + 1)
 				message.success('Qosıldı')
+				setNewAudioData({
+					book_id: id ? id : '',
+					title: '',
+					file: null,
+					is_free: 1,
+				})
+				if (fileInputRef.current) {
+					fileInputRef.current.value = ''
+				}
 			})
 		}
 	}
@@ -60,6 +69,7 @@ const AudioForm: React.FC<AudioFormProps> = ({ setIsAdded }) => {
 			<label>
 				File:
 				<input
+					ref={fileInputRef}
 					type='file'
 					onChange={e =>
 						setNewAudioData({

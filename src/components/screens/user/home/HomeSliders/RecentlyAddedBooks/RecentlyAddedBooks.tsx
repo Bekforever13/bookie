@@ -55,12 +55,12 @@ const RecentlyAddedBooks: React.FC = () => {
 							<SwiperSlide key={i}>
 								<Skeleton key={i} />
 							</SwiperSlide>
-					  ))
+					))
 					: data?.map((item: IBookItem) => (
 							<SwiperSlide key={item.slug}>
 								<BookCard key={item.slug} {...item} />
 							</SwiperSlide>
-					  ))}
+					))}
 				{/* <div className='swiper-button-next'>
 					<img src={next} alt='chevron' />
 				</div>

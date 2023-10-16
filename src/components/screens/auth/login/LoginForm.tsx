@@ -13,9 +13,9 @@ import { formatPhone } from 'src/services/services'
 
 const LoginForm: React.FC<TLoginProps> = ({ setIsForgotPassword }) => {
 	const [form] = Form.useForm()
-	const { setAuth, setRole } = authStore()
+	const { setAuth, setRole, role } = authStore()
 	const navigate = useNavigate()
-	const { mutate, isSuccess, isError } = useMutation(signIn)
+	const { mutate, isError, isSuccess } = useMutation(signIn)
 
 	const onSubmit = ({ phone, password }: IFormValues) => {
 		mutate({ password, phone: formatPhone(phone) })
@@ -23,17 +23,17 @@ const LoginForm: React.FC<TLoginProps> = ({ setIsForgotPassword }) => {
 
 	async function signIn(data: IFormValues) {
 		const res = await $host.post('/login', data)
-		Cookies.set('token', res.data.token, { expires: 7 })
+		Cookies.set('token', res.data?.token, { expires: 7 })
 	}
 
 	useEffect(() => {
 		if (isSuccess) {
-			setAuth(true)
-			navigate('/')
 			setRole()
+			navigate('/')
+			setAuth(true)
 		}
 		if (isError) message.error('Akkaunt maǵlıwmatları qáte kiritildi')
-	}, [isSuccess, isError])
+	}, [role, isError, isSuccess])
 
 	return (
 		<>

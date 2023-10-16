@@ -16,6 +16,12 @@ export type TNewAudioData = {
 	is_free: number
 }
 
+export interface IColumns {
+	dataIndex: string
+	key: string
+	title: string
+}
+
 export type ModalWindowState = {
 	label: string
 	value: string | number
@@ -101,10 +107,8 @@ export type TFeedback = {
 
 export type TUserData = {
 	id: number
-	role_id: number
 	name: string
 	phone: string
-	email: string | null
 	role: string
 }
 

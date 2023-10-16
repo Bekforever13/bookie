@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import styles from './Orders.module.scss'
 import { useQuery, useQueryClient } from 'react-query'
 import { $host } from 'src/config/axios'
-import { Popconfirm, Space, Table } from 'antd'
+import { Popconfirm, Space, Table, TableColumnsType } from 'antd'
 import { StyledButton } from 'src/components/ui'
 import { BsTrash } from 'react-icons/bs'
 import { IOrder } from 'src/types/Types'
+import { formatPrice } from 'src/services/services'
 
 const Orders: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const [total, setTotal] = useState(1)
 	const queryClient = useQueryClient()
-	const { data } = useQuery<any[]>({
+	const { data, isLoading } = useQuery<IOrder[]>({
 		queryKey: ['admin-orders'],
 		queryFn: getOrders,
 	})
@@ -22,12 +23,13 @@ const Orders: React.FC = () => {
 		return res.data.data
 	}
 
-	const handleDelete = async (id: number) => {
-		await $host.delete(`/orders/${id}`)
-		queryClient.refetchQueries('admin-orders')
+	const handleDelete = (id: number) => {
+		$host
+			.delete(`/orders/${id}`)
+			.then(() => queryClient.refetchQueries('admin-orders'))
 	}
 
-	const columns = [
+	const columns: TableColumnsType<IOrder> = [
 		{
 			title: 'Status',
 			dataIndex: 'status',
@@ -42,18 +44,26 @@ const Orders: React.FC = () => {
 			title: 'Amount',
 			dataIndex: 'amount',
 			key: 'amount',
+			render: (_, rec) => <>{formatPrice(rec.amount)}</>,
 		},
 		{
 			title: 'Is paid',
 			dataIndex: 'is_paid',
 			key: 'is_paid',
+			render: (_, record) => <>{record.is_paid ? 'True' : 'False'}</>,
 		},
 		{
 			title: 'Books',
 			dataIndex: 'books',
 			key: 'books',
-			render: (_: any, record: any) => {
-				return record
+			render: (_, record) => {
+				return (
+					<>
+						{record.books.map(item => (
+							<span key={item.slug}>{item.title}</span>
+						))}
+					</>
+				)
 			},
 		},
 		{
@@ -64,7 +74,7 @@ const Orders: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, rec: IOrder) => {
+			render: (_: IOrder, rec: IOrder) => {
 				return (
 					<Space className={styles.btns} size='middle'>
 						<Popconfirm
@@ -88,6 +98,7 @@ const Orders: React.FC = () => {
 		<div className={styles.orders}>
 			{data && (
 				<Table
+					loading={isLoading}
 					pagination={{
 						total: total,
 						current: currentPage,
@@ -95,7 +106,7 @@ const Orders: React.FC = () => {
 					}}
 					columns={columns}
 					dataSource={data}
-					rowKey={(record: any) => record.slug}
+					rowKey={(record: IOrder) => record.url}
 				/>
 			)}
 		</div>

@@ -11,7 +11,7 @@ const Users: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const [total, setTotal] = useState(1)
 	const queryClient = useQueryClient()
-	const { data } = useQuery<any[]>({
+	const { data, isLoading } = useQuery<TUserData[]>({
 		queryKey: ['admin-users', currentPage],
 		queryFn: getUsers,
 	})
@@ -27,15 +27,17 @@ const Users: React.FC = () => {
 		{ value: 'user', label: 'user' },
 	]
 
-	const handleDelete = async (id: number) => {
-		await $host.delete(`/users/${id}`)
-		queryClient.refetchQueries('admin-users')
+	const handleDelete = (id: number) => {
+		$host
+			.delete(`/users/${id}`)
+			.then(() => queryClient.refetchQueries('admin-users'))
 	}
 
-	const handleChangeRole = async (value: string, rec: TUserData) => {
+	const handleChangeRole = (value: string, rec: TUserData) => {
 		const findRoleId = value === 'admin' ? 2 : 3
-		await $host.post('/role', { user_id: rec.id, role_id: findRoleId })
-		queryClient.refetchQueries('admin-users')
+		$host
+			.post('/role', { user_id: rec.id, role_id: findRoleId })
+			.then(() => queryClient.refetchQueries('admin-users'))
 	}
 
 	const columns = [
@@ -50,15 +52,10 @@ const Users: React.FC = () => {
 			key: 'phone',
 		},
 		{
-			title: 'Email',
-			dataIndex: 'email',
-			key: 'email',
-		},
-		{
 			title: 'Role',
 			dataIndex: 'role',
 			key: 'role',
-			render: (_: any, rec: TUserData) => {
+			render: (_: TUserData, rec: TUserData) => {
 				return (
 					<Select
 						style={{ width: '100%' }}
@@ -73,7 +70,7 @@ const Users: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, rec: TUserData) => {
+			render: (_: TUserData, rec: TUserData) => {
 				return (
 					<Space className={styles.btns} size='middle'>
 						<Popconfirm
@@ -97,6 +94,7 @@ const Users: React.FC = () => {
 		<div className={styles.users}>
 			{data && (
 				<Table
+					loading={isLoading}
 					pagination={{
 						total: total,
 						current: currentPage,
@@ -104,7 +102,7 @@ const Users: React.FC = () => {
 					}}
 					columns={columns}
 					dataSource={data}
-					rowKey={(record: any) => record.id}
+					rowKey={(record: TUserData) => record.id}
 				/>
 			)}
 		</div>

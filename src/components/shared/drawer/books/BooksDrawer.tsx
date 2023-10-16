@@ -1,4 +1,4 @@
-// import React, { useState } from 'react'
+import React from 'react'
 import {
 	Button,
 	Col,
@@ -23,12 +23,13 @@ const { Option } = Select
 
 const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	const { categories, genres } = adminStore()
-	const { isEditingBook, bookToEdit } = bookStore()
+	const { isEditingBook, bookToEdit, setBookToEdit } = bookStore()
 	const queryClient = useQueryClient()
 	const formRef = useRef<FormInstance>(null)
 	const [author, setAuthor] = useState('')
 	const [narrator, setNarrator] = useState('')
-	// const [genre, setGenre] = useState('')
+	const [price, setPrice] = useState('')
+	const [form] = Form.useForm<any>()
 
 	const { data: authors } = useQuery<TIdNameSlug[]>({
 		queryKey: ['authors', author],
@@ -50,48 +51,33 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 		const res = await $host.get(`/narrators?search=${narrator}`)
 		return res.data.data
 	}
-	// const { data: genres } = useQuery<TIdNameSlug[]>({
-	// 	queryKey: ['genres', genre],
-	// 	queryFn: getGenres,
-	// 	staleTime: 5 * 60 * 1000,
-	// 	cacheTime: 60 * 60 * 1000,
-	// })
-	// async function getGenres() {
-	// 	const res = await $host.get(`/genres?search=${genre}`)
-	// 	return res.data.data
-	// }
 
-	const onClose = () => setModalIsOpen(false)
+	const onClose = () => {
+		formRef.current?.resetFields()
+		setBookToEdit(null)
+		setAuthor('')
+		setNarrator('')
+		setModalIsOpen(false)
+		form.resetFields()
+		form.setFieldsValue({ ...bookToEdit })
+	}
 
 	const handleChangeAuthor = (e: string) => setAuthor(e)
 
 	const handleClickAuthor = (item: TIdNameSlug) => {
-		formRef.current?.setFieldsValue({
-			author_id: item.id,
-		})
+		form.setFieldsValue({ author_id: item.id })
 		setAuthor(item.name)
 	}
 
 	const handleChangeNarrator = (e: string) => setNarrator(e)
 
 	const handleClickNarrator = (item: TIdNameSlug) => {
-		formRef.current?.setFieldsValue({
-			narrator_id: item.id,
-		})
+		form.setFieldsValue({ narrator_id: item.id })
 		setNarrator(item.name)
 	}
-	// const handleChangeGenre = (e: string) => {
-	// 	setGenre(e)
-	// }
-
-	// const handleClickGenre = (item: TIdNameSlug) => {
-	// 	formRef.current?.setFieldsValue({
-	// 		genre_id: item.id,
-	// 	})
-	// 	setGenre(item.name)
-	// }
 
 	const onSubmit = (values: IDrawerFormData) => {
+		console.log(values)
 		const request = isEditingBook
 			? $host.put(`/books/${bookToEdit?.id}`, values)
 			: $host.post('/books', values)
@@ -102,14 +88,21 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 				formRef.current?.resetFields()
 			})
 			.catch(error => console.log(error))
-
-		queryClient.invalidateQueries('admin-books')
-		setModalIsOpen(false)
+			.finally(() => {
+				queryClient.invalidateQueries('admin-books')
+				setModalIsOpen(false)
+			})
 	}
 
-	// const handleSearchGenre = (value: string) => {
-	// 	setGenre(value)
-	// }
+	React.useEffect(() => {
+		setAuthor(bookToEdit?.author ?? '')
+		setNarrator(bookToEdit?.narrator ?? '')
+	}, [isEditingBook])
+
+	React.useEffect(() => {
+		form.resetFields()
+		setBookToEdit(null)
+	}, [isEditingBook, props.open])
 
 	return (
 		<Drawer
@@ -125,20 +118,14 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 				</Space>
 			}
 		>
-			<Form
-				id='myForm'
-				layout='vertical'
-				onFinish={onSubmit}
-				ref={formRef}
-				// initialValues={bookToEdit ?? {}}
-			>
+			<Form id='myForm' layout='vertical' onFinish={onSubmit} form={form}>
 				<Row gutter={16}>
 					<Col span={12}>
 						<Form.Item
 							name='title'
 							label='Kitap atı'
 							rules={[{ required: true, message: 'Please enter title' }]}
-							// initialValue={bookToEdit?.title}
+							initialValue={bookToEdit?.title}
 						>
 							<Input placeholder='Please enter title ' />
 						</Form.Item>
@@ -148,7 +135,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='category_id'
 							label='Kategoriya'
 							rules={[{ required: true, message: 'Please enter category' }]}
-							// initialValue={bookToEdit?.category}
+							initialValue={bookToEdit?.category}
 						>
 							<Select placeholder='Please choose the category'>
 								{categories.map(item => (
@@ -166,12 +153,14 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='price'
 							label='Baha'
 							rules={[{ required: true, message: 'Please enter price' }]}
-							// initialValue={bookToEdit?.price}
+							initialValue={bookToEdit?.price}
 						>
 							<Input
 								type='number'
 								style={{ width: '100%' }}
 								placeholder='Price'
+								onChange={e => setPrice(e.target.value)}
+								value={price}
 							/>
 						</Form.Item>
 					</Col>
@@ -180,7 +169,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='language'
 							label='Til'
 							rules={[{ required: true, message: 'Please choose the type' }]}
-							// initialValue={bookToEdit?.language}
+							initialValue={bookToEdit?.language}
 						>
 							<Input style={{ width: '100%' }} placeholder='Language' />
 						</Form.Item>
@@ -192,7 +181,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='author_id'
 							label='Avtor'
 							rules={[{ required: true, message: 'Please choose the author' }]}
-							// initialValue={bookToEdit?.author}
+							initialValue={bookToEdit?.author}
 						>
 							<Input
 								value={author}
@@ -219,7 +208,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							rules={[
 								{ required: true, message: 'Please choose the narrator' },
 							]}
-							// initialValue={bookToEdit?.narrator}
+							initialValue={bookToEdit?.narrator}
 						>
 							<Input
 								value={narrator}
@@ -248,33 +237,15 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							rules={[
 								{
 									required: true,
-									message: 'please enter url description',
+									message: 'Please select genres',
 								},
 							]}
-							// initialValue={bookToEdit?.genre}
+							initialValue={
+								bookToEdit?.genre.length &&
+								bookToEdit?.genre.map(item => item.id)
+							}
 						>
-							{/* <Input
-								value={genre}
-								onChange={e => handleChangeGenre(e.target.value)}
-								placeholder='Please enter genre'
-							/>
-							<ul className={genre ? styles.genre : styles.hidden}>
-								{genres?.map(item => (
-									<li
-										className={genre === item.name ? styles.hidden : ''}
-										onClick={() => handleClickGenre(item)}
-										key={item.id}
-									>
-										{item.name}
-									</li>
-								))}
-							</ul> */}
-							<Select
-								// key={genre}
-								// onSearch={handleSearchGenre}
-								mode='multiple'
-								placeholder='Please choose the genre'
-							>
+							<Select mode='multiple' placeholder='Please choose the genre'>
 								{genres?.map(item => (
 									<Option key={item.id} value={item.id}>
 										{item.name}
@@ -292,15 +263,12 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							rules={[
 								{
 									required: true,
-									message: 'please enter url description',
+									message: 'Please enter description',
 								},
 							]}
-							// initialValue={bookToEdit?.description}
+							initialValue={bookToEdit?.description}
 						>
-							<Input.TextArea
-								rows={8}
-								placeholder='please enter url description'
-							/>
+							<Input.TextArea rows={8} placeholder='Please enter description' />
 						</Form.Item>
 					</Col>
 				</Row>

@@ -24,11 +24,11 @@ const BookCard: React.FC<IBookItem> = props => {
 	const audioFilter = pathname === '/my_books'
 	const priceFilter = categoryId || pathname === '/favorites'
 
-	const handleClickFavorite = (e: any) => {
+	const handleClickFavorite = (e: React.MouseEvent) => {
 		e.stopPropagation()
 		addToFavorite(props)
 	}
-	const handleRemoveFromFavorite = (e: any) => {
+	const handleRemoveFromFavorite = (e: React.MouseEvent) => {
 		e.stopPropagation()
 		removeFromFavorite(slug)
 	}

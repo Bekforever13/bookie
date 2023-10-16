@@ -24,7 +24,7 @@ const Narrator: React.FC = () => {
 	const [newNarratorName, setNewNarratorName] = useState({
 		name: '',
 	})
-	const { data } = useQuery<any[]>({
+	const { data, isLoading } = useQuery<TIdNameSlug[]>({
 		queryKey: ['admin-narrators', currentPage],
 		queryFn: getBooks,
 	})
@@ -35,15 +35,17 @@ const Narrator: React.FC = () => {
 		return res.data.data
 	}
 
-	const handleDelete = async (id: number) => {
-		await $host.delete(`/narrators/${id}`)
-		queryClient.refetchQueries('admin-narrators')
+	const handleDelete = (id: number) => {
+		$host
+			.delete(`/narrators/${id}`)
+			.then(() => queryClient.refetchQueries('admin-narrators'))
 	}
 
-	const handleSaveEdited = async (id: number) => {
-		await $host.put(`/narrators/${id}`, newNarratorName)
-		queryClient.refetchQueries('admin-narrators')
-		setItemToEdit(null)
+	const handleSaveEdited = (id: number) => {
+		$host.put(`/narrators/${id}`, newNarratorName).then(() => {
+			queryClient.refetchQueries('admin-narrators')
+			setItemToEdit(null)
+		})
 	}
 
 	const handleBtnEdit = (record: TIdNameSlug) => {
@@ -56,13 +58,10 @@ const Narrator: React.FC = () => {
 			setNewNarratorName({ name: record.name })
 		}
 	}
-	useEffect(() => {
-		inputRef.current?.focus()
-	}, [isEdit])
+	
+	useEffect(() => inputRef.current?.focus(), [isEdit])
 
-	const showModal = () => {
-		setIsModalOpen(true)
-	}
+	const showModal = () => setIsModalOpen(true)
 
 	const handleCancelEdit = () => {
 		setIsEdit(false)
@@ -102,7 +101,7 @@ const Narrator: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, rec: TIdNameSlug) => {
+			render: (_: TIdNameSlug, rec: TIdNameSlug) => {
 				const isEditing = isEdit && itemToEdit?.id === rec.id
 				const isDisabled = isEdit && !isEditing
 				return (
@@ -169,13 +168,14 @@ const Narrator: React.FC = () => {
 			</div>
 			{data && (
 				<Table
+					loading={isLoading}
 					pagination={{
 						total: total,
 						current: currentPage,
 						onChange: page => setCurrentPage(page),
 					}}
 					columns={columns}
-					rowKey={(record: any) => record.slug}
+					rowKey={(record: TIdNameSlug) => record.slug}
 					dataSource={data}
 				/>
 			)}

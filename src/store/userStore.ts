@@ -1,6 +1,5 @@
 import { IBookItem } from 'src/types/Types'
 import { create } from 'zustand'
-import Cookies from 'js-cookie'
 
 interface userState {
 	favorites: IBookItem[]
@@ -16,10 +15,12 @@ interface userState {
 }
 
 export const userStore = create<userState>()(set => {
-	const favoritesFromCookie = Cookies.get('favorites')
-	const favorites = favoritesFromCookie ? JSON.parse(favoritesFromCookie) : []
-	const cartFromCookie = Cookies.get('cart')
-	const cart = cartFromCookie ? JSON.parse(cartFromCookie) : []
+	const favoritesFromLocalStorage = localStorage.getItem('favorites')
+	const favorites = favoritesFromLocalStorage
+		? JSON.parse(favoritesFromLocalStorage)
+		: []
+	const cartFromLocalStorage = localStorage.getItem('cart')
+	const cart = cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : []
 	const booksToBuy: IBookItem[] = []
 
 	return {
@@ -29,7 +30,7 @@ export const userStore = create<userState>()(set => {
 		addToFavorite: payload => {
 			set((state: userState) => {
 				const updatedFavorites = [...state.favorites, payload]
-				Cookies.set('favorites', JSON.stringify(updatedFavorites))
+				localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
 				return { favorites: updatedFavorites }
 			})
 		},
@@ -39,21 +40,21 @@ export const userStore = create<userState>()(set => {
 				const updatedFavorites = state.favorites.filter(
 					item => item.slug !== payload
 				)
-				Cookies.set('favorites', JSON.stringify(updatedFavorites))
+				localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
 				return { favorites: updatedFavorites }
 			})
 		},
 		addToCart: payload => {
 			set((state: userState) => {
 				const updatedCart = [...state.cart, payload]
-				Cookies.set('cart', JSON.stringify(updatedCart))
+				localStorage.setItem('cart', JSON.stringify(updatedCart))
 				return { cart: updatedCart }
 			})
 		},
 		removeFromCart: payload => {
 			set((state: userState) => {
 				const updatedCart = state.cart.filter(item => item.slug !== payload)
-				Cookies.set('cart', JSON.stringify(updatedCart))
+				localStorage.setItem('cart', JSON.stringify(updatedCart))
 				return { cart: updatedCart }
 			})
 		},

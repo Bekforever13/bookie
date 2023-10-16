@@ -8,7 +8,6 @@ const Breadcrumbs: React.FC = () => {
 	const pathnames = pathname.split('/').filter(item => item)
 	const capatilize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
-	// Создаем массив объектов для каждого элемента хлебных крошек
 	const items = pathnames.map((name, index) => {
 		const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
 		const isLast = index === pathnames.length - 1

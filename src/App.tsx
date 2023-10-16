@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import s from 'src/assets/styles/App.module.scss'
 import { Layout } from './components/layouts/user/Layout'
 import { routes } from './components/routes/Routes'
@@ -8,12 +8,33 @@ import { NotFound } from './components/screens'
 import ScrollToTop from './utils/ScrollToTop'
 import { AdminRoutes } from './components/routes/AdminRoutes'
 import { AdminLayout } from './components/layouts/admin/AdminLayout'
+import { Spin } from 'antd'
+import { useEffect } from 'react'
 
 const App = () => {
-	const { auth, role } = authStore()
+	const { auth, role, setRole } = authStore()
+	const { pathname } = useLocation()
+
+	useEffect(() => setRole(), [role, pathname])
 
 	return (
 		<div className={s.app}>
+			{!role && pathname.includes('admin') && (
+				<div
+					style={{
+						position: 'absolute',
+						inset: '0',
+						background: 'white',
+						zIndex: 9999999,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					<Spin />
+				</div>
+			)}
+
 			<ScrollToTop>
 				<Routes>
 					<Route path='/' element={<Layout />}>

@@ -21,11 +21,9 @@ const Author: React.FC = () => {
 	const queryClient = useQueryClient()
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const { isEdit, setIsEdit, itemToEdit, setItemToEdit } = sharedStore()
-	const [newAuthorName, setNewAuthorName] = useState({
-		name: '',
-	})
+	const [newAuthorName, setNewAuthorName] = useState({ name: '' })
 
-	const { data } = useQuery<any[]>({
+	const { data, isLoading } = useQuery<TIdNameSlug[]>({
 		queryKey: ['admin-authors', currentPage],
 		queryFn: getBooks,
 	})
@@ -36,15 +34,17 @@ const Author: React.FC = () => {
 		return res.data.data
 	}
 
-	const handleDelete = async (id: number) => {
-		await $host.delete(`/authors/${id}`)
-		queryClient.refetchQueries('admin-authors')
+	const handleDelete = (id: number) => {
+		$host
+			.delete(`/authors/${id}`)
+			.then(() => queryClient.refetchQueries('admin-authors'))
 	}
 
-	const handleSaveEdited = async (id: number) => {
-		await $host.put(`/authors/${id}`, newAuthorName)
-		queryClient.refetchQueries('admin-authors')
-		setItemToEdit(null)
+	const handleSaveEdited = (id: number) => {
+		$host.put(`/authors/${id}`, newAuthorName).then(() => {
+			queryClient.refetchQueries('admin-authors')
+			setItemToEdit(null)
+		})
 	}
 
 	const handleBtnEdit = (record: TIdNameSlug) => {
@@ -58,13 +58,9 @@ const Author: React.FC = () => {
 		}
 	}
 
-	useEffect(() => {
-		inputRef.current?.focus()
-	}, [isEdit])
+	useEffect(() => inputRef.current?.focus(), [isEdit])
 
-	const showModal = () => {
-		setIsModalOpen(true)
-	}
+	const showModal = () => setIsModalOpen(true)
 
 	const handleCancelEdit = () => {
 		setIsEdit(false)
@@ -104,7 +100,7 @@ const Author: React.FC = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, rec: TIdNameSlug) => {
+			render: (_: TIdNameSlug, rec: TIdNameSlug) => {
 				const isEditing = isEdit && itemToEdit?.id === rec.id
 				const isDisabled = isEdit && !isEditing
 				return (
@@ -171,6 +167,7 @@ const Author: React.FC = () => {
 			</div>
 			{data && (
 				<Table
+					loading={isLoading}
 					pagination={{
 						total: total,
 						current: currentPage,
@@ -178,7 +175,7 @@ const Author: React.FC = () => {
 					}}
 					columns={columns}
 					dataSource={data}
-					rowKey={(record: any) => record.slug}
+					rowKey={(record: TIdNameSlug) => record.slug}
 				/>
 			)}
 		</div>

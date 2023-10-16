@@ -1,12 +1,13 @@
-import { Table } from 'antd'
+import { Table, TableColumnType } from 'antd'
 import React from 'react'
 import { TIdNameSlug } from 'src/types/Types'
 
 interface TableComponentProps {
 	data: TIdNameSlug[]
-	columns: any[]
+	columns: TableColumnType<TIdNameSlug>[]
 	currentPage: number
 	total: number
+	loading: boolean
 	setCurrentPage: (page: number) => void
 }
 
@@ -15,10 +16,12 @@ const AdminCategoryTable: React.FC<TableComponentProps> = ({
 	total,
 	columns,
 	currentPage,
+	loading,
 	setCurrentPage,
 }) => {
 	return (
 		<Table
+			loading={loading}
 			pagination={{
 				total: total,
 				current: currentPage,
@@ -26,7 +29,7 @@ const AdminCategoryTable: React.FC<TableComponentProps> = ({
 			}}
 			columns={columns}
 			dataSource={data}
-			rowKey={(record: any) => record.slug}
+			rowKey={(record: TIdNameSlug) => record.slug}
 		/>
 	)
 }

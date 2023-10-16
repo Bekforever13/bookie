@@ -10,24 +10,21 @@ const BookCategories: React.FC = () => {
 		adminStore()
 
 	const handleClickCategory = (str: string = '') => {
-		queryClient.invalidateQueries(['admin-books'])
 		setActiveCategory(str)
+		queryClient.refetchQueries(['admin-books'])
 	}
 
 	useEffect(() => fetchCategories, [])
 
 	return (
 		<div className={styles.categories}>
-			<StyledButton
-				border='1px solid #2D71AE'
-				backgroundcolor='transparent'
-				color='#2D71AE'
-				className={activeCategory === '' ? styles.active : ''}
-				onClick={handleClickCategory}
-			>
-				All
-			</StyledButton>
-			{categories?.map(item => (
+			{[
+				{
+					slug: '',
+					name: 'All',
+				},
+				...categories,
+			]?.map(item => (
 				<StyledButton
 					key={item.slug}
 					border='1px solid #2D71AE'

@@ -6,12 +6,12 @@ import { $host } from 'src/config/axios'
 import { useQuery, useQueryClient } from 'react-query'
 import { TFormData } from 'src/types/Types'
 import { adminStore } from 'src/store/admin/adminStore'
-// import { ModalWindow } from 'src/components/shared'
-import { Popconfirm, Space, Table, message } from 'antd'
+import { Popconfirm, Space, Table, message, TableColumnsType } from 'antd'
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
 import { bookStore } from 'src/store/admin/booksStore'
 import { useNavigate } from 'react-router-dom'
-import { BooksDrawer } from 'src/components/shared/drawer/books/BooksDrawer'
+import { BooksDrawer } from 'src/components/shared'
+import { formatPrice } from 'src/services/services'
 
 const Books: React.FC = () => {
 	const navigate = useNavigate()
@@ -30,8 +30,8 @@ const Books: React.FC = () => {
 
 	const showModal = () => setIsModalOpen(true)
 
-	const { data } = useQuery<TFormData[]>({
-		queryKey: ['admin-books', activeCategory, isModalOpen, currentPage],
+	const { data, isLoading } = useQuery<TFormData[]>({
+		queryKey: ['admin-books', activeCategory, currentPage],
 		queryFn: getBooks,
 	})
 
@@ -50,7 +50,7 @@ const Books: React.FC = () => {
 		message.error('Deleted!')
 	}
 
-	const columns = [
+	const columns: TableColumnsType<TFormData> = [
 		{
 			title: 'Title',
 			dataIndex: 'title',
@@ -70,6 +70,7 @@ const Books: React.FC = () => {
 			dataIndex: 'price',
 			key: 'price',
 			width: 100,
+			render: (_, record) => <>{formatPrice(record.price)}</>,
 		},
 		{
 			title: 'Author',
@@ -148,11 +149,6 @@ const Books: React.FC = () => {
 				>
 					Add book
 				</StyledButton>
-				{/* <ModalWindow
-					setModalIsOpen={setIsModalOpen}
-					title='Kitap qosıw'
-					open={isModalOpen}
-				/> */}
 				<BooksDrawer
 					setModalIsOpen={setIsModalOpen}
 					title='Kitap qosıw'
@@ -160,13 +156,14 @@ const Books: React.FC = () => {
 				/>
 			</div>
 			<Table
+				loading={isLoading}
 				pagination={{
 					total: total,
 					current: currentPage,
 					onChange: page => setCurrentPage(page),
 				}}
 				columns={columns}
-				dataSource={data as any}
+				dataSource={data as TFormData[]}
 				rowKey={(record: TFormData) => record.title}
 			/>
 		</div>
