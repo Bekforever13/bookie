@@ -17,10 +17,10 @@ const HomeFrame: React.FC = () => {
 			<iframe
 				loading='lazy'
 				className={styles.iframe}
-				src='https://www.youtube.com/embed/n8km_5T2Sio'
-				title="'Bookie' qaraqalpaq tilindegi audiokitaplar joybarı"
+				src='https://www.youtube.com/embed/UT9ndxZPXxY'
+				title='Túsindirme sózlik mobil qosımshası haqqında'
 				allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-			></iframe>
+			/>
 			<img className={styles.image3} src={VecStar2} alt='star2' />
 			<img className={styles.image4} src={VecStar3} alt='star3' />
 		</div>

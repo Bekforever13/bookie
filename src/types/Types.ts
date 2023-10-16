@@ -173,14 +173,14 @@ export type THamburgerMenuProps = {
 
 export interface IAdminBookInfo {
 	audios: TAudio[]
-	author: TIdNameSlug[]
+	author: TIdNameSlug
 	category: string
 	description: string
 	id: number
 	genre: TIdNameSlug[]
 	image: TBookImg[]
 	language: string
-	narrator: TIdNameSlug[]
+	narrator: TIdNameSlug
 	price: number
 	slug: string
 	title: string

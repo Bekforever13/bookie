@@ -81,10 +81,9 @@ const AdminBookInfo: React.FC = () => {
 							<Form.Item label='Title'>
 								<h5>{data.title}</h5>
 							</Form.Item>
-							<div>
-								{Array.isArray(data.author) &&
-									data.author.map(item => <div key={item.id}>{item.name}</div>)}
-							</div>
+							<Form.Item label='Author'>
+								<div>{data.author.name}</div>
+							</Form.Item>
 							<Form.Item label='Description'>
 								<p>{data.description}</p>
 							</Form.Item>
@@ -95,12 +94,7 @@ const AdminBookInfo: React.FC = () => {
 								<h5>{formatPrice(data?.price)} som</h5>
 							</Form.Item>
 							<Form.Item label='Narrators'>
-								<div className={styles.narrators}>
-									{Array.isArray(data.narrator) &&
-										data.narrator.map(item => (
-											<div key={item.id}>{item.name}</div>
-										))}
-								</div>
+								<div className={styles.narrators}>{data.narrator.name}</div>
 							</Form.Item>
 							<Form.Item label='Language'>
 								<h5>{data.language}</h5>
