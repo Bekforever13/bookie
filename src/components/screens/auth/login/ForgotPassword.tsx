@@ -31,7 +31,7 @@ const ForgotPassword: React.FC<TLoginProps> = ({ setIsForgotPassword }) => {
 	}
 
 	const handleChangePassword = () => {
-		$host.post('/update-password', { password: password }).then(() => {
+		$host.patch('/update-password', { password: password }).then(() => {
 			message.success('Parolıńız ózgertirildi')
 			navigate('/', { replace: true })
 			setIsForgotPassword(false)
