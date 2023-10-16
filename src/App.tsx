@@ -8,7 +8,6 @@ import { NotFound } from './components/screens'
 import ScrollToTop from './utils/ScrollToTop'
 import { AdminRoutes } from './components/routes/AdminRoutes'
 import { AdminLayout } from './components/layouts/admin/AdminLayout'
-import { Sitemap } from './components/screens'
 
 const App = () => {
 	const { auth, role } = authStore()
@@ -43,7 +42,6 @@ const App = () => {
 							<Route path='*' element={<NotFound />} />
 						</Route>
 					)}
-					<Route path='/sitemap.xml' Component={Sitemap} />
 				</Routes>
 			</ScrollToTop>
 		</div>
