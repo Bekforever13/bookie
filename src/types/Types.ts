@@ -57,6 +57,12 @@ export interface IOrder {
 export interface IBookStore {
 	isEditingBook: boolean
 	bookToEdit: TFormData | null
+	editingBookId: number | null
+	editingAuthor: string
+	editingNarrator: string
+	setEditingAuthor: (payload: string) => void
+	setEditingNarrator: (payload: string) => void
+	setEditingBookId: (payload: number | null) => void
 	setBookToEdit: (payload: TFormData | null) => void
 	setEditingBook: (payload: boolean) => void
 }

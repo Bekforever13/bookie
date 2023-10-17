@@ -19,7 +19,13 @@ const Books: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [total, setTotal] = useState(1)
-	const { setEditingBook, setBookToEdit } = bookStore()
+	const {
+		setEditingBook,
+		setBookToEdit,
+		setEditingBookId,
+		setEditingAuthor,
+		setEditingNarrator,
+	} = bookStore()
 	const {
 		activeCategory,
 		fetchAuthors,
@@ -97,9 +103,12 @@ const Books: React.FC = () => {
 							backgroundcolor='#fff'
 							border='1px solid var(--brand-color-1)'
 							onClick={() => {
+								setEditingAuthor(rec.author)
+								setEditingNarrator(rec.narrator)
+								setBookToEdit(rec)
+								setEditingBookId(rec.id)
 								setEditingBook(true)
 								setIsModalOpen(true)
-								setBookToEdit(rec)
 							}}
 						>
 							<BsPencil />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import {
 	Button,
 	Col,
@@ -23,7 +23,17 @@ const { Option } = Select
 
 const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	const { categories, genres } = adminStore()
-	const { isEditingBook, bookToEdit, setBookToEdit } = bookStore()
+	const {
+		isEditingBook,
+		bookToEdit,
+		setBookToEdit,
+		editingBookId,
+		setEditingBookId,
+		editingAuthor,
+		editingNarrator,
+		setEditingAuthor,
+		setEditingNarrator,
+	} = bookStore()
 	const queryClient = useQueryClient()
 	const formRef = useRef<FormInstance>(null)
 	const [author, setAuthor] = useState('')
@@ -31,78 +41,97 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 	const [price, setPrice] = useState('')
 	const [form] = Form.useForm<any>()
 
+	const getAuthors = useCallback(async () => {
+		const res = await $host.get(`/authors?search=${author}`)
+		return res.data.data
+	}, [author])
+
+	const getNarrators = useCallback(async () => {
+		const res = await $host.get(`/narrators?search=${narrator}`)
+		return res.data.data
+	}, [narrator])
+
 	const { data: authors } = useQuery<TIdNameSlug[]>({
 		queryKey: ['authors', author],
 		queryFn: getAuthors,
 		staleTime: 5 * 60 * 1000,
 		cacheTime: 60 * 60 * 1000,
 	})
-	async function getAuthors() {
-		const res = await $host.get(`/authors?search=${author}`)
-		return res.data.data
-	}
+
 	const { data: narrators } = useQuery<TIdNameSlug[]>({
 		queryKey: ['narrators', narrator],
 		queryFn: getNarrators,
 		staleTime: 5 * 60 * 1000,
 		cacheTime: 60 * 60 * 1000,
 	})
-	async function getNarrators() {
-		const res = await $host.get(`/narrators?search=${narrator}`)
-		return res.data.data
-	}
 
-	const onClose = () => {
+	const onClose = useCallback(() => {
 		formRef.current?.resetFields()
-		setBookToEdit(null)
 		setAuthor('')
 		setNarrator('')
 		setModalIsOpen(false)
 		form.resetFields()
 		form.setFieldsValue({ ...bookToEdit })
-	}
+		setEditingBookId(null)
+		setEditingAuthor('')
+		setEditingNarrator('')
+	}, [form, formRef, setModalIsOpen, bookToEdit, setEditingBookId])
 
-	const handleChangeAuthor = (e: string) => setAuthor(e)
+	const handleClickAuthor = useCallback(
+		(item: TIdNameSlug) => {
+			form.setFieldsValue({ author_id: item.id })
+			setAuthor(item.name)
+		},
+		[form]
+	)
 
-	const handleClickAuthor = (item: TIdNameSlug) => {
-		form.setFieldsValue({ author_id: item.id })
-		setAuthor(item.name)
-	}
+	const handleClickNarrator = useCallback(
+		(item: TIdNameSlug) => {
+			form.setFieldsValue({ narrator_id: item.id })
+			setNarrator(item.name)
+		},
+		[form]
+	)
 
-	const handleChangeNarrator = (e: string) => setNarrator(e)
+	const onSubmit = useCallback(
+		(values: IDrawerFormData) => {
+			console.log(bookToEdit)
+			const request = isEditingBook
+				? $host.put(`/books/${editingBookId}`, values)
+				: $host.post('/books', values)
 
-	const handleClickNarrator = (item: TIdNameSlug) => {
-		form.setFieldsValue({ narrator_id: item.id })
-		setNarrator(item.name)
-	}
+			request
+				.then(() => {
+					message.success('Successfully!')
+					formRef.current?.resetFields()
+				})
+				.catch(error => console.log(error))
+				.finally(() => {
+					queryClient.invalidateQueries('admin-books')
+					setModalIsOpen(false)
+					setEditingBookId(null)
+				})
+		},
+		[isEditingBook, editingBookId, formRef, queryClient, setModalIsOpen]
+	)
 
-	const onSubmit = (values: IDrawerFormData) => {
-		console.log(values)
-		const request = isEditingBook
-			? $host.put(`/books/${bookToEdit?.id}`, values)
-			: $host.post('/books', values)
+	useEffect(() => {
+		setAuthor(editingAuthor)
+		setNarrator(editingNarrator)
+	}, [editingAuthor, editingNarrator])
 
-		request
-			.then(() => {
-				message.success('Successfully!')
-				formRef.current?.resetFields()
-			})
-			.catch(error => console.log(error))
-			.finally(() => {
-				queryClient.invalidateQueries('admin-books')
-				setModalIsOpen(false)
-			})
-	}
-
-	React.useEffect(() => {
-		setAuthor(bookToEdit?.author ?? '')
-		setNarrator(bookToEdit?.narrator ?? '')
-	}, [isEditingBook])
-
-	React.useEffect(() => {
+	useEffect(() => {
 		form.resetFields()
 		setBookToEdit(null)
 	}, [isEditingBook, props.open])
+
+	const categoryValue = useMemo(() => {
+		return categories.find(item => item.name === bookToEdit?.category)?.id
+	}, [categories, bookToEdit])
+
+	const genreValue = useMemo(() => {
+		return bookToEdit?.genre.length && bookToEdit?.genre.map(item => item.id)
+	}, [bookToEdit])
 
 	return (
 		<Drawer
@@ -135,7 +164,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='category_id'
 							label='Kategoriya'
 							rules={[{ required: true, message: 'Please enter category' }]}
-							initialValue={bookToEdit?.category}
+							initialValue={categoryValue}
 						>
 							<Select placeholder='Please choose the category'>
 								{categories.map(item => (
@@ -181,11 +210,20 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							name='author_id'
 							label='Avtor'
 							rules={[{ required: true, message: 'Please choose the author' }]}
-							initialValue={bookToEdit?.author}
+							initialValue={
+								editingAuthor !== '' &&
+								authors?.find(item => {
+									if (item.name === editingAuthor) {
+										form.setFieldsValue({ author_id: item.id })
+										return true
+									}
+									return false
+								})?.id
+							}
 						>
 							<Input
 								value={author}
-								onChange={e => handleChangeAuthor(e.target.value)}
+								onChange={e => setAuthor(e.target.value)}
 								placeholder='Please enter author'
 							/>
 							<ul className={author ? styles.authors : styles.hidden}>
@@ -208,11 +246,20 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 							rules={[
 								{ required: true, message: 'Please choose the narrator' },
 							]}
-							initialValue={bookToEdit?.narrator}
+							initialValue={
+								editingNarrator !== '' &&
+								narrators?.find(item => {
+									if (item.name === editingNarrator) {
+										form.setFieldsValue({ narrator_id: item.id })
+										return true
+									}
+									return false
+								})?.id
+							}
 						>
 							<Input
 								value={narrator}
-								onChange={e => handleChangeNarrator(e.target.value)}
+								onChange={e => setNarrator(e.target.value)}
 								placeholder='Please enter narrator'
 							/>
 							<ul className={narrator ? styles.narrator : styles.hidden}>
@@ -234,16 +281,8 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 						<Form.Item
 							name='genre_id'
 							label='Janr'
-							rules={[
-								{
-									required: true,
-									message: 'Please select genres',
-								},
-							]}
-							initialValue={
-								bookToEdit?.genre.length &&
-								bookToEdit?.genre.map(item => item.id)
-							}
+							rules={[{ required: true, message: 'Please select genres' }]}
+							initialValue={genreValue}
 						>
 							<Select mode='multiple' placeholder='Please choose the genre'>
 								{genres?.map(item => (
@@ -260,12 +299,7 @@ const BooksDrawer: React.FC<IDrawerBooks> = ({ setModalIsOpen, ...props }) => {
 						<Form.Item
 							name='description'
 							label='Kitap haqqında maǵlıwmat'
-							rules={[
-								{
-									required: true,
-									message: 'Please enter description',
-								},
-							]}
+							rules={[{ required: true, message: 'Please enter description' }]}
 							initialValue={bookToEdit?.description}
 						>
 							<Input.TextArea rows={8} placeholder='Please enter description' />

@@ -3,14 +3,15 @@ import styles from './BookInfo.module.scss'
 import { useQuery } from 'react-query'
 import { IBookInfo } from 'src/types/Types'
 import { $host } from 'src/config/axios'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import avatar from 'src/assets/images/user.png'
 import { Rate, Spin } from 'antd'
 
 const Testimonials: React.FC = () => {
 	const params = useParams()
+	const { pathname } = useLocation()
 	const { data, isFetching } = useQuery<IBookInfo>({
-		queryKey: ['book-info'],
+		queryKey: ['book-info', pathname],
 		queryFn: getBookInfo,
 		staleTime: 5 * 60 * 1000,
 		cacheTime: 60 * 60 * 1000,

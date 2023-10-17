@@ -77,7 +77,7 @@ const Audiobook: React.FC = () => {
 	}
 
 	async function getBookInfo() {
-		const { data } = await $host.get(`/all-books/${slug}`)
+		const { data } = await $host.get(`/show-book/${slug}`)
 		return data.data
 	}
 
@@ -110,7 +110,7 @@ const Audiobook: React.FC = () => {
 					<h4>Sóz bası</h4>
 					<div className={styles.chapter_wrapper}>
 						{data?.audios?.map((el, index) => {
-							return el.is_free ? (
+							return el.audio_url && el.audio_url.includes('http') ? (
 								<button onClick={() => handleClickAudio(index)} key={index}>
 									<div>{Romanize(index + 1)} bólim</div>
 									{index === selectedAudioIndex && (
