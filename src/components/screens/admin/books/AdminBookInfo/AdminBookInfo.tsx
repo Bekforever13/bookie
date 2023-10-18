@@ -1,18 +1,19 @@
 import React from 'react'
 import styles from './AdminBookInfo.module.scss'
 import { useQuery } from 'react-query'
-import { IAdminBookInfo } from 'src/types/Types'
+import { IAdminBookInfo, TAudio } from 'src/types/Types'
 import { useLocation, useParams } from 'react-router-dom'
 import { $host } from 'src/config/axios'
 import no_photo from 'src/assets/images/no_photo.jpg'
 import { formatPrice } from 'src/services/services'
-import { BsTrash } from 'react-icons/bs'
-import { Form, Popconfirm, Select, Spin } from 'antd'
+import { BsPencil, BsTrash } from 'react-icons/bs'
+import { Form, Popconfirm, Select, Spin, message } from 'antd'
 import { StyledButton } from 'src/components/ui'
 import { AudioForm } from './AudioForm'
 import { ImageForm } from './ImageForm'
 
 const AdminBookInfo: React.FC = () => {
+	const fileInputRef = React.useRef<HTMLInputElement>(null)
 	const options = [
 		{ label: 'Платный', value: 0 },
 		{ label: 'Бесплатный', value: 1 },
@@ -48,6 +49,35 @@ const AdminBookInfo: React.FC = () => {
 	}
 
 	const handleClickActive = (str: string) => setActive(str)
+
+	const handleClickAudioSelect = (
+		e: { label: string; value: number },
+		item: TAudio
+	) => {
+		$host
+			.post(`/audios/${item.id}`, { _method: 'PUT', is_free: e })
+			.then(() => {
+				message.success('Audio ozgertildi')
+				setIsAdded(isAdded + 1)
+			})
+	}
+
+	const handleClickChangeAudio = (item: TAudio) => {
+		fileInputRef.current?.click()
+		fileInputRef.current?.addEventListener('change', event => {
+			const file = (event.target as HTMLInputElement)?.files?.[0]
+			if (file) {
+				const formData = new FormData()
+				formData.append('file_name', file)
+				formData.append('_method', 'PUT')
+
+				$host.post(`/audios/${item.id}`, formData).then(() => {
+					message.success('Audio ozgertildi')
+					setIsAdded(isAdded + 1)
+				})
+			}
+		})
+	}
 
 	return (
 		<Spin spinning={isLoading}>
@@ -114,10 +144,25 @@ const AdminBookInfo: React.FC = () => {
 												<source src={item.audio_url} type='audio/mpeg' />
 											</audio>
 											<Select
-												onSelect={e => console.log(e)}
+												onSelect={e => handleClickAudioSelect(e, item)}
 												style={{ width: '130px' }}
 												options={options}
 												value={item.is_free ? options[1] : options[0]}
+											/>
+											<label htmlFor='deleteButton'>
+												<button
+													id='deleteButton'
+													style={{ color: 'blue' }}
+													onClick={() => handleClickChangeAudio(item)}
+												>
+													<BsPencil />
+												</button>
+											</label>
+											<input
+												ref={fileInputRef}
+												id='fileInput'
+												type='file'
+												style={{ display: 'none' }}
 											/>
 											<Popconfirm
 												title='Delete audio?'

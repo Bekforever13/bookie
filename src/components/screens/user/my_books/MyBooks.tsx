@@ -19,7 +19,7 @@ const MyBooks: React.FC = () => {
 			<div className={styles.wrapper}>
 				{data && data.length > 0
 					? data.map(item => <BookCard key={item.slug} {...item} />)
-					: data?.length && <h2>Sizde kitaplar joq</h2>}
+					: !data?.length && <h2>Sizde kitaplar joq</h2>}
 			</div>
 		</div>
 	)
