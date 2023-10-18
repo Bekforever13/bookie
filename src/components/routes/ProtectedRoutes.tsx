@@ -1,6 +1,4 @@
-import { Cart, Payment } from 'src/components/screens'
-import { Favorites } from 'src/components/screens'
-import { MyBooks } from 'src/components/screens'
+import { Cart, Payment, Favorites, MyBooks } from 'src/components/screens'
 
 export const protectedRoutes = [
 	{ path: '/favorites', element: <Favorites /> },

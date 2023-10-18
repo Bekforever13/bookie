@@ -1,9 +1,12 @@
-import { Donate, Home } from 'src/components/screens'
-import { Login } from 'src/components/screens'
-import { Register } from 'src/components/screens'
-import { BookInfo } from 'src/components/screens'
-import { Category } from 'src/components/screens'
-import { Audiobook } from 'src/components/screens'
+import {
+	Donate,
+	Home,
+	Login,
+	Register,
+	BookInfo,
+	Category,
+	Audiobook,
+} from 'src/components/screens'
 
 export const routes = [
 	{ path: '/', element: <Home /> },
