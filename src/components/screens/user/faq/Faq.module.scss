@@ -1,0 +1,95 @@
+@import 'src/assets/styles/base/mixin';
+
+.faq {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 40px;
+  z-index: 10;
+  margin: 60px 0 200px;
+  h4 {
+    @include adaptiv-font(36, 22, 36);
+    font-weight: 600;
+    line-height: 100%;
+    text-align: center;
+  }
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    width: 700px;
+
+    @media (max-width: 750px) {
+      width: 90vw;
+    }
+    .accordionItem {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--brand-color-3);
+      border-radius: 16px;
+      padding: 30px 54px 30px 40px;
+      box-shadow: 0px 4px 12px 0px rgba(119, 191, 163, 0.1);
+
+      @media (max-width: 750px) {
+        padding: 20px 34px 20px 30px;
+      }
+      @media (max-width: 600px) {
+        padding: 10px 24px 10px 20px;
+      }
+
+      .accordionHeader {
+        display: flex;
+        user-select: none;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        @include adaptiv-font(20, 16, 22);
+        font-weight: 500;
+        line-height: 130%;
+        cursor: pointer;
+        .plus {
+          font-size: 22px;
+          color: var(--brand-color-1);
+        }
+      }
+
+      .accordionContent.show {
+        display: block;
+        margin-top: 30px;
+        padding-top: 16px;
+        border-top: 1px solid var(--brand-color-2);
+      }
+      .accordionContent {
+        display: none;
+        @include adaptiv-font(16, 12, 18);
+        font-weight: 400;
+        line-height: 100%;
+        .site {
+          color: blue;
+        }
+      }
+    }
+  }
+  .number {
+    @include adaptiv-font(14, 12, 16);
+    margin: 50px auto;
+  }
+}
+.save {
+  position: absolute;
+  bottom: 400px;
+  left: 250px;
+  @media (max-width: 720px) {
+    display: none;
+  }
+}
+.star {
+  position: absolute;
+  bottom: 500px;
+  right: 200px;
+  z-index: -10;
+  @media (max-width: 720px) {
+    display: none;
+  }
+}

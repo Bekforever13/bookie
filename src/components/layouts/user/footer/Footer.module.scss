@@ -1,91 +1,112 @@
 @import 'src/assets/styles/base/mixin';
 
 .footer {
-	display: flex;
-	flex-direction: column;
-	padding: 40px 80px 60px;
-	background-color: var(--brand-color-1);
-	color: var(--typography-light);
-	row-gap: 30px;
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 80px 60px;
+  background-color: var(--brand-color-1);
+  color: var(--typography-light);
+  row-gap: 30px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 
-	@media (max-width: 820px) {
-		padding: 15px 40px;
-	}
-	@media (max-width: 500px) {
-		padding: 15px 20px;
-	}
+  @media (max-width: 820px) {
+    padding: 15px 40px;
+  }
+  @media (max-width: 500px) {
+    padding: 15px 20px;
+  }
 
-	.wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 80px;
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
 
-		@media (max-width: 1350px) {
-			flex-wrap: wrap;
-		}
+    @media (max-width: 1350px) {
+      flex-wrap: wrap;
+    }
 
-		.contacts {
-			display: flex;
-			flex-direction: column;
-			row-gap: 12px;
-			.tel {
-				font-weight: 500;
-				@include adaptiv-font(16, 12, 18);
+    .first {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-				line-height: 150%;
-				color: var(--typography-light);
-			}
-			.mail {
-				@include adaptiv-font(12, 8, 14);
-				font-weight: 400;
-				line-height: 130%;
-				color: var(--typography-light);
-			}
-		}
-		.social {
-			display: flex;
-			flex-direction: column;
-			row-gap: 12px;
-			h2 {
-				@include adaptiv-font(16, 12, 18);
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      row-gap: 12px;
+      .tel {
+        @include adaptiv-font(16, 12, 18);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        line-height: 150%;
+        color: var(--typography-light);
+      }
+      .mail {
+        @include adaptiv-font(16, 12, 18);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 400;
+        line-height: 130%;
+        color: var(--typography-light);
+      }
+    }
+    .social {
+      display: flex;
+      flex-direction: column;
+      row-gap: 12px;
+      h2 {
+        @include adaptiv-font(16, 12, 18);
 
-				font-weight: 500;
-				line-height: 130%;
-			}
-			.logos {
-				display: flex;
-				align-items: center;
-				gap: 14px;
-				cursor: pointer;
-			}
-		}
-		.support {
-			display: flex;
-			flex-direction: column;
-			row-gap: 12px;
-			a {
-				@include adaptiv-font(16, 12, 18);
+        font-weight: 500;
+        line-height: 130%;
+      }
+      .logos {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        cursor: pointer;
+      }
+    }
+    .support {
+      display: flex;
+      flex-direction: column;
+      row-gap: 12px;
+      a {
+        @include adaptiv-font(16, 12, 18);
 
-				font-weight: 500;
-				line-height: 130%;
-				color: var(--typography-light);
-			}
-			div {
-				@include adaptiv-font(12, 8, 14);
-				font-weight: 400;
-				line-height: 130%;
-			}
-		}
-	}
+        font-weight: 500;
+        line-height: 130%;
+        color: var(--typography-light);
+      }
+      div {
+        @include adaptiv-font(12, 8, 14);
+        font-weight: 400;
+        line-height: 130%;
+      }
+    }
+    .payments {
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+      img {
+        background-color: #e5e5e5;
+        padding: 12px 16px;
+        border-radius: 16px;
+      }
+    }
+  }
 
-	.line {
-		height: 1px;
-		background-color: var(--typography-light);
-		opacity: 0.5;
-	}
+  .line {
+    height: 1px;
+    background-color: var(--typography-light);
+    opacity: 0.5;
+  }
 }

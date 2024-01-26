@@ -1,78 +1,79 @@
 @import 'src/assets/styles/base/mixin';
 
 .wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 60px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 80px;
+  margin-bottom: 250px;
 
-	@media (max-width: 1000px) {
-		padding: 40px;
-	}
+  @media (max-width: 1000px) {
+    padding: 40px;
+  }
 
-	@media (max-width: 768px) {
-		padding: 20px;
-		justify-content: center;
-	}
+  @media (max-width: 768px) {
+    padding: 20px;
+    justify-content: center;
+  }
 
-	.feedback {
-		display: flex;
-		flex-direction: column;
-		row-gap: 30px;
+  .feedback {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
 
-		li {
-			color: var(--additional-color-4) !important;
-		}
+    li {
+      color: var(--additional-color-4) !important;
+    }
 
-		h2 {
-			@include adaptiv-font(48, 36, 48);
-			font-weight: 600;
-			line-height: 130%;
-		}
+    h2 {
+      @include adaptiv-font(48, 36, 48);
+      font-weight: 600;
+      line-height: 130%;
+    }
 
-		input,
-		textarea {
-			border: 1px solid var(--brand-color-1);
-			border-radius: 16px;
-			padding: 14px 30px;
-		}
+    input,
+    textarea {
+      border: 1px solid var(--brand-color-1);
+      border-radius: 16px;
+      padding: 14px 30px;
+    }
 
-		input {
-			@media (max-width: 768px) {
-				width: 100%;
-			}
-		}
+    input {
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
 
-		textarea {
-			width: 500px;
-			height: 260px;
-			resize: none;
+    textarea {
+      width: 500px;
+      height: 260px;
+      resize: none;
 
-			@media (max-width: 768px) {
-				width: 100%;
-			}
-		}
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
 
-		button {
-			width: fit-content;
-			height: auto;
-			@include adaptiv-font(16, 12, 18);
-			font-weight: 600;
-			color: var(--typography-light);
-			border-radius: 16px;
-			padding: 10px 24px;
-		}
-	}
+    button {
+      width: fit-content;
+      height: auto;
+      @include adaptiv-font(16, 12, 18);
+      font-weight: 600;
+      color: var(--typography-light);
+      border-radius: 16px;
+      padding: 10px 24px;
+    }
+  }
 
-	.img {
-		@media (max-width: 1080px) {
-			display: none;
-		}
-	}
+  .img {
+    @media (max-width: 1080px) {
+      display: none;
+    }
+  }
 }
 
 .ant-rate-star-full,
 .ant-rate-star,
 .ant-rate-star-focused {
-	color: var(--additional-color-4) !important;
+  color: var(--additional-color-4) !important;
 }
