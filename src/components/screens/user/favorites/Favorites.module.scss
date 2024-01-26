@@ -2,14 +2,14 @@
 .favorites {
 	display: flex;
 	flex-direction: column;
-	padding: 30px 80px 70px;
+	padding: 30px 80px 300px;
 	row-gap: 30px;
 
 	@media (max-width: 600px) {
-		padding: 20px;
+		padding: 20px 20px 200px;
 	}
 	@media (max-width: 500px) {
-		padding: 10px;
+		padding: 10px 10px 200px;
 	}
 	h1 {
 		@include adaptiv-font(48, 36, 48);

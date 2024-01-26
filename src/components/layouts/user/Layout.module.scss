@@ -1,23 +1,23 @@
 .layout {
-	position: relative;
-	min-height: 100vh;
-	padding-bottom: 10rem;
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 10rem;
 
-	@media (max-width: 1440px) {
-		padding-bottom: 15rem;
-	}
-	@media (max-width: 1200px) {
-		padding-bottom: 20rem;
-	}
-	@media (max-width: 630px) {
-		padding-bottom: 30rem;
-	}
-	@media (max-width: 340px) {
-		padding-bottom: 40rem;
-	}
+  @media (max-width: 1440px) {
+    padding-bottom: 15rem;
+  }
+  @media (max-width: 1200px) {
+    padding-bottom: 20rem;
+  }
+  @media (max-width: 630px) {
+    padding-bottom: 30rem;
+  }
+  @media (max-width: 340px) {
+    padding-bottom: 40rem;
+  }
 
-	.outlet {
-		width: 100%;
-		height: 100%;
-	}
+  .outlet {
+    width: 100%;
+    min-height: 100vh;
+  }
 }

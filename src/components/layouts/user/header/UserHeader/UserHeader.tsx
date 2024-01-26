@@ -8,29 +8,27 @@ import React from 'react'
 import { Badge } from 'antd'
 
 const UserHeader: React.FC = () => {
-	const { setAuth, clearRole, role } = authStore()
-	const { cart } = userStore()
+  const { setAuth, clearRole, role } = authStore()
+  const { cart } = userStore()
 
-	const handleClickExit = () => {
-		Cookies.remove('token')
-		setAuth(false)
-		clearRole()
-	}
+  const handleClickExit = () => {
+    Cookies.remove('token')
+    setAuth(false)
+    clearRole()
+  }
 
-	console.log(role)
-
-	return (
-		<div className={styles.actions}>
-			{role.includes('admin') && <Link to='/admin'>Admin Panel</Link>}
-			<Link to='/favorites'>Saylanǵanlar</Link>
-			<Badge count={cart?.length} color='#ff9e30' offset={[0, -10]}>
-				<Link to='/cart'>Sebet</Link>
-			</Badge>
-			<Link to='/my_books'>Kitaplarım</Link>
-			<button onClick={handleClickExit} className={styles.exit}>
-				Shıǵıw <img src={exit} alt='exit' />
-			</button>
-		</div>
-	)
+  return (
+    <div className={styles.actions}>
+      {role.includes('admin') && <Link to="/admin">Admin Panel</Link>}
+      <Link to="/favorites">Saylanǵanlar</Link>
+      <Badge count={cart?.length} color="#ff9e30" offset={[0, -10]}>
+        <Link to="/cart">Sebet</Link>
+      </Badge>
+      <Link to="/my_books">Kitaplarım</Link>
+      <button onClick={handleClickExit} className={styles.exit}>
+        Shıǵıw <img src={exit} alt="exit" />
+      </button>
+    </div>
+  )
 }
 export { UserHeader }

@@ -65,7 +65,14 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <div className={styles.line} />
-      <p>2023-2024 Bookie</p>
+      <p style={{ textAlign: 'center', fontSize: 14 }}>
+        © 2023-2024 "
+        <a style={{ color: 'Yellow' }} href="https://bookie.uz">
+          Bookie.uz
+        </a>
+        " qaraqalpaq tilindegi audiokitaplar platforması. Barlıq huqıqlar qorǵalǵan, nusqa alıp
+        kóshiriw qadaǵan etiledi.
+      </p>
     </div>
   )
 }

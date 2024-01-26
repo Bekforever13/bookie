@@ -4,16 +4,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 60px 80px;
-  margin-bottom: 250px;
+  padding: 60px 80px 300px;
 
   @media (max-width: 1000px) {
-    padding: 40px;
+    padding: 40px 40px 300px;
   }
 
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 20px 20px 300px;
     justify-content: center;
+  }
+  @media (max-width: 368px) {
+    padding: 20px 20px 500px;
   }
 
   .feedback {
