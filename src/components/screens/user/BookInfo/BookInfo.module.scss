@@ -108,6 +108,18 @@
           }
         }
       }
+      .votes {
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+        margin-top: 16px;
+
+        .vote_btns {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+      }
     }
   }
 
