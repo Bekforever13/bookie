@@ -9,10 +9,12 @@ import { Spin } from 'antd'
 import { formatPrice } from 'src/services/services'
 import { BookActions } from './BookActions'
 import { BookVotes } from './BookVotes'
+import { authStore } from 'src/store/authStore'
 
 const Book: React.FC = () => {
   const { slug } = useParams()
   const { pathname } = useLocation()
+  const { role } = authStore()
 
   const { data, isFetching } = useQuery<IBookInfo>({
     queryKey: ['book_info', pathname],
@@ -43,7 +45,7 @@ const Book: React.FC = () => {
           </div>
           <h2>{data?.price && formatPrice(data.price)} som</h2>
           <BookActions />
-          <BookVotes />
+          {role.length > 0 && <BookVotes />}
         </div>
       </div>
     </Spin>

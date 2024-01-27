@@ -1,26 +1,26 @@
 @import 'src/assets/styles/base/mixin';
 .favorites {
-	display: flex;
-	flex-direction: column;
-	padding: 30px 80px 300px;
-	row-gap: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 80px;
+  row-gap: 30px;
 
-	@media (max-width: 600px) {
-		padding: 20px 20px 200px;
-	}
-	@media (max-width: 500px) {
-		padding: 10px 10px 200px;
-	}
-	h1 {
-		@include adaptiv-font(48, 36, 48);
-		font-weight: 600;
-		line-height: 130%;
-		opacity: 0.75;
-	}
-	.wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		gap: 20px;
-	}
+  @media (max-width: 600px) {
+    padding: 20px 20px;
+  }
+  @media (max-width: 500px) {
+    padding: 10px 10px;
+  }
+  h1 {
+    @include adaptiv-font(48, 36, 48);
+    font-weight: 600;
+    line-height: 130%;
+    opacity: 0.75;
+  }
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+  }
 }
